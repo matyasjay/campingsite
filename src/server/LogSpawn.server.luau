@@ -23,7 +23,7 @@ for i=1, numOfLogs do
   newLog.Touched:Connect(function(hit)
     local char = hit.Parent
     local hum = char:FindFirstChild("Humanoid")
-    if hum  and db then
+    if hum and db then
       db = false
       local plr = players:FindFirstChild(char.Name) 
       local pVars = plr:WaitForChild("plrVars")
