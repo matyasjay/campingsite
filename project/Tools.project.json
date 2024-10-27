@@ -3,39 +3,15 @@
     "StarterPack": {
       "$className": "StarterPack",
       "$path": "src/Player/StarterPack",
-      "AxeTool": {
-        "$className": "Tool",
-        "Handle": {
-          "$path": "src/Tools/AxeTool/Handle.rbxm"
-        },
-        "Split1": {
-          "$path": "src/Tools/AxeTool/Split1.rbxm"
-        },
-        "Split2": {
-          "$path": "src/Tools/AxeTool/Split2.rbxm"
-        },
-        "ToolScript": {
+      "Axe": {
+        "$path": "src/Tools/AxeTool/Model.rbxm",
+        "Script": {
           "$path": "src/Tools/AxeTool/Script.server.luau"
         }
       },
-      "PickTool": {
-        "$className": "Tool",
-        "Handle": {
-          "$path": "src/Tools/PickTool/Handle.rbxm"
-        },
-        "Split1A": {
-          "$path": "src/Tools/PickTool/Split1A.rbxm"
-        },
-        "Split1B": {
-          "$path": "src/Tools/PickTool/Split1B.rbxm"
-        },
-        "Split2A": {
-          "$path": "src/Tools/PickTool/Split2A.rbxm"
-        },
-        "Split2B": {
-          "$path": "src/Tools/PickTool/Split1B.rbxm"
-        },
-        "ToolScript": {
+      "Pick": {
+        "$path": "src/Tools/PickTool/Model.rbxm",
+        "Script": {
           "$path": "src/Tools/PickTool/Script.server.luau"
         }
       }

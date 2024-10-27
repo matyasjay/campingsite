@@ -1,4 +1,6 @@
+# bin/zsh
 OUTPUT_FILE="default.project.json"
+
 merged_tree='{}'
 for file in project/*.project.json; do
     tree=$(jq -c '.tree' "$file")
@@ -6,7 +8,7 @@ for file in project/*.project.json; do
 done
 
 
-jq -n --arg name "MergedProject" --argjson tree "$merged_tree" \
+jq -n --arg name "campingsite" --argjson tree "$merged_tree" \
     '{ name: $name, tree: $tree }' > "$OUTPUT_FILE"
 
 echo "Merge completed! Output saved to $OUTPUT_FILE"

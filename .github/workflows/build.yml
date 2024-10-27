@@ -12,7 +12,7 @@ jobs:
         with:
           token: ${{ secrets.BUILD_TOKEN }}
       - name: Make
-        run: |-
+        run: |
           make build
       - name: Build
         uses: CompeyDev/rojo-build-action@0.1.5
@@ -20,7 +20,7 @@ jobs:
           output: build/latest
           type: rbxm
       - name: Commit and Push
-        run: |-
+        run: |
           git config --global user.email "bot@gtihub"
           git config --global user.name "Bot"
           git diff --quiet build/latest.rbxm || (git add build/latest.rbxm && git commit -m "chore(deploy): build rojo project" && git push)
