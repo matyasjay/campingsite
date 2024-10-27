@@ -2,6 +2,8 @@
 
 **Sneak Peek**: [Project Preview](https://share.zight.com/2Nuooqkk)
 
+**Latest Uploaded Version: [Roblox.com](https://www.roblox.com/games/117153514135869/Camping)**
+
 This repository is a full-game setup for Roblox Studio using [Rojo](https://github.com/rojo-rbx/rojo). It includes all assets, scripts, models, and tools that make up the game environment.
 
 > **Note**  
