@@ -53,25 +53,13 @@
       "$className": "StarterPack",
       "$path": "src/Player/StarterPack",
       "AxeTool": {
-        "$className": "Tool",
-        "Handle": {
-          "$path": "src/Tools/AxeTool/Handle.rbxm"
-        },
-        "Head": {
-          "$path": "src/Tools/AxeTool/Head.rbxm"
-        },
+        "$path": "src/Tools/AxeTool/Model.rbxm",
         "ToolScript": {
           "$path": "src/Tools/AxeTool/Script.luau"
         }
       },
       "PickTool": {
-        "$className": "Tool",
-        "Handle": {
-          "$path": "src/Tools/PickTool/Handle.rbxm"
-        },
-        "HeadPiece": {
-          "$path": "src/Tools/PickTool/Head.rbxm"
-        },
+        "$path": "src/Tools/PickTool/Model.rbxm",
         "ToolScript": {
           "$path": "src/Tools/PickTool/Script.luau"
         }
