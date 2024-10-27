@@ -1,5 +1,9 @@
 on:
   workflow_dispatch:
+    inputs:
+      tag:
+        description: "Add the release name"
+        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,9 +19,6 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
-      - name: Get current date
-        id: date
-        run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
       - uses: actions/checkout@v4
         with:
           token: ${{ secrets.BUILD_TOKEN }}
@@ -28,5 +29,5 @@ jobs:
           make build
       - uses: softprops/action-gh-release@v2
         with:
-          tag_name: ${{ steps.date.outputs.date }}
+          tag_name: ${{ inputs.tag }}
           token: ${{ secrets.BUILD_TOKEN }}
