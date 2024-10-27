@@ -57,14 +57,11 @@
         "Handle": {
           "$path": "src/Tools/AxeTool/Handle.rbxm"
         },
-        "Split1": {
-          "$path": "src/Tools/AxeTool/Split1.rbxm"
-        },
-        "Split2": {
-          "$path": "src/Tools/AxeTool/Split2.rbxm"
+        "Head": {
+          "$path": "src/Tools/AxeTool/Head.rbxm"
         },
         "ToolScript": {
-          "$path": "src/Tools/AxeTool/Script.server.luau"
+          "$path": "src/Tools/AxeTool/Script.luau"
         }
       },
       "PickTool": {
@@ -72,20 +69,11 @@
         "Handle": {
           "$path": "src/Tools/PickTool/Handle.rbxm"
         },
-        "Split1A": {
-          "$path": "src/Tools/PickTool/Split1A.rbxm"
-        },
-        "Split1B": {
-          "$path": "src/Tools/PickTool/Split1B.rbxm"
-        },
-        "Split2A": {
-          "$path": "src/Tools/PickTool/Split2A.rbxm"
-        },
-        "Split2B": {
-          "$path": "src/Tools/PickTool/Split1B.rbxm"
+        "HeadPiece": {
+          "$path": "src/Tools/PickTool/Head.rbxm"
         },
         "ToolScript": {
-          "$path": "src/Tools/PickTool/Script.server.luau"
+          "$path": "src/Tools/PickTool/Script.luau"
         }
       }
     },
