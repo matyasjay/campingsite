@@ -1,0 +1,10 @@
+{
+  "tree": {
+    "Workspace": {
+      "$properties": {
+        "FilteringEnabled": true
+      },
+      "$path": "src/Workspace"
+    }
+  }
+}

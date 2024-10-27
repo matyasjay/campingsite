@@ -1,0 +1,6 @@
+{
+  "name": "campingsite",
+  "tree": {
+    "$className": "DataModel"
+  }
+}

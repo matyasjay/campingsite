@@ -1,0 +1,22 @@
+{
+  "tree": {
+    "ServerScriptService": {
+      "Main": {
+        "$path": "src/Main.server.luau"
+      },
+      "Items": {
+        "$path": "src/Items"
+      },
+      "Spawns": {
+        "$path": "src/Spawns/Scripts"
+      }
+    },
+    "StarterPlayer": {
+      "StarterPlayerScripts": {
+        "Player": {
+          "$path": "src/Player/Scripts"
+        }
+      }
+    }
+  }
+}

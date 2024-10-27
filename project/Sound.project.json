@@ -1,0 +1,9 @@
+{
+  "tree":{
+    "SoundService": {
+      "$properties": {
+        "RespectFilteringEnabled": true
+      }
+    }
+  }
+}

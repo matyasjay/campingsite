@@ -1,0 +1,15 @@
+{
+  "tree": {
+    "ServerStorage": {
+      "$path": "src/Storage/Server",
+      "Spawns": {
+        "$path": "src/Spawns/Models"
+      }
+    },
+    "ReplicatedStorage": {
+      "Shared": {
+        "$path": "src/Storage/Replicated"
+      }
+    }
+  }
+}

@@ -1,13 +1,13 @@
 local ss = game:GetService("ServerStorage")
 local players: Players = game:GetService("Players")
-local stone = ss:WaitForChild("Pickups").Stone :: Part
+local flint = ss:WaitForChild("Spawns").Flint :: Part
 local camp = workspace:WaitForChild("Camp") :: Model
 local campBase = camp.campBase :: Part
 local xPos = campBase.Position.X
-local yPos = stone.Size.Y / 2 + campBase.Size.Y
+local yPos = flint.Size.Y / 2 + campBase.Size.Y
 local zPos = campBase.Position.Z
 
-local function ranStonePos()
+local function ranLogPos()
   local randX = math.random(-15, 15) * -1
   local randZ = math.random(-15, 15) * -1
   local logPos = Vector3.new(xPos + randX, yPos, zPos + randZ)
@@ -15,22 +15,22 @@ local function ranStonePos()
 end
 
 local db = true
-local newStone = stone:Clone()
-newStone.Position = ranStonePos()
-newStone.Parent = camp.StoneSpawns
-newStone.Touched:Connect(function(hit)
+local newFlint = flint:Clone()
+newFlint.Position = ranLogPos()
+newFlint.Parent = camp.FlintSpawns
+newFlint.Touched:Connect(function(hit)
   local char = hit.Parent
   local hum = char:FindFirstChild("Humanoid")
   if hum and db then
     db = false
     local plr = players:FindFirstChild(char.Name) 
     local pVars = plr:WaitForChild("plrVars")
-    local pHasStone = pVars.hasStone
-    if not pHasStone.Value then
-      pHasStone.Value = true
-      newStone:Destroy()
+    local pHasFlint = pVars.hasFlint
+    if not pHasFlint.Value then
+      pHasFlint.Value = true
+      newFlint:Destroy()
     else
-      warn(`You already have a stone {plr.Name}`)
+      warn(`You already have a flint {plr.Name}`)
     end
     task.wait(2)
     db = true

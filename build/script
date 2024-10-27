@@ -1,0 +1,13 @@
+OUTPUT_FILE="default.project.json"
+merged_tree='{}'
+for file in project/*.project.json; do
+    tree=$(jq -c '.tree' "$file")
+    merged_tree=$(jq -n --argjson current "$merged_tree" --argjson new "$tree" '$current + $new')
+done
+
+
+jq -n --arg name "MergedProject" --argjson tree "$merged_tree" \
+    '{ name: $name, tree: $tree }' > "$OUTPUT_FILE"
+
+echo "Merge completed! Output saved to $OUTPUT_FILE"
+
