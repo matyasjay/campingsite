@@ -12,7 +12,8 @@
         "GlobalShadows": true,
         "Outlines": false,
         "Technology": "Voxel"
-      }
+      },
+      "$path": "src/Lighting"
     },
     "$className": "DataModel",
     "ServerScriptService": {
@@ -54,13 +55,13 @@
       "$path": "src/Player/StarterPack",
       "Axe": {
         "$path": "src/Tools/AxeTool/Model.rbxm",
-        "ToolScript": {
+        "Script": {
           "$path": "src/Tools/AxeTool/Script.server.luau"
         }
       },
       "Pick": {
         "$path": "src/Tools/PickTool/Model.rbxm",
-        "ToolScript": {
+        "Script": {
           "$path": "src/Tools/PickTool/Script.server.luau"
         }
       }
