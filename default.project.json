@@ -52,16 +52,16 @@
     "StarterPack": {
       "$className": "StarterPack",
       "$path": "src/Player/StarterPack",
-      "AxeTool": {
+      "Axe": {
         "$path": "src/Tools/AxeTool/Model.rbxm",
         "ToolScript": {
-          "$path": "src/Tools/AxeTool/Script.luau"
+          "$path": "src/Tools/AxeTool/Script.server.luau"
         }
       },
-      "PickTool": {
+      "Pick": {
         "$path": "src/Tools/PickTool/Model.rbxm",
         "ToolScript": {
-          "$path": "src/Tools/PickTool/Script.luau"
+          "$path": "src/Tools/PickTool/Script.server.luau"
         }
       }
     },
