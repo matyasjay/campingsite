@@ -20,6 +20,11 @@
       }
     },
     "StarterPlayer": {
+      "StarterCharacterScripts": {
+        "Animations": {
+          "$path": "src/Animations.luau"
+        }
+      },
       "StarterPlayerScripts": {
         "Player": {
           "$path": "src/Player/Scripts"
