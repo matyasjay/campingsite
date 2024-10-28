@@ -5,7 +5,7 @@ local camp = workspace:WaitForChild("PlayArea").Camp:WaitForChild('Base') :: Mod
 local numOfLogs = #camp.FirePit.Wood:GetChildren()
 local campBase = camp.campBase :: Part
 local xPos = campBase.Position.X
-local yPos = log.Size.Y / 2 + campBase.Size.Y
+local yPos = log.Size.Y / 2 
 local zPos = campBase.Position.Z
 
 local function ranLogPos()
