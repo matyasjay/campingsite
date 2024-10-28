@@ -15,7 +15,7 @@ It includes all assets, scripts, models, and tools that make up the game environ
 
 ![Camp Site Preview](https://wallpaperaccess.com/full/181080.jpg)
 
-## Build and run
+## Build & Run 
 
 ### Starting the Rojo Server
 
