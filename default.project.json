@@ -2,17 +2,6 @@
   "name": "campingsite",
   "tree": {
     "Lighting": {
-      "$properties": {
-        "Ambient": [
-          0,
-          0,
-          0
-        ],
-        "Brightness": 2,
-        "GlobalShadows": true,
-        "Outlines": false,
-        "Technology": "Voxel"
-      },
       "$path": "src/Lighting"
     },
     "$className": "DataModel",
@@ -25,6 +14,9 @@
       },
       "Spawns": {
         "$path": "src/Spawns/Scripts"
+      },
+      "Lighting": {
+        "$path": "src/Lighting.server.luau"
       }
     },
     "StarterPlayer": {

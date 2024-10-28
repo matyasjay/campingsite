@@ -9,6 +9,9 @@
       },
       "Spawns": {
         "$path": "src/Spawns/Scripts"
+      },
+      "Lighting": {
+        "$path": "src/Lighting.server.luau"
       }
     },
     "StarterPlayer": {
