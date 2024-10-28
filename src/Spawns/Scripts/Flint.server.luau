@@ -1,7 +1,7 @@
 local ss = game:GetService("ServerStorage")
 local players: Players = game:GetService("Players")
 local flint = ss:WaitForChild("Spawns").Flint :: Part
-local camp = workspace:WaitForChild("Camp") :: Model
+local camp = workspace:WaitForChild("PlayArea").Camp:WaitForChild("Base") :: Model
 local campBase = camp.campBase :: Part
 local xPos = campBase.Position.X
 local yPos = flint.Size.Y / 2 + campBase.Size.Y

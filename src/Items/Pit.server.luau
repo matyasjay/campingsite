@@ -1,5 +1,5 @@
 local plrs: Players = game:GetService("Players")
-local camp = workspace:WaitForChild("Camp")
+local camp = workspace:WaitForChild("PlayArea").Camp:WaitForChild('Base')
 local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase") :: Part
 local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire :: Fire
 local pitScript = script

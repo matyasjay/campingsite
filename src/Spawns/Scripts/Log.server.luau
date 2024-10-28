@@ -1,7 +1,7 @@
 local ss = game:GetService("ServerStorage")
 local players: Players = game:GetService("Players")
 local log = ss:WaitForChild("Spawns").Log :: Part
-local camp = workspace:WaitForChild("Camp") :: Model
+local camp = workspace:WaitForChild("PlayArea").Camp:WaitForChild('Base') :: Model
 local numOfLogs = #camp.FirePit.Wood:GetChildren()
 local campBase = camp.campBase :: Part
 local xPos = campBase.Position.X
