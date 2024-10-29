@@ -13,22 +13,21 @@ local pUsingPick = player.plrVars.usingPick
 local canRun = true
 
 pUsingAxe.Changed:Connect(function()
-  if pUsingAxe.Value == true then
-    canRun = false
-    local success = animMod.LoadAnimation(humanoid, axeAnimId)
-    if success then
-      canRun = true
-    end
-  end
+	if pUsingAxe.Value == true then
+		canRun = false
+		local success = animMod.LoadAnimation(humanoid, axeAnimId)
+		if success then
+			canRun = true
+		end
+	end
 end)
 
 pUsingPick.Changed:Connect(function()
-  if pUsingPick.Value == true then
-    canRun = false
-    local success = animMod.LoadAnimation(humanoid, pickAnimId)
-    if success then
-      canRun = true
-    end
-  end
+	if pUsingPick.Value == true then
+		canRun = false
+		local success = animMod.LoadAnimation(humanoid, pickAnimId)
+		if success then
+			canRun = true
+		end
+	end
 end)
-
