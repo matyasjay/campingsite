@@ -42,7 +42,6 @@ pit.Touched:Connect(function(hit)
     local woods = pit.Parent.Wood :: Part
     local logs = woods:GetChildren()
 
-    -- Flint Section
     if pitFlint then
       pHasFlint.Value = false
     else
@@ -52,7 +51,6 @@ pit.Touched:Connect(function(hit)
       end
     end
 
-    -- Stone Section
     if pitStone then
       pHasStone.Value = false
     else
@@ -62,7 +60,6 @@ pit.Touched:Connect(function(hit)
       end
     end
 
-    -- Logs Section
     if pHasLog.Value and logCount < #logs then
       pHasLog.Value = false
       logCount += 1
