@@ -8,26 +8,19 @@ pitScript.Parent = pit
 local db = true
 
 local function pitNeeds(logCount, logModel, hasFlint, hasStone)
-  local msg = ""
+  local missingItems = {
+    logCount < #logModel and "wood" or nil,
+    not hasFlint and "flint" or nil,
+    not hasStone and "stone" or nil
+  }
 
-  if logCount == #logModel and hasFlint and hasStone then
+  local needs = table.concat(missingItems, " and ", 1, #missingItems)
+  local msg = #missingItems == 0 and "You lit the fire" or "We need " .. needs
+  
+  if #missingItems == 0 then
     fire.Enabled = true
-    msg = "You lit the fire"
-  elseif logCount == #logModel and hasFlint and not hasStone then
-    msg = "We need stone"
-  elseif logCount == #logModel and not hasFlint and hasStone then
-    msg = "We need flint"
-  elseif logCount == #logModel and not hasFlint and not hasStone then
-    msg = "We need flint and stone"
-  elseif logCount < #logModel and not hasFlint and not hasStone then
-    msg = "We need wood, flint and stone"
-  elseif logCount < #logModel and not hasFlint and hasStone then
-    msg = "We need wood and flint"
-  elseif logCount < #logModel and hasFlint and not hasStone then
-    msg = "We need wood and stone"
-  elseif logCount < #logModel and hasFlint and hasStone then
-    msg = "We need wood"
   end
+  
   return msg
 end
 
