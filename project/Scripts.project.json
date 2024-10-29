@@ -17,7 +17,7 @@
     "StarterPlayer": {
       "StarterCharacterScripts": {
         "Animations": {
-          "$path": "src/Animations.luau"
+          "$path": "src/Animations.client.luau"
         }
       },
       "StarterPlayerScripts": {
