@@ -7,7 +7,7 @@ local plrs = game:GetService("Players")
 local logPickup = ss:WaitForChild("Spawns").Log
 local camp = ws:WaitForChild("PlayArea").Camp
 local trees = camp.Trees:GetChildren()
-local pitCount = camp.Base.FirePit.PitBase:GetAttribute("logCount")
+local pitCount = camp.FirePit.PitBase:GetAttribute("logCount")
 local chopCount = {}
 local needWood = true
 local db = true
@@ -53,7 +53,7 @@ local function onDeactivate()
 
     if chopCount[i] == chopsNeeded and needWood then
       chopCount[i] = 0
-      pitCount = camp.Base.FirePit.PitBase:GetAttribute("logCount")
+      pitCount = camp.FirePit.PitBase:GetAttribute("logCount")
       if pitCount == 2 then
         needWood = false
       end
