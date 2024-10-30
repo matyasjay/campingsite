@@ -1,8 +1,11 @@
 # Camping in R(oblox)ojo Land!
 
-**Sneak Peek**: [Project Preview](https://share.zight.com/2Nuooqkk)
+![GitHub Release](https://img.shields.io/github/v/release/matyasjay/campingsite)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/matyasjay/campingsite/.github%2Fworkflows%2Fbuild.yml)
+![Static Badge](https://img.shields.io/badge/Luau-Roblox-blue)
+![Static Badge](https://img.shields.io/badge/Rojo-v7-orange)
 
-**Latest Uploaded Version: [Roblox.com](https://www.roblox.com/games/117153514135869/Camping)**
+**Play this game online at [Roblox.com](https://www.roblox.com/games/117153514135869/Camping)!**
 
 This repository is a fully managed setup for Roblox Studio using [Rojo](https://github.com/rojo-rbx/rojo).
 It includes all assets, scripts, models, and tools that make up the game environment.
