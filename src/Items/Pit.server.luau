@@ -2,7 +2,7 @@ local plrs: Players = game:GetService("Players")
 local camp = workspace:WaitForChild("PlayArea").Camp :: Model
 local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase") :: Part
 local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire :: Fire
-local signGui = camp:WaitForChild("Feedback").Back:WaitForChild("SignGui") :: Part
+local signGui = camp.Signs:WaitForChild("Feedback").Back:WaitForChild("SignGui") :: Part
 local pMsg = signGui.TextLabel
 
 local pitScript = script
