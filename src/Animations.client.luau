@@ -10,24 +10,24 @@ local pickSwing = repStore.Shared.Animations:WaitForChild("PickSwing") :: Animat
 local pickAnimId = pickSwing.AnimationId
 local pUsingAxe = player.plrVars.usingAxe
 local pUsingPick = player.plrVars.usingPick
-local canRun = true
+local _canRun = true
 
 pUsingAxe.Changed:Connect(function()
 	if pUsingAxe.Value == true then
-		canRun = false
+		_canRun = false
 		local success = animMod.LoadAnimation(humanoid, axeAnimId)
 		if success then
-			canRun = true
+			_canRun = true
 		end
 	end
 end)
 
 pUsingPick.Changed:Connect(function()
 	if pUsingPick.Value == true then
-		canRun = false
+		_canRun = false
 		local success = animMod.LoadAnimation(humanoid, pickAnimId)
 		if success then
-			canRun = true
+			_canRun = true
 		end
 	end
 end)

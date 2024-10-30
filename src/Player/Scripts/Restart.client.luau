@@ -1,5 +1,4 @@
 local ws = game:GetService("Workspace")
-local starterGui = game:GetService("StarterGui")
 local player = script:FindFirstAncestorOfClass("Player")
 local gameGui = player:WaitForChild("PlayerGui"):WaitForChild("GameGui")
 local frame = gameGui:WaitForChild("GameFrame")

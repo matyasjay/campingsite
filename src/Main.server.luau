@@ -106,7 +106,7 @@ players.PlayerAdded:Connect(function(player)
 				["plrAxeSwings"] = 0,
 			}
 
-			local success, error = pcall(function()
+			local success, _error = pcall(function()
 				plrData:SetAsync(player.UserId, data)
 			end)
 
@@ -127,7 +127,7 @@ players.PlayerAdded:Connect(function(player)
 				["plrAxeSwings"] = plrAxeSwings.Value,
 			}
 
-			local success, error = pcall(function()
+			local success, _error = pcall(function()
 				plrData:SetAsync(player.UserId, dataToSave)
 			end)
 
