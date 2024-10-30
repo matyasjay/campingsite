@@ -15,7 +15,6 @@ welcomeText.Text = `Welcome {player.name}`
 
 local pTotVisits = pVars.totVisits
 local visitsLabel = statsFrame:WaitForChild("Visits")
-visitsLabel.Text = "Total Visits: " .. tostring(pTotVisits.Value)
 pTotVisits.Changed:Connect(function()
 	visitsLabel.Text = "Total Visits: " .. tostring(pTotVisits.Value)
 end)
@@ -33,8 +32,8 @@ pTotStones.Changed:Connect(function()
 end)
 
 local pTotFlints = pVars.totFlints
-local flintsLabel = statsFrame:WaitForChild("Flints")
 pTotFlints.Changed:Connect(function()
+	local flintsLabel = statsFrame:WaitForChild("Flints")
 	flintsLabel.Text = "Total Flints: " .. tostring(pTotFlints.Value)
 end)
 

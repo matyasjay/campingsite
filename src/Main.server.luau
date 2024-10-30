@@ -74,8 +74,28 @@ players.PlayerAdded:Connect(function(player)
 		local data = plrData:GetAsync(player.UserId)
 
 		if data ~= nil then
-			print(`Data loaded for existing player {player.Name} successfully!`)
-			print(data)
+			-- TODO: prolly refactor with loops?
+			plrTotalVisits.Value = 1 + data["plrTotalVisits"]
+			plrLogsChopped.Value = data["plrLogsChopped"]
+			plrStonesPicked.Value = data["plrStonesPicked"]
+			plrFlintsPicked.Value = data["plrFlintsPicked"]
+			plrPickSwings.Value = data["plrPickSwings"]
+			plrAxeSwings.Value = data["plrAxeSwings"]
+
+			local gui = player:WaitForChild("PlayerGui")
+			local statsFrame = gui:WaitForChild("StatsGui"):WaitForChild("StatsFrame")
+			local visitsLabel = statsFrame:WaitForChild("Visits")
+			visitsLabel.Text = "Total Visits: " .. tostring(plrTotalVisits.Value)
+			local logsLabel = statsFrame:WaitForChild("Logs")
+			logsLabel.Text = "Total Logs: " .. tostring(plrLogsChopped.Value)
+			local stonesLabel = statsFrame:WaitForChild("Stones")
+			stonesLabel.Text = "Total Stones: " .. tostring(plrStonesPicked.Value)
+			local flintsLabel = statsFrame:WaitForChild("Flints")
+			flintsLabel.Text = "Total Flints: " .. tostring(plrFlintsPicked.Value)
+			local axeSwingsLabel = statsFrame:WaitForChild("Axe")
+			axeSwingsLabel.Text = "Total Axe Swings: " .. tostring(plrAxeSwings.Value)
+			local pickSwingsLabel = statsFrame:WaitForChild("Pick")
+			pickSwingsLabel.Text = "Total Pick Swings: " .. tostring(plrPickSwings.Value)
 		else
 			data = {
 				["plrTotalVisits"] = 1,
@@ -94,6 +114,27 @@ players.PlayerAdded:Connect(function(player)
 				print(`Data setup for new player {player.Name} complete!`)
 			else
 				print(`Data setup for new player {player.Name} failed!`)
+			end
+		end
+
+		game.OnClose = function()
+			local dataToSave = {
+				["plrTotalVisits"] = plrTotalVisits.Value,
+				["plrLogsChopped"] = plrLogsChopped.Value,
+				["plrStonesPicked"] = plrStonesPicked.Value,
+				["plrFlintsPicked"] = plrFlintsPicked.Value,
+				["plrPickSwings"] = plrPickSwings.Value,
+				["plrAxeSwings"] = plrAxeSwings.Value,
+			}
+
+			local success, error = pcall(function()
+				plrData:SetAsync(player.UserId, dataToSave)
+			end)
+
+			if success then
+				print(`Data save for {player.Name} complete!`)
+			else
+				print(`Data save for {player.Name} failed!`)
 			end
 		end
 	end)
