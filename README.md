@@ -15,7 +15,16 @@ It includes all assets, scripts, models, and tools that make up the game environ
 
 ![Camp Site Preview](https://wallpaperaccess.com/full/181080.jpg)
 
-## Build & Run 
+## Features
+
+The game's objective is to light a fire in the fireplace. Players gather logs by chopping trees and collect stone and flint by mining rocks. Each player starts with the necessary tools in their inventory and receives guidance through wooden signs. All gathered resources must be placed on the firepit, and once complete, the fire lights automatically. After a short delay, players can choose to play again, which resets the game to its initial state.
+
+- Camp area with trees to chop, rocks to mine, and a central fireplace
+- Axe and pickaxe provided for resource gathering
+- Progress feedback through wooden signs
+- Option to replay after lighting the fire
+
+## Development
 
 ### Starting the Rojo Server
 
