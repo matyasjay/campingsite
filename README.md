@@ -23,6 +23,7 @@ The game's objective is to light a fire in the fireplace. Players gather logs by
 - Axe and pickaxe provided for resource gathering
 - Progress feedback through wooden signs
 - Option to replay after lighting the fire
+- Store and track player stats (visits, logs chopped, stone, flint picked and tools swinged) on the server
 
 ## Development
 
