@@ -1,3 +1,4 @@
+
 # Camping in R(oblox)ojo Land!
 
 ![GitHub Release](https://img.shields.io/github/v/release/matyasjay/campingsite)
@@ -27,6 +28,10 @@ The game's objective is to light a fire in the fireplace. Players gather logs by
 - Progress feedback through wooden signs
 - Option to replay after lighting the fire
 - Store and track player stats (visits, logs chopped, stone, flint picked and tools swinged) on the server
+
+## Preview
+
+https://github.com/user-attachments/assets/8e6e6567-43ef-4fc7-a265-0e550b105c6b
 
 ## Development
 
