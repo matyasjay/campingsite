@@ -17,6 +17,8 @@ local function onActivate()
 	local plr = plrs:FindFirstChild(char.Name)
 	local pVars = plr:WaitForChild("plrVars")
 	local pUsingAxe = pVars.usingAxe
+	local pTotSwings = pVars.totAxeSwings
+	pTotSwings.Value += 1
 
 	for i = 1, #trees do
 		local tree = trees[i]
@@ -66,8 +68,10 @@ local function onDeactivate()
 				if hum and db then
 					db = false
 					local pHasLog = pVars.hasLog
+					local pTotLogs = pVars.totLogs
 					if not pHasLog.Value then
 						pHasLog.Value = true
+						pTotLogs.Value += 1
 						newLog:Destroy()
 					else
 						warn(`You already have a log {plr.Name}`)

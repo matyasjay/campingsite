@@ -16,6 +16,8 @@ local function onActivate()
 	local plr = plrs:FindFirstChild(char.name)
 	local pVars = plr:WaitForChild("plrVars")
 	local pUsingPick = pVars.usingPick
+	local pTotSwings = pVars.totPickSwings
+	pTotSwings.Value += 1
 	pUsingPick.Value = true
 
 	for i = 1, #rocks do
@@ -60,8 +62,10 @@ local function onDeactivate()
 				local hum = char:FindFirstChild("Humanoid")
 				if hum and db then
 					db = false
+					local pTotStones = pVars.totStones
 					if not pHasStone.Value then
 						pHasStone.Value = true
+						pTotStones.Value += 1
 						newStone:Destroy()
 					else
 						warn(`You already have a stone {plr.Name}`)
@@ -81,8 +85,10 @@ local function onDeactivate()
 				if hum and db then
 					db = false
 					local pHasFlint = pVars.hasFlint
+					local pTotFlints = pVars.totFlints
 					if not pHasFlint.Value then
 						pHasFlint.Value = true
+						pTotFlints.Value += 1
 						newFlint:Destroy()
 					else
 						warn(`You already have a flint {plr.Name}`)
