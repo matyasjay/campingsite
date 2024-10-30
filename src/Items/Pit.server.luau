@@ -74,6 +74,7 @@ pit.Touched:Connect(function(hit)
 
 		pitFlint = pit:GetAttribute("flint")
 		pitStone = pit:GetAttribute("stone")
+		pitNeeds(logCount, logs, pitFlint, pitStone)
 		task.wait(2)
 		db = true
 	end
