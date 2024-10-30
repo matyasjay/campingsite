@@ -2,6 +2,9 @@ local plrs: Players = game:GetService("Players")
 local camp = workspace:WaitForChild("PlayArea").Camp :: Model
 local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase") :: Part
 local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire :: Fire
+local signGui = camp:WaitForChild("Feedback").Back:WaitForChild("SignGui") :: Part
+local pMsg = signGui.TextLabel
+
 local pitScript = script
 pitScript.Parent = pit
 
@@ -13,7 +16,6 @@ local function pitNeeds(logCount, logModel, hasFlint, hasStone)
 		not hasFlint and "flint" or nil,
 		not hasStone and "stone" or nil,
 	}
-
 	local needs = table.concat(missingItems, " and ", 1, #missingItems)
 	local msg = #missingItems == 0 and "You lit the fire" or "We need " .. needs
 
@@ -21,7 +23,8 @@ local function pitNeeds(logCount, logModel, hasFlint, hasStone)
 		fire.Enabled = true
 	end
 
-	return msg
+	signGui.Enabled = true
+	pMsg.Text = msg
 end
 
 pit.Touched:Connect(function(hit)
