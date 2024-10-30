@@ -5,6 +5,9 @@
         "FilteringEnabled": true
       },
       "$path": "src/Workspace"
+    },
+    "StarterGui": {
+      "$path": "src/Player/StarterGui"
     }
   }
 }

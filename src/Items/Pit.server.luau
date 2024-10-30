@@ -11,20 +11,31 @@ pitScript.Parent = pit
 local db = true
 
 local function pitNeeds(logCount, logModel, hasFlint, hasStone)
-	local missingItems = {
-		logCount < #logModel and "wood" or nil,
-		not hasFlint and "flint" or nil,
-		not hasStone and "stone" or nil,
-	}
-	local needs = table.concat(missingItems, " and ", 1, #missingItems)
-	local msg = #missingItems == 0 and "You lit the fire" or "We need " .. needs
-
-	if #missingItems == 0 then
-		fire.Enabled = true
+	local missingItems = {}
+	if logCount < #logModel then
+		table.insert(missingItems, "wood")
+	end
+	if not hasFlint then
+		table.insert(missingItems, "flint")
+	end
+	if not hasStone then
+		table.insert(missingItems, "stone")
 	end
 
-	signGui.Enabled = true
+	local needs = table.concat(missingItems, " and ")
+	local msg = #missingItems == 0 and "You lit the fire" or "We need " .. needs
+
 	pMsg.Text = msg
+	signGui.Enabled = true
+
+	if logCount >= #logModel and hasFlint and hasStone then
+		fire.Enabled = true
+		task.wait(5)
+		local allPlrs = plrs:GetChildren()
+		for _, eachPlayer in pairs(allPlrs) do
+			eachPlayer.PlayerGui.GameGui.GameFrame.Visible = true
+		end
+	end
 end
 
 pit.Touched:Connect(function(hit)
