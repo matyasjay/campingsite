@@ -35,6 +35,8 @@ https://github.com/user-attachments/assets/8e6e6567-43ef-4fc7-a265-0e550b105c6b
 
 ## Development
 
+Visit the [API documentation](https://matyasjay.github.io/campingsite/API) to see the available classes and functions to use when developing this project!
+
 ### Starting the Rojo Server
 
 To launch the project in Roblox Studio, start the Rojo server by running:
