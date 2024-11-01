@@ -45,6 +45,9 @@
     "ReplicatedStorage": {
       "Shared": {
         "$path": "src/Storage/Replicated"
+      },
+      "Toolkits": {
+        "$path": "src/Toolkits"
       }
     },
     "StarterPack": {

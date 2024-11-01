@@ -1,5 +1,5 @@
 local repStore = game:GetService("ReplicatedStorage")
-local animMod = require(repStore.Shared:WaitForChild("AnimationModule") :: Animation)
+local animMod = require(repStore.Toolkits:WaitForChild("Animation"))
 local players = game:GetService("Players")
 local player = players.LocalPlayer
 local character = player.Character or player.Character:Wait()
