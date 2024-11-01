@@ -24,3 +24,14 @@ jobs:
           git config --global user.email "bot@gtihub"
           git config --global user.name "Bot"
           git diff --quiet build/latest.rbxm || (git add build/latest.rbxm && git commit -m "chore(deploy): build rojo project" && git push)
+  docs:
+    runs-on: ubuntu-latest
+    name: Publish Docs
+    steps:
+      - name: Checkout files
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.BUILD_TOKEN }}
+      - name: Make
+        run: |
+          make docs
