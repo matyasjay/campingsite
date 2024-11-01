@@ -33,5 +33,9 @@ jobs:
         with:
           token: ${{ secrets.BUILD_TOKEN }}
       - name: Make
+        with:
+          token: ${{ secrets.BUILD_TOKEN }}
         run: |
+          git config --global user.email "bot@gtihub"
+          git config --global user.name "Bot"
           make docs
