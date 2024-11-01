@@ -10,31 +10,34 @@ local stonePickup = ss:WaitForChild("Spawns").Stone
 local plrs = game:GetService("Players")
 local pickCount = {}
 local db = true
+local animDb = true
 
 local function onActivate()
-	local char = tool.Parent
-	local plr = plrs:FindFirstChild(char.name)
-	local pVars = plr:WaitForChild("plrVars")
-	local pUsingPick = pVars.usingPick
-	local pTotSwings = pVars.totPickSwings
-	pTotSwings.Value += 1
-	pUsingPick.Value = true
+	if animDb then
+		local char = tool.Parent
+		local plr = plrs:FindFirstChild(char.name)
+		local pVars = plr:WaitForChild("plrVars")
+		local pUsingPick = pVars.usingPick
+		local pTotSwings = pVars.totPickSwings
+		pTotSwings.Value += 1
+		pUsingPick.Value = true
 
-	for i = 1, #rocks do
-		if pickCount[i] == nil then
-			pickCount[i] = 0
-		end
-
-		local rock = rocks[i]
-		local target = (char.HumanoidRootPart.Position - rock.Position).Magnitude
-
-		if target <= 6 then
-			if pickCount[i] == 8 then
+		for i = 1, #rocks do
+			if pickCount[i] == nil then
 				pickCount[i] = 0
-			else
-				if db then
-					db = false
-					pickCount[i] += 1
+			end
+
+			local rock = rocks[i]
+			local target = (char.HumanoidRootPart.Position - rock.Position).Magnitude
+
+			if target <= 6 then
+				if pickCount[i] == 8 then
+					pickCount[i] = 0
+				else
+					if db then
+						db = false
+						pickCount[i] += 1
+					end
 				end
 			end
 		end
@@ -48,56 +51,61 @@ local function onDeactivate()
 	local pHasStone = pVars.hasStone
 	local pHasFlint = pVars.hasFlint
 	local pUsingPick = pVars.usingPick
-	pUsingPick.Value = false
 
-	for i = 1, #rocks do
-		local rock = rocks[i]
-		local flintPicks = rock:GetAttribute("flintPicks")
-		local stonePicks = rock:GetAttribute("stonePicks")
-		if pickCount[i] == stonePicks and not pHasStone.Value then
-			local newStone = stonePickup:Clone()
-			newStone.Position = rock.Position + Vector3.new(5, 0, -5)
-			newStone.Parent = ws
-			newStone.Touched:Connect(function(hit)
-				local hum = char:FindFirstChild("Humanoid")
-				if hum and db then
-					db = false
-					local pTotStones = pVars.totStones
-					if not pHasStone.Value then
-						pHasStone.Value = true
-						pTotStones.Value += 1
-						newStone:Destroy()
-					else
-						warn(`You already have a stone {plr.Name}`)
+	if animDb then
+		animDb = false
+		pUsingPick.Value = false
+		for i = 1, #rocks do
+			local rock = rocks[i]
+			local flintPicks = rock:GetAttribute("flintPicks")
+			local stonePicks = rock:GetAttribute("stonePicks")
+			if pickCount[i] == stonePicks and not pHasStone.Value then
+				local newStone = stonePickup:Clone()
+				newStone.Position = rock.Position + Vector3.new(5, 0, -5)
+				newStone.Parent = ws
+				newStone.Touched:Connect(function(hit)
+					local hum = char:FindFirstChild("Humanoid")
+					if hum and db then
+						db = false
+						local pTotStones = pVars.totStones
+						if not pHasStone.Value then
+							pHasStone.Value = true
+							pTotStones.Value += 1
+							newStone:Destroy()
+						else
+							warn(`You already have a stone {plr.Name}`)
+						end
+						task.wait(2)
+						db = true
 					end
-					task.wait(2)
-					db = true
-				end
-			end)
-		end
+				end)
+			end
 
-		if pickCount[i] == flintPicks and not pHasFlint.Value then
-			local newFlint = flintPickup:Clone()
-			newFlint.Position = rock.Position + Vector3.new(-5, 0, 5)
-			newFlint.Parent = ws
-			newFlint.Touched:Connect(function(hit)
-				local hum = char:FindFirstChild("Humanoid")
-				if hum and db then
-					db = false
-					local pHasFlint = pVars.hasFlint
-					local pTotFlints = pVars.totFlints
-					if not pHasFlint.Value then
-						pHasFlint.Value = true
-						pTotFlints.Value += 1
-						newFlint:Destroy()
-					else
-						warn(`You already have a flint {plr.Name}`)
+			if pickCount[i] == flintPicks and not pHasFlint.Value then
+				local newFlint = flintPickup:Clone()
+				newFlint.Position = rock.Position + Vector3.new(-5, 0, 5)
+				newFlint.Parent = ws
+				newFlint.Touched:Connect(function(hit)
+					local hum = char:FindFirstChild("Humanoid")
+					if hum and db then
+						db = false
+						local pHasFlint = pVars.hasFlint
+						local pTotFlints = pVars.totFlints
+						if not pHasFlint.Value then
+							pHasFlint.Value = true
+							pTotFlints.Value += 1
+							newFlint:Destroy()
+						else
+							warn(`You already have a flint {plr.Name}`)
+						end
+						task.wait(2)
+						db = true
 					end
-					task.wait(2)
-					db = true
-				end
-			end)
+				end)
+			end
 		end
+		task.wait(1)
+		animDb = true
 	end
 
 	db = true

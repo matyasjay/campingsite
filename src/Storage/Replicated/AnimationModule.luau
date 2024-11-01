@@ -17,7 +17,7 @@ function animMod.PlayAnimation(hum)
 	if hum and canTouch == false then
 		canTouch = true
 		animTrack:Play()
-		wait(1)
+		task.wait(1)
 		canTouch = false
 	end
 end
