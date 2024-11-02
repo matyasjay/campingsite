@@ -3,5 +3,7 @@ serve:
 	rojo serve
 build:
 	sh build/script
-docs:
+docs-dev:
+	npx moonwave --out-dir=publish dev
+docs-publish:
 	npx moonwave --out-dir=publish build --publish

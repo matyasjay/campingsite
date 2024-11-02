@@ -13,4 +13,25 @@ baseUrl = "/campingsite"
 
 [footer]
 style = "dark"
+copyright = "&nbsp;"
+
+[[footer.links]]
+title = "Useful Links"
+
+[[footer.links.items]]
+label = "Roblox Engine"
+to = "https://create.roblox.com/docs/reference/engine"
+
+[[footer.links.items]]
+label = "Rojo v7"
+to = "https://rojo.space/docs/v7/"
+
+[[footer.links.items]]
+label = "Moonwave"
+to = "https://eryn.io/moonwave/docs/intro"
+
+[[footer.links.items]]
+label = "Infima"
+to = "https://github.com/facebookincubator/infima/tree/main"
+
 
