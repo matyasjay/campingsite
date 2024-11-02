@@ -2,6 +2,9 @@ local players = game:GetService("Players")
 local workspace = game:GetService("Workspace")
 
 --[=[
+  This class provides utilities to access the in-game players or the current player
+  and their decendants (i.e: Humanoid, Character...etc) without too much boilerplate.
+
   @class Players
   @tag Toolkit
 ]=]

@@ -1,7 +1,11 @@
-local replicatedStorage = game:GetService("ReplicatedStorage")
-local players = require(replicatedStorage.Toolkits:WaitForChild("Players"))
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Players = require(ReplicatedStorage.Toolkits:WaitForChild("Players"))
 
 --[=[
+  This class is responsible to handle animation loading and playing within
+  the game. The methods providing abstract functionality to handle common
+  tasks with ease. See individual documentation for details and capabilities.
+
   @class Animate
   @tag Toolkit
 ]=]
@@ -24,8 +28,9 @@ Animate.debounce = false
 --[=[
   Loads the animation referenced by its Asset ID to the provided humanoid.
 
-  @param humanoid Humanoid
-  @param animationId string
+  @param humanoid Humanoid -- The humanoid object to load the animation to
+  @param animationId string -- The Asset ID of the animation to be loaded
+  @return boolean -- True when the animation was properly loaded and executed
 ]=]
 function Animate.LoadAnimation(humanoid, animationId)
 	local newAnimation = Instance.new("Animation")
@@ -59,7 +64,7 @@ end
   @return string -- The Asset ID of the requested animation
 ]=]
 function Animate.GetAnimationId(animationName: string)
-	local loadedAnimation = replicatedStorage.Shared.Animations:WaitForChild(animationName)
+	local loadedAnimation = ReplicatedStorage.Shared.Animations:WaitForChild(animationName)
 	return loadedAnimation.AnimationId
 end
 
@@ -71,7 +76,7 @@ end
   @param animationId string -- The Asset ID of the animation to be loaded
 ]=]
 function Animate.LoadAnimationOnChange(boolValue: BoolValue, animationId: string)
-	local humanoid = players.GetCurrentHumanoid()
+	local humanoid = Players.GetCurrentHumanoid()
 	boolValue.Changed:Connect(function()
 		if boolValue.Value == true then
 			Animate.debounce = false
