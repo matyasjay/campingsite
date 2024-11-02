@@ -1,3 +1,6 @@
+local players = game:GetService("Players")
+local workspace = game:GetService("Workspace")
+
 --[=[
   @class Players
   @tag Toolkit
@@ -10,7 +13,6 @@ local Players = {}
   @return Player -- The current player object
 ]=]
 function Players.GetCurrentPlayer()
-	local players = game:GetService("Players")
 	local player = players.LocalPlayer
 	return player
 end
@@ -22,7 +24,8 @@ end
 ]=]
 function Players.GetCurrentHumanoid()
 	local player = Players.GetCurrentPlayer()
-	return player:WaitForChild("Humanoid")
+	local character = workspace:FindFirstChild(player.Name)
+	return character:WaitForChild("Humanoid")
 end
 
 return Players

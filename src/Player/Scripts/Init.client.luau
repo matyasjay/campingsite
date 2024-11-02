@@ -32,8 +32,8 @@ pTotStones.Changed:Connect(function()
 end)
 
 local pTotFlints = pVars.totFlints
+local flintsLabel = statsFrame:WaitForChild("Flints")
 pTotFlints.Changed:Connect(function()
-	local flintsLabel = statsFrame:WaitForChild("Flints")
 	flintsLabel.Text = "Total Flints: " .. tostring(pTotFlints.Value)
 end)
 
