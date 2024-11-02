@@ -1,30 +1,32 @@
-local ws = game:GetService("Workspace")
-local player = script:FindFirstAncestorOfClass("Player")
-local gameGui = player:WaitForChild("PlayerGui"):WaitForChild("GameGui")
-local frame = gameGui:WaitForChild("GameFrame")
+local Toolkits = game:GetService("ReplicatedStorage").Toolkits
+local Persona = require(Toolkits:WaitForChild("Persona"))
+local Workspace = game:GetService("Workspace")
+
+local camp = Workspace:WaitForChild("PlayArea").Camp
+local player = Persona.GetCurrentPlayer()
+local frame = player:WaitForChild("PlayerGui"):WaitForChild("GameGui"):WaitForChild("GameFrame")
 local button = frame.TextButton :: TextButton
-local camp = ws:WaitForChild("PlayArea").Camp
-local woodModel = camp:WaitForChild("FirePit"):WaitForChild("Wood"):GetChildren()
-local pitBase = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
-local plrFire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
-local signGui = camp.Signs:WaitForChild("Feedback"):WaitForChild("Back"):WaitForChild("SignGui") :: Part
 
 local function resetGame()
-	local allVars = player:WaitForChild("plrVars"):GetChildren()
+	local woodModel = camp:WaitForChild("FirePit"):WaitForChild("Wood"):GetChildren()
+	local pitBase = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
+	local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
+	local sign = camp.Signs:WaitForChild("Feedback"):WaitForChild("Back"):WaitForChild("SignGui")
+	local Variables = Persona.GetPlayerVariableFromPlayer("plrVars", player)
 
-	plrFire.Enabled = false
+	fire.Enabled = false
 	pitBase:SetAttribute("logCount", 0)
 	pitBase:SetAttribute("stone", false)
 	pitBase:SetAttribute("flint", false)
-	signGui.Enabled = false
+	sign.Enabled = false
 
 	for i = 1, #woodModel do
 		woodModel[i].Transparency = 1
 	end
 
-	allVars.hasLog.Value = false
-	allVars.hasStone.Value = false
-	allVars.hasFlint.Value = false
+	Variables.hasLog.Value = false
+	Variables.hasStone.Value = false
+	Variables.hasFlint.Value = false
 end
 
 button.MouseButton1Click:Connect(function()

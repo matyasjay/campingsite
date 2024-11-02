@@ -1,11 +1,11 @@
 local Toolkits = game:GetService("ReplicatedStorage").Toolkits
-local Camp = game:GetService("Workspace"):WaitForChild("PlayArea").Camp :: Model
+local Camp = game:GetService("Workspace"):WaitForChild("PlayArea").Camp
 local Persona = require(Toolkits:WaitForChild("Persona"))
 local Player = Persona.GetCurrentPlayer()
 local Variables = Persona.GetPlayerVariable("plrVars")
 
-local statsGui = Player:WaitForChild("PlayerGui"):WaitForChild("StatsGui"):WaitForChild("StatsFrame") :: Frame
-local welcomeSign = Camp.Signs:WaitForChild("Welcome"):WaitForChild("Text"):WaitForChild("WelcomeGui") :: SurfaceGui
+local statsGui = Player:WaitForChild("PlayerGui"):WaitForChild("StatsGui"):WaitForChild("StatsFrame")
+local welcomeSign = Camp.Signs:WaitForChild("Welcome"):WaitForChild("Text"):WaitForChild("WelcomeGui")
 
 welcomeSign.Enabled = true
 welcomeSign.TextLabel.Text = `Welcome {Player.name}`

@@ -33,7 +33,7 @@ Persona.workspace = game:GetService("Workspace")
   @within Persona
   @private
 ]=]
-Persona.localPlayer = nil
+Persona.localPlayer = game:GetService("Players").LocalPlayer
 
 --[=[
   Get the current local [Player] object.
@@ -42,10 +42,7 @@ Persona.localPlayer = nil
   @return Player -- The current [Player] object
 ]=]
 function Persona.GetCurrentPlayer()
-	local localPlayer = Persona.players.LocalPlayer
-	if Persona.localPlayer == nil and localPlayer ~= nil then
-		Persona.localPlayer = localPlayer
-	end
+	Persona.localPlayer = Persona.players.LocalPlayer
 	return Persona.localPlayer
 end
 
