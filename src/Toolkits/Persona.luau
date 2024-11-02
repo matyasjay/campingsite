@@ -28,7 +28,6 @@ Persona.workspace = game:GetService("Workspace")
 --[=[
   Get the current local [Player] object.
 
-  @client
   @return Player -- The current [Player] object
 ]=]
 function Persona.GetCurrentPlayer()
@@ -57,6 +56,16 @@ end
 function Persona.GetCurrentHumanoid()
 	local character = Persona.GetCurrentCharacter()
 	return character:WaitForChild("Humanoid")
+end
+
+--[=[
+  Get a specific variable of the current [Player].
+
+  @return {ValueBase} -- The [ValueBase] table of the current [Player]
+]=]
+function Persona.GetPlayerVariable(variable: string)
+	local player = Persona.GetCurrentPlayer()
+	return player:WaitForChild(variable)
 end
 
 return Persona

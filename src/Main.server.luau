@@ -1,5 +1,5 @@
-local dss: DataStoreService = game:GetService("DataStoreService")
-local plrData = dss:GetDataStore("CampingStats_0.2.0")
+local datastore: DataStoreService = game:GetService("DataStoreService")
+local plrData = datastore:GetDataStore("CampingStats_0.2.0")
 local players: Players = game:GetService("Players")
 
 players.PlayerAdded:Connect(function(player)
