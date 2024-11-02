@@ -1,8 +1,8 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = require(ReplicatedStorage.Toolkits:WaitForChild("Players"))
+local Players = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 
 --[=[
-  This class is responsible to handle animation loading and playing within
+  This class is responsible to handle [Animation] loading and playing within
   the game. The methods providing abstract functionality to handle common
   tasks with ease. See individual documentation for details and capabilities.
 
@@ -26,11 +26,11 @@ Animate.animation = nil
 Animate.debounce = false
 
 --[=[
-  Loads the animation referenced by its Asset ID to the provided humanoid.
+  Loads the [Animation] referenced by its Asset ID to the provided [Humanoid].
 
-  @param humanoid Humanoid -- The humanoid object to load the animation to
-  @param animationId string -- The Asset ID of the animation to be loaded
-  @return boolean -- True when the animation was properly loaded and executed
+  @param humanoid Humanoid -- The [Humanoid] object to load the animation to
+  @param animationId string -- The Asset ID of the [Animation] to be loaded
+  @return boolean -- True when the [Animation] was properly loaded and played
 ]=]
 function Animate.LoadAnimation(humanoid, animationId)
 	local newAnimation = Instance.new("Animation")
@@ -43,9 +43,9 @@ function Animate.LoadAnimation(humanoid, animationId)
 end
 
 --[=[
-  Play the currently loaded animation.
+  Play the currently loaded [Animation].
 
-  @param humanoid Humanoid
+  @param humanoid Humanoid -- The [Humanoid] to play the animation on
   @private
 ]=]
 function Animate.PlayAnimation(humanoid)
@@ -60,8 +60,8 @@ end
 --[=[
   Get the Asset ID of the given animation stored in the Shared storage.
 
-  @param animationName string -- The name of the requested animation
-  @return string -- The Asset ID of the requested animation
+  @param animationName string -- The local name of the requested [Animation]
+  @return string -- The Asset ID of the requested [Animation] 
 ]=]
 function Animate.GetAnimationId(animationName: string)
 	local loadedAnimation = ReplicatedStorage.Shared.Animations:WaitForChild(animationName)
@@ -69,11 +69,11 @@ function Animate.GetAnimationId(animationName: string)
 end
 
 --[=[
-  Load the given animation referenced by its Asset ID when the provided boolean
-  value has been changed.
+  Load the given [Animation] referenced by its Asset ID when the provided
+  [BoolValue] has been changed.
 
-  @param boolValue BoolValue -- The BoolValue to connect to
-  @param animationId string -- The Asset ID of the animation to be loaded
+  @param boolValue BoolValue -- The [BoolValue] to connect to
+  @param animationId string -- The Asset ID of the [Animation] to be loaded
 ]=]
 function Animate.LoadAnimationOnChange(boolValue: BoolValue, animationId: string)
 	local humanoid = Players.GetCurrentHumanoid()

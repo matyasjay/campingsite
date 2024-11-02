@@ -1,50 +1,51 @@
-local plrs = game:GetService("Players")
-local player = plrs.LocalPlayer
-local pVars = player:WaitForChild("plrVars")
-local ws = game:GetService("Workspace")
-local camp = ws:WaitForChild("PlayArea").Camp :: Model
-local stats = player:WaitForChild("PlayerGui"):WaitForChild("StatsGui")
-local statsFrame = stats:WaitForChild("StatsFrame")
-local welcomeGui = camp.Signs:WaitForChild("Welcome"):WaitForChild("Text"):WaitForChild("WelcomeGui") :: Part
-local welcomeText = welcomeGui.TextLabel
+local Toolkits = game:GetService("ReplicatedStorage").Toolkits
+local Camp = game:GetService("Workspace"):WaitForChild("PlayArea").Camp :: Model
+local Players = require(Toolkits:WaitForChild("Persona"))
+local Player = Players.GetCurrentPlayer() :: Player
+local Variables = Player:WaitForChild("plrVars") :: { [string]: NumberValue }
 
-welcomeGui.Enabled = true
-welcomeText.Text = `Welcome {player.name}`
+local statsGui = Player:WaitForChild("PlayerGui"):WaitForChild("StatsGui"):WaitForChild("StatsFrame") :: Frame
+local welcomeSign = Camp.Signs:WaitForChild("Welcome"):WaitForChild("Text"):WaitForChild("WelcomeGui") :: SurfaceGui
 
--- Stats UI
+welcomeSign.Enabled = true
+welcomeSign.TextLabel.Text = `Welcome {Player.name}`
 
-local pTotVisits = pVars.totVisits
-local visitsLabel = statsFrame:WaitForChild("Visits")
-pTotVisits.Changed:Connect(function()
-	visitsLabel.Text = "Total Visits: " .. tostring(pTotVisits.Value)
-end)
+--[=[
+  Configuration class for the current [Player]'s displayed statistics.
 
-local pTotLogs = pVars.totLogs
-local logsLabel = statsFrame:WaitForChild("Logs")
-pTotLogs.Changed:Connect(function()
-	logsLabel.Text = "Total Logs: " .. tostring(pTotLogs.Value)
-end)
+  @class StatsGui
+  @tag User Interface
+]=]
+--[=[
+  Represents an entry that is displayed as part of the active [ScreenGui]
+  showing the details of the current [Player]'s actual statistics.
 
-local pTotStones = pVars.totStones
-local stonesLabel = statsFrame:WaitForChild("Stones")
-pTotStones.Changed:Connect(function()
-	stonesLabel.Text = "Total Stones: " .. tostring(pTotStones.Value)
-end)
+  @interface Stat
+  @within StatsGui
+  .Label string -- The user facing  name of the stat displayed as is in the [ScreenGui]
+  .Stat number -- The variable holding the respective value for the given stat
+]=]
+--[=[
+  List of unique [Stat] entries that are displayed on the [ScreenGui] for the current [Player] .  
 
-local pTotFlints = pVars.totFlints
-local flintsLabel = statsFrame:WaitForChild("Flints")
-pTotFlints.Changed:Connect(function()
-	flintsLabel.Text = "Total Flints: " .. tostring(pTotFlints.Value)
-end)
+  @prop Stats {Stat}
+  @within StatsGui
+]=]
+local Stats = {
+	{ "Visits", Variables.totVisits },
+	{ "Logs", Variables.totLogs },
+	{ "Stones", Variables.totStones },
+	{ "Flints", Variables.totFlints },
+	{ "Axe Swings", Variables.totAxeSwings },
+	{ "Pick Swings", Variables.totPickSwings },
+}
 
-local pTotAxeSwings = pVars.totAxeSwings
-local axeSwingsLabel = statsFrame:WaitForChild("Axe")
-pTotAxeSwings.Changed:Connect(function()
-	axeSwingsLabel.Text = "Total Axe Swings: " .. tostring(pTotAxeSwings.Value)
-end)
+local function display(_, stat)
+	local currentLabel = statsGui:WaitForChild(stat[1])
+	local currentValue = stat[2]
+	currentValue.Changed:Connect(function()
+		currentLabel.Text = `Total {stat[1]}: {tostring(currentValue.Value)}`
+	end)
+end
 
-local pTotPickSwings = pVars.totPickSwings
-local pickSwingsLabel = statsFrame:WaitForChild("Pick")
-pTotPickSwings.Changed:Connect(function()
-	pickSwingsLabel.Text = "Total Pick Swings: " .. tostring(pTotPickSwings.Value)
-end)
+table.foreach(Stats, display)

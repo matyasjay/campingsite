@@ -92,9 +92,9 @@ players.PlayerAdded:Connect(function(player)
 			stonesLabel.Text = "Total Stones: " .. tostring(plrStonesPicked.Value)
 			local flintsLabel = statsFrame:WaitForChild("Flints")
 			flintsLabel.Text = "Total Flints: " .. tostring(plrFlintsPicked.Value)
-			local axeSwingsLabel = statsFrame:WaitForChild("Axe")
+			local axeSwingsLabel = statsFrame:WaitForChild("Axe Swings")
 			axeSwingsLabel.Text = "Total Axe Swings: " .. tostring(plrAxeSwings.Value)
-			local pickSwingsLabel = statsFrame:WaitForChild("Pick")
+			local pickSwingsLabel = statsFrame:WaitForChild("Pick Swings")
 			pickSwingsLabel.Text = "Total Pick Swings: " .. tostring(plrPickSwings.Value)
 		else
 			data = {

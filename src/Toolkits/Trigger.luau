@@ -8,10 +8,10 @@
 local Trigger = {}
 
 --[=[
-  Executes the provided callback function when the trigger part was touched.
-  This method sets its Parent element as the Part provided in the first argument. 
+  Executes the provided callback function when the trigger [Part] was touched by a [Player].
+  This method sets the [Script.Parent] to the [Part] provided in the first argument. 
 
-  @param trigger Part -- The Part that needs to be touched in order to run the callback
+  @param trigger Part -- The [Part] that needs to be touched in order to run the callback
   @param callback (player: Player) -> () -- The functionality to run when the trigger happens
 ]=]
 function Trigger.RunOnTouched(trigger: Part, callback: (player: Player) -> ())
