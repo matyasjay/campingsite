@@ -11,6 +11,16 @@ favicon = "/favicon.png"
 url = "https://matyasjay.github.io"
 baseUrl = "/campingsite"
 
+[[classOrder]]
+section = "Toolkits"
+collapsed = false
+classes = ["Animate", "Persona", "Trigger"]
+
+[[classOrder]]
+section = "User Interface"
+collapsed = false
+classes = ["StatsGui"]
+
 [footer]
 style = "dark"
 copyright = "&nbsp;"
