@@ -2,7 +2,7 @@ local Toolkits = game:GetService("ReplicatedStorage").Toolkits
 local Camp = game:GetService("Workspace"):WaitForChild("PlayArea").Camp
 local Persona = require(Toolkits:WaitForChild("Persona"))
 local Player = Persona.GetCurrentPlayer()
-local Variables = Persona.GetPlayerVariable("plrVars")
+local Statistics = Persona.GetPlayerVariable("Statistics")
 
 local statsGui = Player:WaitForChild("PlayerGui"):WaitForChild("StatsGui"):WaitForChild("StatsFrame")
 local welcomeSign = Camp.Signs:WaitForChild("Welcome"):WaitForChild("Text"):WaitForChild("WelcomeGui")
@@ -23,12 +23,12 @@ welcomeSign.TextLabel.Text = `Welcome {Player.name}`
   @within StatsGui
 ]=]
 local Stats = {
-	["Visits"] = Variables.totVisits,
-	["Logs"] = Variables.totLogs,
-	["Stones"] = Variables.totStones,
-	["Flints"] = Variables.totFlints,
-	["Axe Swings"] = Variables.totAxeSwings,
-	["Pick Swings"] = Variables.totPickSwings,
+	["Visits"] = Statistics.totalVisits,
+	["Logs"] = Statistics.totalLogs,
+	["Stones"] = Statistics.totalStones,
+	["Flints"] = Statistics.totalFlints,
+	["Axe Swings"] = Statistics.totalAxeSwings,
+	["Pick Swings"] = Statistics.totalPickSwings,
 }
 
 for index, stat in Stats do

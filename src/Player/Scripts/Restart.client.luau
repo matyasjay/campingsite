@@ -12,7 +12,7 @@ local function resetGame()
 	local pitBase = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
 	local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
 	local sign = camp.Signs:WaitForChild("Feedback"):WaitForChild("Back"):WaitForChild("SignGui")
-	local Variables = Persona.GetPlayerVariableFromPlayer("plrVars", player)
+	local Variables = Persona.GetPlayerVariableFromPlayer("Variables", player)
 
 	fire.Enabled = false
 	pitBase:SetAttribute("logCount", 0)

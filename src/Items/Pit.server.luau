@@ -1,18 +1,21 @@
-local plrs: Players = game:GetService("Players")
+local Toolkits = game:GetService("ReplicatedStorage").Toolkits
+local Persona = require(Toolkits:WaitForChild("Persona"))
+local Players = Persona.players:GetChildren()
+
 local camp = workspace:WaitForChild("PlayArea").Camp :: Model
 local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase") :: Part
 local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire :: Fire
-local signGui = camp.Signs:WaitForChild("Feedback").Back:WaitForChild("SignGui") :: Part
-local pMsg = signGui.TextLabel
+local sign = camp.Signs:WaitForChild("Feedback").Back:WaitForChild("SignGui") :: Part
+local message = sign.TextLabel
 
 local pitScript = script
 pitScript.Parent = pit
 
-local db = true
+local debounce = true
 
-local function pitNeeds(logCount, logModel, hasFlint, hasStone)
+local function checkPitNeeds(pitLogCount, logModel, hasFlint, hasStone)
 	local missingItems = {}
-	if logCount < #logModel then
+	if pitLogCount < #logModel then
 		table.insert(missingItems, "wood")
 	end
 	if not hasFlint then
@@ -25,14 +28,13 @@ local function pitNeeds(logCount, logModel, hasFlint, hasStone)
 	local needs = table.concat(missingItems, " and ")
 	local msg = #missingItems == 0 and "You lit the fire" or "We need " .. needs
 
-	pMsg.Text = msg
-	signGui.Enabled = true
+	message.Text = msg
+	sign.Enabled = true
 
-	if logCount >= #logModel and hasFlint and hasStone then
+	if pitLogCount >= #logModel and hasFlint and hasStone then
 		fire.Enabled = true
 		task.wait(5)
-		local allPlrs = plrs:GetChildren()
-		for _, eachPlayer in pairs(allPlrs) do
+		for _, eachPlayer in pairs(Players) do
 			eachPlayer.PlayerGui.GameGui.GameFrame.Visible = true
 		end
 	end
@@ -42,51 +44,49 @@ pit.Touched:Connect(function(hit)
 	local char = hit.Parent
 	local hum = char:FindFirstChild("Humanoid")
 
-	if hum and db then
-		db = false
+	if hum and debounce then
+		debounce = false
 
-		local plr = plrs:FindFirstChild(char.Name)
-		local pVars = plr:WaitForChild("plrVars")
-		local pHasLog = pVars.hasLog
-		local pHasFlint = pVars.hasFlint
-		local pHasStone = pVars.hasStone
-		local logCount = pit:GetAttribute("logCount")
-		local pitFlint = pit:GetAttribute("flint")
-		local pitStone = pit:GetAttribute("stone")
-		local woods = pit.Parent.Wood :: Part
-		local logs = woods:GetChildren()
+		local Variables = Persona.GetPlayerVariable("Variables")
 
-		if pitFlint then
-			pHasFlint.Value = false
+		local pitLogCount = pit:GetAttribute("pitLogCount")
+		local pitHasFlint = pit:GetAttribute("flint")
+		local pitHasStone = pit:GetAttribute("stone")
+		local pitLogParts = pit.Parent.Wood:GetChildren()
+
+		if pitHasFlint then
+			Variables.hasFlint.Value = false
 		else
-			if pHasFlint.Value then
-				pHasFlint.Value = false
+			if Variables.hasFlint.Value then
+				Variables.hasFlint.Value = false
 				pit:SetAttribute("flint", true)
 			end
 		end
 
-		if pitStone then
-			pHasStone.Value = false
+		if pitHasStone then
+			Variables.hasStone.Value = false
 		else
-			if pHasStone.Value then
-				pHasStone.Value = false
+			if Variables.hasStone.Value then
+				Variables.hasStone.Value = false
 				pit:SetAttribute("stone", true)
 			end
 		end
 
-		if pHasLog.Value and logCount < #logs then
-			pHasLog.Value = false
-			logCount += 1
-			pit:SetAttribute("logCount", logCount)
-			for i = 1, logCount do
-				logs[i].Transparency = 0
+		if Variables.hasLog.Value and pitLogCount < #pitLogParts then
+			Variables.hasLog.Value = false
+			pitLogCount += 1
+			pit:SetAttribute("pitLogCount", pitLogCount)
+			for i = 1, pitLogCount do
+				pitLogParts[i].Transparency = 0
 			end
 		end
 
-		pitFlint = pit:GetAttribute("flint")
-		pitStone = pit:GetAttribute("stone")
-		pitNeeds(logCount, logs, pitFlint, pitStone)
+		pitHasFlint = pit:GetAttribute("flint")
+		pitHasStone = pit:GetAttribute("stone")
+
+		checkPitNeeds(pitLogCount, pitLogParts, pitHasFlint, pitHasStone)
+
 		task.wait(2)
-		db = true
+		debounce = true
 	end
 end)

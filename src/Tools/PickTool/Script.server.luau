@@ -7,7 +7,8 @@ local Toolkits = game:GetService("ReplicatedStorage").Toolkits
 local Persona = require(Toolkits:WaitForChild("Persona"))
 local Iterator = require(Toolkits:WaitForChild("Iterator"))
 local Character = Persona.GetCharacterFromPlayer(player)
-local Variables = Persona.GetPlayerVariableFromPlayer("plrVars", player)
+local Statistics = Persona.GetPlayerVariableFromPlayer("Statistics", player)
+local Variables = Persona.GetPlayerVariableFromPlayer("Variables", player)
 
 local camp = Workspace:WaitForChild("PlayArea").Camp
 local rocks = camp.Rocks:GetChildren()
@@ -41,12 +42,12 @@ local function pickupStone(rock, index)
 		newStone.Position = rock.Position + Vector3.new(5, 0, -5)
 		newStone.Parent = Workspace
 		newStone.Touched:Connect(function(hit)
-			local hum = Character:FindFirstChild("Humanoid")
-			if hum and debouncePickup then
+			local humanoid = Character:FindFirstChild("Humanoid")
+			if humanoid and debouncePickup then
 				debouncePickup = false
 				if not Variables.hasStone.Value then
 					Variables.hasStone.Value = true
-					Variables.totStones.Value += 1
+					Statistics.totalStone.Value += 1
 					newStone:Destroy()
 				end
 				task.wait(2)
@@ -64,12 +65,12 @@ local function pickupFlint(rock, index)
 		newFlint.Position = rock.Position + Vector3.new(-5, 0, 5)
 		newFlint.Parent = Workspace
 		newFlint.Touched:Connect(function(hit)
-			local hum = Character:FindFirstChild("Humanoid")
-			if hum and debouncePickup then
+			local humanoid = Character:FindFirstChild("Humanoid")
+			if humanoid and debouncePickup then
 				debouncePickup = false
 				if not Variables.hasFlint.Value then
 					Variables.hasFlint.Value = true
-					Variables.totFlints.Value += 1
+					Statistics.totalFlints.Value += 1
 					newFlint:Destroy()
 				end
 				task.wait(2)
@@ -86,29 +87,20 @@ end
 
 local function onActivate()
 	if debounceAnimation then
-		local char = pickTool.Parent
-		local isUsingPick = Variables.usingPick
-		local totalSwings = Variables.totPickSwings
-		totalSwings.Value += 1
+		Statistics.totalPickSwings.Value += 1
 		Iterator.WalkModels(rocks, pickRockWhenPossible)
-		isUsingPick.Value = true
+		Variables.usingPick.Value = true
 	end
 end
 
 local function onDeactivate()
-	local char = pickTool.Parent
-	local pHasStone = Variables.hasStone
-	local pHasFlint = Variables.hasFlint
-	local isUsingPick = Variables.usingPick
-
 	if debounceAnimation then
 		debounceAnimation = false
-		isUsingPick.Value = false
+		Variables.usingPick.Value = false
 		Iterator.WalkModels(rocks, pickupSpawns)
 		task.wait(1)
 		debounceAnimation = true
 	end
-
 	debouncePickup = true
 end
 

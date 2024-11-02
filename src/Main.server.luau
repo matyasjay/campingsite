@@ -1,113 +1,93 @@
-local datastore: DataStoreService = game:GetService("DataStoreService")
-local plrData = datastore:GetDataStore("CampingStats_0.2.0")
-local players: Players = game:GetService("Players")
+local DataStore: DataStoreService = game:GetService("DataStoreService")
+local playerData = DataStore:GetDataStore("CampingStats_0.2.1")
+local players = game:GetService("Players")
+
+local function addToDataStore(
+	className: "BoolValue" | "NumberValue" | "StringValue",
+	folder: Folder,
+	name: string,
+	value: boolean | string | number
+)
+	local variable = Instance.new(className, folder)
+	variable.Name = name
+	variable.Value = value
+end
+
+local function addVariables(player: Player)
+	local Variables = Instance.new("Folder", player)
+	Variables.Name = "Variables"
+
+	addToDataStore("BoolValue", Variables, "hasLog", false)
+	addToDataStore("BoolValue", Variables, "hasStone", false)
+	addToDataStore("BoolValue", Variables, "hasFlint", false)
+	addToDataStore("BoolValue", Variables, "hasAxe", false)
+	addToDataStore("BoolValue", Variables, "hasPick", false)
+	addToDataStore("BoolValue", Variables, "usingAxe", false)
+	addToDataStore("BoolValue", Variables, "usingPick", false)
+
+	return Variables
+end
+
+local function addStatistics(player: Player)
+	local Statistics = Instance.new("Folder", player)
+	Statistics.Name = "Statistics"
+
+	addToDataStore("NumberValue", Statistics, "totalVisits", 0)
+	addToDataStore("NumberValue", Statistics, "totalLogs", 0)
+	addToDataStore("NumberValue", Statistics, "totalStones", 0)
+	addToDataStore("NumberValue", Statistics, "totalFlints", 0)
+	addToDataStore("NumberValue", Statistics, "totalPickSwings", 0)
+	addToDataStore("NumberValue", Statistics, "totalAxeSwings", 0)
+
+	return Statistics
+end
 
 players.PlayerAdded:Connect(function(player)
 	player.CharacterAppearanceLoaded:Connect(function(character)
-		local plrVars = Instance.new("Folder", player)
-		plrVars.Name = "plrVars"
+		addVariables(player)
 
-		-- Resources
+		local Statistics = addStatistics(player)
 
-		local plrHasLog = Instance.new("BoolValue", plrVars)
-		plrHasLog.Name = "hasLog"
-		plrHasLog.Value = false
+		Statistics.totalVisits.Value += 1
 
-		local plrHasStone = Instance.new("BoolValue", plrVars)
-		plrHasStone.Name = "hasStone"
-		plrHasStone.Value = false
-
-		local plrHasFlint = Instance.new("BoolValue", plrVars)
-		plrHasFlint.Name = "hasFlint"
-		plrHasFlint.Value = false
-
-		-- Tools
-
-		local plrHasAxe = Instance.new("BoolValue", plrVars)
-		plrHasAxe.Name = "hasAxe"
-		plrHasAxe.Value = false
-
-		local plrHasPick = Instance.new("BoolValue", plrVars)
-		plrHasPick.Name = "hasPick"
-		plrHasPick.Value = false
-
-		local plrUsingAxe = Instance.new("BoolValue", plrVars)
-		plrUsingAxe.Name = "usingAxe"
-		plrUsingAxe.Value = false
-
-		local plrUsingPick = Instance.new("BoolValue", plrVars)
-		plrUsingPick.Name = "usingPick"
-		plrUsingPick.Value = false
-
-		-- Analytics
-
-		local plrTotalVisits = Instance.new("NumberValue", plrVars)
-		plrTotalVisits.Name = "totVisits"
-		plrTotalVisits.Value = 0
-
-		local plrLogsChopped = Instance.new("NumberValue", plrVars)
-		plrLogsChopped.Name = "totLogs"
-		plrLogsChopped.Value = 0
-
-		local plrStonesPicked = Instance.new("NumberValue", plrVars)
-		plrStonesPicked.Name = "totStones"
-		plrStonesPicked.Value = 0
-
-		local plrFlintsPicked = Instance.new("NumberValue", plrVars)
-		plrFlintsPicked.Name = "totFlints"
-		plrFlintsPicked.Value = 0
-
-		local plrPickSwings = Instance.new("NumberValue", plrVars)
-		plrPickSwings.Name = "totPickSwings"
-		plrPickSwings.Value = 0
-
-		local plrAxeSwings = Instance.new("NumberValue", plrVars)
-		plrAxeSwings.Name = "totAxeSwings"
-		plrAxeSwings.Value = 0
-
-		-- Initialise
-
-		plrTotalVisits.Value += 1
-
-		-- Datastores
-
-		local data = plrData:GetAsync(player.UserId)
+		local data = playerData:GetAsync(player.UserId)
 
 		if data ~= nil then
-			-- TODO: prolly refactor with loops?
-			plrTotalVisits.Value = 1 + data["plrTotalVisits"]
-			plrLogsChopped.Value = data["plrLogsChopped"]
-			plrStonesPicked.Value = data["plrStonesPicked"]
-			plrFlintsPicked.Value = data["plrFlintsPicked"]
-			plrPickSwings.Value = data["plrPickSwings"]
-			plrAxeSwings.Value = data["plrAxeSwings"]
+			Statistics.totalVisits.Value = 1 + data["totalVisits"]
+			Statistics.totalLogs.Value = data["totalLogs"]
+			Statistics.totalStones.Value = data["totalStones"]
+			Statistics.totalFlints.Value = data["totalFlints"]
+			Statistics.totalPickSwings.Value = data["totalPickSwings"]
+			Statistics.totalAxeSwings.Value = data["totalAxeSwings"]
+
+			local Stats = {
+				["Visits"] = Statistics.totalVisits.Value,
+				["Logs"] = Statistics.totalLogs.Value,
+				["Stones"] = Statistics.totalStones.Value,
+				["Flints"] = Statistics.totalFlints.Value,
+				["Pick Swings"] = Statistics.totalPickSwings.Value,
+				["Axe Swings"] = Statistics.totalAxeSwings.Value,
+			}
 
 			local gui = player:WaitForChild("PlayerGui")
 			local statsFrame = gui:WaitForChild("StatsGui"):WaitForChild("StatsFrame")
-			local visitsLabel = statsFrame:WaitForChild("Visits")
-			visitsLabel.Text = "Total Visits: " .. tostring(plrTotalVisits.Value)
-			local logsLabel = statsFrame:WaitForChild("Logs")
-			logsLabel.Text = "Total Logs: " .. tostring(plrLogsChopped.Value)
-			local stonesLabel = statsFrame:WaitForChild("Stones")
-			stonesLabel.Text = "Total Stones: " .. tostring(plrStonesPicked.Value)
-			local flintsLabel = statsFrame:WaitForChild("Flints")
-			flintsLabel.Text = "Total Flints: " .. tostring(plrFlintsPicked.Value)
-			local axeSwingsLabel = statsFrame:WaitForChild("Axe Swings")
-			axeSwingsLabel.Text = "Total Axe Swings: " .. tostring(plrAxeSwings.Value)
-			local pickSwingsLabel = statsFrame:WaitForChild("Pick Swings")
-			pickSwingsLabel.Text = "Total Pick Swings: " .. tostring(plrPickSwings.Value)
+
+			for statLabel in Stats do
+				local label = statsFrame:WaitForChild(statLabel)
+				label.Text = `Total {statLabel}: {tostring(Stats[statLabel])}`
+			end
 		else
 			data = {
-				["plrTotalVisits"] = 1,
-				["plrLogsChopped"] = 0,
-				["plrStonesPicked"] = 0,
-				["plrFlintsPicked"] = 0,
-				["plrPickSwings"] = 0,
-				["plrAxeSwings"] = 0,
+				["totalVisits"] = 1,
+				["totalLogs"] = 0,
+				["totalStones"] = 0,
+				["totalFlints"] = 0,
+				["totalPickSwings"] = 0,
+				["totalAxeSwings"] = 0,
 			}
 
 			local success, _error = pcall(function()
-				plrData:SetAsync(player.UserId, data)
+				playerData:SetAsync(player.UserId, data)
 			end)
 
 			if success then
@@ -118,21 +98,17 @@ players.PlayerAdded:Connect(function(player)
 		end
 
 		game.OnClose = function()
-			local dataToSave = {
-				["plrTotalVisits"] = plrTotalVisits.Value,
-				["plrLogsChopped"] = plrLogsChopped.Value,
-				["plrStonesPicked"] = plrStonesPicked.Value,
-				["plrFlintsPicked"] = plrFlintsPicked.Value,
-				["plrPickSwings"] = plrPickSwings.Value,
-				["plrAxeSwings"] = plrAxeSwings.Value,
-			}
-
-			local success, _error = pcall(function()
-				plrData:SetAsync(player.UserId, dataToSave)
+			local dataToSave = {}
+			for key in data do
+				dataToSave[key] = Statistics[key].Value
+			end
+			local success, error = pcall(function()
+				playerData:SetAsync(player.UserId, dataToSave)
 			end)
-
 			if success then
 				print(`Data save for {player.Name} complete!`)
+			elseif error then
+				print(error)
 			else
 				print(`Data save for {player.Name} failed!`)
 			end

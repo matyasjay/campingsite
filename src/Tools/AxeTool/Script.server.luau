@@ -7,7 +7,8 @@ local Toolkits = game:GetService("ReplicatedStorage").Toolkits
 local Persona = require(Toolkits:WaitForChild("Persona"))
 local Iterator = require(Toolkits:WaitForChild("Iterator"))
 local Character = Persona.GetCharacterFromPlayer(player)
-local Variables = Persona.GetPlayerVariableFromPlayer("plrVars", player)
+local Variables = Persona.GetPlayerVariableFromPlayer("Variables", player)
+local Statistics = Persona.GetPlayerVariableFromPlayer("Statistics", player)
 
 local camp = Workspace:WaitForChild("PlayArea").Camp
 local trees = camp.Trees:GetChildren()
@@ -38,11 +39,9 @@ local function pickupLog(log: Part)
 		local isHumanoid = (basePart.Parent :: Player):FindFirstChild("Humanoid")
 		if isHumanoid and debouncePickup then
 			debouncePickup = false
-			local hasLog = Variables.hasLog
-			local totalLogs = Variables.totLogs
-			if not hasLog.Value then
-				hasLog.Value = true
-				totalLogs.Value += 1
+			if not Variables.hasLog.Value then
+				Variables.hasLog.Value = true
+				Statistics.totalLogs.Value += 1
 				log:Destroy()
 			end
 			task.wait(2)
@@ -70,18 +69,15 @@ end
 
 local function onActivate()
 	if debounceAnimation then
-		local isUsingAxe = Variables.usingAxe
-		local totalSwings = Variables.totAxeSwings
-		totalSwings.Value += 1
+		Statistics.totalAxeSwings.Value += 1
 		Iterator.WalkModels(trees, chopTreeWhenPossible)
-		isUsingAxe.Value = true
+		Variables.usingAxe.Value = true
 	end
 end
 
 local function onDeactivate()
 	if debounceAnimation then
-		local isUsingAxe = Variables.usingAxe
-		isUsingAxe.Value = false
+		Variables.usingAxe.Value = false
 		debounceAnimation = false
 		Iterator.WalkModels(trees, spawnLogWhenPossible)
 		task.wait(1)

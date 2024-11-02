@@ -1,7 +1,7 @@
 local Toolkits = game:GetService("ReplicatedStorage").Toolkits
 local Animate = require(Toolkits:WaitForChild("Animate"))
 local Persona = require(Toolkits:WaitForChild("Persona"))
-local Values = Persona.GetPlayerVariable("plrVars")
+local Variables = Persona.GetPlayerVariable("Variables")
 
-Animate.LoadAnimationOnChange(Values.usingAxe, Animate.GetAnimationId("AxeSwing"))
-Animate.LoadAnimationOnChange(Values.usingPick, Animate.GetAnimationId("PickSwing"))
+Animate.LoadAnimationOnChange(Variables.usingAxe, Animate.GetAnimationId("AxeSwing"))
+Animate.LoadAnimationOnChange(Variables.usingPick, Animate.GetAnimationId("PickSwing"))
