@@ -70,3 +70,7 @@ The `build/latest.rbxm` file is equivalent to the output from running `rojo buil
 > ## Known Issues
 >
 > - You need to manually restart Rojo Server to make project file changes applied
+
+### Testing
+
+The project uses LuaUnit as its generic native Lua test framework.

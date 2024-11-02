@@ -1,131 +1,126 @@
--- Pick Tool
+local pickTool = script.Parent
+local player = pickTool.Parent.Parent
 
-local tool = script.Parent :: Tool
-local ws = game:GetService("Workspace")
-local ss = game:GetService("ServerStorage")
-local camp = ws:WaitForChild("PlayArea").Camp
+local Workspace = game:GetService("Workspace")
+local ServerStorage = game:GetService("ServerStorage")
+local Toolkits = game:GetService("ReplicatedStorage").Toolkits
+local Persona = require(Toolkits:WaitForChild("Persona"))
+local Iterator = require(Toolkits:WaitForChild("Iterator"))
+local Character = Persona.GetCharacterFromPlayer(player)
+local Variables = Persona.GetPlayerVariableFromPlayer("plrVars", player)
+
+local camp = Workspace:WaitForChild("PlayArea").Camp
 local rocks = camp.Rocks:GetChildren()
-local flintPickup = ss:WaitForChild("Spawns").Flint
-local stonePickup = ss:WaitForChild("Spawns").Stone
-local plrs = game:GetService("Players")
+
 local pickCount = {}
-local db = true
-local animDb = true
+local debouncePickup = true
+local debounceAnimation = true
 
-local function onActivate()
-	if animDb then
-		local char = tool.Parent
-		local plr = plrs:FindFirstChild(char.name)
-		local pVars = plr:WaitForChild("plrVars")
-		local pUsingPick = pVars.usingPick
-		local pTotSwings = pVars.totPickSwings
-		pTotSwings.Value += 1
-		pUsingPick.Value = true
-
-		for i = 1, #rocks do
-			if pickCount[i] == nil then
-				pickCount[i] = 0
-			end
-
-			local rock = rocks[i]
-			local target = (char.HumanoidRootPart.Position - rock.Position).Magnitude
-
-			if target <= 6 then
-				if pickCount[i] == 8 then
-					pickCount[i] = 0
-				else
-					if db then
-						db = false
-						pickCount[i] += 1
-					end
-				end
+local function pickRockWhenPossible(rock, index)
+	local target = (Character.HumanoidRootPart.Position - rock.Position).Magnitude
+	if pickCount[index] == nil then
+		pickCount[index] = 0
+	end
+	if target <= 6 then
+		if pickCount[index] == 8 then
+			pickCount[index] = 0
+		else
+			if debouncePickup then
+				debouncePickup = false
+				pickCount[index] += 1
 			end
 		end
+	end
+end
+
+local function pickupStone(rock, index)
+	local stonePicks = rock:GetAttribute("stonePicks")
+	local stonePickup = ServerStorage:WaitForChild("Spawns").Stone
+	if pickCount[index] == stonePicks and not Variables.hasStone.Value then
+		local newStone = stonePickup:Clone()
+		newStone.Position = rock.Position + Vector3.new(5, 0, -5)
+		newStone.Parent = Workspace
+		newStone.Touched:Connect(function(hit)
+			local hum = Character:FindFirstChild("Humanoid")
+			if hum and debouncePickup then
+				debouncePickup = false
+				if not Variables.hasStone.Value then
+					Variables.hasStone.Value = true
+					Variables.totStones.Value += 1
+					newStone:Destroy()
+				end
+				task.wait(2)
+				debouncePickup = true
+			end
+		end)
+	end
+end
+
+local function pickupFlint(rock, index)
+	local flintPicks = rock:GetAttribute("flintPicks")
+	local flintPickup = ServerStorage:WaitForChild("Spawns").Flint
+	if pickCount[index] == flintPicks and not Variables.hasFlint.Value then
+		local newFlint = flintPickup:Clone()
+		newFlint.Position = rock.Position + Vector3.new(-5, 0, 5)
+		newFlint.Parent = Workspace
+		newFlint.Touched:Connect(function(hit)
+			local hum = Character:FindFirstChild("Humanoid")
+			if hum and debouncePickup then
+				debouncePickup = false
+				if not Variables.hasFlint.Value then
+					Variables.hasFlint.Value = true
+					Variables.totFlints.Value += 1
+					newFlint:Destroy()
+				end
+				task.wait(2)
+				debouncePickup = true
+			end
+		end)
+	end
+end
+
+local function pickupSpawns(rock, index)
+	pickupStone(rock, index)
+	pickupFlint(rock, index)
+end
+
+local function onActivate()
+	if debounceAnimation then
+		local char = pickTool.Parent
+		local isUsingPick = Variables.usingPick
+		local totalSwings = Variables.totPickSwings
+		totalSwings.Value += 1
+		Iterator.WalkModels(rocks, pickRockWhenPossible)
+		isUsingPick.Value = true
 	end
 end
 
 local function onDeactivate()
-	local char = tool.Parent
-	local plr = plrs:FindFirstChild(char.Name)
-	local pVars = plr:WaitForChild("plrVars")
-	local pHasStone = pVars.hasStone
-	local pHasFlint = pVars.hasFlint
-	local pUsingPick = pVars.usingPick
+	local char = pickTool.Parent
+	local pHasStone = Variables.hasStone
+	local pHasFlint = Variables.hasFlint
+	local isUsingPick = Variables.usingPick
 
-	if animDb then
-		animDb = false
-		pUsingPick.Value = false
-		for i = 1, #rocks do
-			local rock = rocks[i]
-			local flintPicks = rock:GetAttribute("flintPicks")
-			local stonePicks = rock:GetAttribute("stonePicks")
-			if pickCount[i] == stonePicks and not pHasStone.Value then
-				local newStone = stonePickup:Clone()
-				newStone.Position = rock.Position + Vector3.new(5, 0, -5)
-				newStone.Parent = ws
-				newStone.Touched:Connect(function(hit)
-					local hum = char:FindFirstChild("Humanoid")
-					if hum and db then
-						db = false
-						local pTotStones = pVars.totStones
-						if not pHasStone.Value then
-							pHasStone.Value = true
-							pTotStones.Value += 1
-							newStone:Destroy()
-						else
-							warn(`You already have a stone {plr.Name}`)
-						end
-						task.wait(2)
-						db = true
-					end
-				end)
-			end
-
-			if pickCount[i] == flintPicks and not pHasFlint.Value then
-				local newFlint = flintPickup:Clone()
-				newFlint.Position = rock.Position + Vector3.new(-5, 0, 5)
-				newFlint.Parent = ws
-				newFlint.Touched:Connect(function(hit)
-					local hum = char:FindFirstChild("Humanoid")
-					if hum and db then
-						db = false
-						local pHasFlint = pVars.hasFlint
-						local pTotFlints = pVars.totFlints
-						if not pHasFlint.Value then
-							pHasFlint.Value = true
-							pTotFlints.Value += 1
-							newFlint:Destroy()
-						else
-							warn(`You already have a flint {plr.Name}`)
-						end
-						task.wait(2)
-						db = true
-					end
-				end)
-			end
-		end
+	if debounceAnimation then
+		debounceAnimation = false
+		isUsingPick.Value = false
+		Iterator.WalkModels(rocks, pickupSpawns)
 		task.wait(1)
-		animDb = true
+		debounceAnimation = true
 	end
 
-	db = true
+	debouncePickup = true
 end
 
 local function onEquip()
-	local char = tool.Parent
-	local plr = plrs:FindFirstChild(char.name)
-	local pVars = plr:WaitForChild("plrVars")
-	local pHasPick = pVars.hasPick
-
-	pHasPick.Value = true
+	Variables.hasPick.Value = true
 end
 
 local function onUnequip()
-	local plr = tool.Parent.Parent
-	plr.plrVars.hasPick.Value = false
+	Variables.hasPick.Value = false
 end
 
-tool.Equipped:Connect(onEquip)
-tool.Unequipped:Connect(onUnequip)
-tool.Activated:Connect(onActivate)
-tool.Deactivated:Connect(onDeactivate)
+pickTool.Equipped:Connect(onEquip)
+pickTool.Unequipped:Connect(onUnequip)
+pickTool.Activated:Connect(onActivate)
+pickTool.Deactivated:Connect(onDeactivate)
