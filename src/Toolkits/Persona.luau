@@ -8,14 +8,18 @@
 local Persona = {}
 
 --[=[
-  @prop players Players -- The [Players] that are currently available in the game
+  The [Players] that are currently available in the game
+
+  @prop players Players
   @within Persona
   @private
 ]=]
 Persona.players = game:GetService("Players")
 
 --[=[
-  @prop workspace Workspace -- The current [Workspace] object
+  The current [Workspace] object
+
+  @prop workspace Workspace
   @within Persona
   @private
 ]=]

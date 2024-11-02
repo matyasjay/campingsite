@@ -12,6 +12,8 @@ local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 local Animate = {}
 
 --[=[
+  The current [Animation] object that is loaded into the [Humanoid]
+
   @prop animation Animation
   @within Animate
   @private
@@ -19,6 +21,8 @@ local Animate = {}
 Animate.animation = nil
 
 --[=[
+  Debounce helper for the current [Animation]
+
   @prop debounce boolean
   @within Animate
   @private
