@@ -47,7 +47,7 @@ local function pickupStone(rock, index)
 				debouncePickup = false
 				if not Variables.hasStone.Value then
 					Variables.hasStone.Value = true
-					Statistics.totalStone.Value += 1
+					Statistics.totalStones.Value += 1
 					newStone:Destroy()
 				end
 				task.wait(2)

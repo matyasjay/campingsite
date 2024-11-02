@@ -1,6 +1,6 @@
 local Toolkits = game:GetService("ReplicatedStorage").Toolkits
+local Players = game:GetService("Players")
 local Persona = require(Toolkits:WaitForChild("Persona"))
-local Players = Persona.players:GetChildren()
 
 local camp = workspace:WaitForChild("PlayArea").Camp :: Model
 local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase") :: Part
@@ -34,22 +34,21 @@ local function checkPitNeeds(pitLogCount, logModel, hasFlint, hasStone)
 	if pitLogCount >= #logModel and hasFlint and hasStone then
 		fire.Enabled = true
 		task.wait(5)
-		for _, eachPlayer in pairs(Players) do
+		for _, eachPlayer in pairs(Players:GetChildren()) do
 			eachPlayer.PlayerGui.GameGui.GameFrame.Visible = true
 		end
 	end
 end
 
 pit.Touched:Connect(function(hit)
-	local char = hit.Parent
-	local hum = char:FindFirstChild("Humanoid")
+	local humanoid = hit.Parent:WaitForChild("Humanoid")
 
-	if hum and debounce then
+	if humanoid and debounce then
 		debounce = false
 
-		local Variables = Persona.GetPlayerVariable("Variables")
+		local Variables = Persona.GetPlayerVariableFromPlayer("Variables", Players[hit.Parent.Name])
 
-		local pitLogCount = pit:GetAttribute("pitLogCount")
+		local pitLogCount = pit:GetAttribute("logCount")
 		local pitHasFlint = pit:GetAttribute("flint")
 		local pitHasStone = pit:GetAttribute("stone")
 		local pitLogParts = pit.Parent.Wood:GetChildren()
@@ -75,7 +74,7 @@ pit.Touched:Connect(function(hit)
 		if Variables.hasLog.Value and pitLogCount < #pitLogParts then
 			Variables.hasLog.Value = false
 			pitLogCount += 1
-			pit:SetAttribute("pitLogCount", pitLogCount)
+			pit:SetAttribute("logCount", pitLogCount)
 			for i = 1, pitLogCount do
 				pitLogParts[i].Transparency = 0
 			end
