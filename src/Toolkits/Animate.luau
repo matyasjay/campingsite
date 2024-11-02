@@ -1,5 +1,5 @@
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Players = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
+local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 
 --[=[
   This class is responsible to handle [Animation] loading and playing within
@@ -76,7 +76,7 @@ end
   @param animationId string -- The Asset ID of the [Animation] to be loaded
 ]=]
 function Animate.LoadAnimationOnChange(boolValue: BoolValue, animationId: string)
-	local humanoid = Players.GetCurrentHumanoid()
+	local humanoid = Persona.GetCurrentHumanoid()
 	boolValue.Changed:Connect(function()
 		if boolValue.Value == true then
 			Animate.debounce = false
