@@ -7,3 +7,5 @@ docs-dev:
 	npx moonwave --out-dir=publish dev
 docs-publish:
 	npx moonwave --out-dir=publish build --publish
+test:
+	lua tests/init.lua -v
