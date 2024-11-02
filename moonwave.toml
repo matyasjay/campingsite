@@ -14,7 +14,7 @@ baseUrl = "/campingsite"
 [[classOrder]]
 section = "Toolkits"
 collapsed = false
-classes = ["Animate", "Persona", "Trigger"]
+classes = ["Animate", "Iterator", "Persona", "Trigger"]
 
 [[classOrder]]
 section = "User Interface"
