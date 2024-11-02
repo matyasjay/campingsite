@@ -33,6 +33,24 @@ local function chopTreeWhenPossible(tree, index)
 	end
 end
 
+local function pickupLog(log: Part)
+	return function(basePart: BasePart)
+		local isHumanoid = (basePart.Parent :: Player):FindFirstChild("Humanoid")
+		if isHumanoid and debouncePickup then
+			debouncePickup = false
+			local hasLog = Variables.hasLog
+			local totalLogs = Variables.totLogs
+			if not hasLog.Value then
+				hasLog.Value = true
+				totalLogs.Value += 1
+				log:Destroy()
+			end
+			task.wait(2)
+			debouncePickup = true
+		end
+	end
+end
+
 local function spawnLogWhenPossible(tree, index)
 	local logSpawn = ServerStorage:WaitForChild("Spawns").Log
 	local logSpawnPlace = tree.LogSpawn
@@ -46,21 +64,7 @@ local function spawnLogWhenPossible(tree, index)
 		local newLog = logSpawn:Clone()
 		newLog.CFrame = logSpawnPlace.CFrame
 		newLog.Parent = Workspace
-		newLog.Touched:Connect(function(hit)
-			local isHumanoid = hit.Parent:FindFirstChild("Humanoid")
-			if isHumanoid and debouncePickup then
-				debouncePickup = false
-				local hasLog = Variables.hasLog
-				local totalLogs = Variables.totLogs
-				if not hasLog.Value then
-					hasLog.Value = true
-					totalLogs.Value += 1
-					newLog:Destroy()
-				end
-				task.wait(2)
-				debouncePickup = true
-			end
-		end)
+		newLog.Touched:Connect(pickupLog(newLog))
 	end
 end
 
