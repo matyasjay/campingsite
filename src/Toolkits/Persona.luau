@@ -26,13 +26,27 @@ Persona.players = game:GetService("Players")
 Persona.workspace = game:GetService("Workspace")
 
 --[=[
+  The current [LocalPlayer] object
+
+  @client
+  @prop player Player
+  @within Persona
+  @private
+]=]
+Persona.player = nil
+
+--[=[
   Get the current local [Player] object.
 
+  @client
   @return Player -- The current [Player] object
 ]=]
 function Persona.GetCurrentPlayer()
 	local player = Persona.players.LocalPlayer
-	return player
+	if Persona.player == nil and player ~= nil then
+		Persona.player = player
+	end
+	return Persona.player
 end
 
 --[=[
@@ -42,9 +56,19 @@ end
   @return Model -- The [Player#Character] model of the current [Player]
 ]=]
 function Persona.GetCurrentCharacter()
-	local player = Persona.GetCurrentPlayer()
-	local character = Persona.workspace:FindFirstChild(player.Name)
-	return character
+	Persona.GetCurrentPlayer()
+	return Persona.workspace:WaitForChild(Persona.player.Name)
+end
+
+--[=[
+  Get the current [Player#Character] object from a [Player] object.
+
+  @server
+  @param player Player -- The [Player] to get the [Player#Character] from
+  @return Model -- The [Player#Character] model of the given [Player]
+]=]
+function Persona.GetCharacterFromPlayer(player: Player)
+	return Persona.workspace:WaitForChild(player.Name)
 end
 
 --[=[
@@ -54,17 +78,29 @@ end
   @return Humanoid -- The [Humanoid] object of the current [Player]
 ]=]
 function Persona.GetCurrentHumanoid()
-	local character = Persona.GetCurrentCharacter()
-	return character:WaitForChild("Humanoid")
+	return Persona.GetCurrentCharacter():WaitForChild("Humanoid")
 end
 
 --[=[
   Get a specific variable of the current [Player].
 
+  @client
   @return {ValueBase} -- The [ValueBase] table of the current [Player]
 ]=]
 function Persona.GetPlayerVariable(variable: string)
-	local player = Persona.GetCurrentPlayer()
+	Persona.GetCurrentPlayer()
+	return Persona.player:WaitForChild(variable)
+end
+--
+--[=[
+  Get a specific variable of the current [Player].
+
+  @server
+  @param variable string -- The name of the requested variable
+  @param player Player -- The [Player] object to get the variable from
+  @return {ValueBase} -- The [ValueBase] table of the current [Player]
+]=]
+function Persona.GetPlayerVariableFromPlayer(variable: string, player: Player)
 	return player:WaitForChild(variable)
 end
 
