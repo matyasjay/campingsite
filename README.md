@@ -1,5 +1,8 @@
+<p align="center">
+  <img src="https://github.com/matyasjay/campingsite/blob/main/.moonwave/static/favicon.png?raw=true" width="350px"/>
+</p>
 
-# Camping in R(oblox)ojo Land!
+<h1 align="center">Camping in R(oblox)ojo Land!</h1>
 
 ![GitHub Release](https://img.shields.io/github/v/release/matyasjay/campingsite)
 ![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/matyasjay/campingsite/.github%2Fworkflows%2Fbuild.yml)
@@ -16,8 +19,6 @@ It includes all assets, scripts, models, and tools that make up the game environ
 > experimental solutions not intended for serious gameplay. While it serves
 > as a development playground, each iteration is published on Roblox Hub as
 > a public experience, so it remains accessible and playable in the Roblox Client.
-
-![Camp Site Preview](https://wallpaperaccess.com/full/181080.jpg)
 
 ## Features
 
