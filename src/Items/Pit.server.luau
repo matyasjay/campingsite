@@ -1,11 +1,10 @@
 local Toolkits = game:GetService("ReplicatedStorage").Toolkits
-local Players = game:GetService("Players")
 local Persona = require(Toolkits:WaitForChild("Persona"))
 
-local camp = workspace:WaitForChild("PlayArea").Camp :: Model
-local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase") :: Part
-local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire :: Fire
-local sign = camp.Signs:WaitForChild("Feedback").Back:WaitForChild("SignGui") :: Part
+local camp = workspace:WaitForChild("PlayArea").Camp
+local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
+local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
+local sign = camp.Signs:WaitForChild("Feedback").Back:WaitForChild("SignGui")
 local message = sign.TextLabel
 
 local pitScript = script
@@ -15,6 +14,7 @@ local debounce = true
 
 local function checkPitNeeds(pitLogCount, logModel, hasFlint, hasStone)
 	local missingItems = {}
+
 	if pitLogCount < #logModel then
 		table.insert(missingItems, "wood")
 	end
@@ -26,7 +26,7 @@ local function checkPitNeeds(pitLogCount, logModel, hasFlint, hasStone)
 	end
 
 	local needs = table.concat(missingItems, " and ")
-	local msg = #missingItems == 0 and "You lit the fire" or "We need " .. needs
+	local msg = #missingItems == 0 and "You lit the fire" or `We need {needs}`
 
 	message.Text = msg
 	sign.Enabled = true
@@ -34,8 +34,8 @@ local function checkPitNeeds(pitLogCount, logModel, hasFlint, hasStone)
 	if pitLogCount >= #logModel and hasFlint and hasStone then
 		fire.Enabled = true
 		task.wait(5)
-		for _, eachPlayer in pairs(Players:GetChildren()) do
-			eachPlayer.PlayerGui.GameGui.GameFrame.Visible = true
+		for _, player in pairs(Persona.GetPlayers()) do
+			player.PlayerGui.GameGui.GameFrame.Visible = true
 		end
 	end
 end
@@ -46,12 +46,12 @@ pit.Touched:Connect(function(hit)
 	if humanoid and debounce then
 		debounce = false
 
-		local Variables = Persona.GetPlayerVariableFromPlayer("Variables", Players[hit.Parent.Name])
-
 		local pitLogCount = pit:GetAttribute("logCount")
 		local pitHasFlint = pit:GetAttribute("flint")
 		local pitHasStone = pit:GetAttribute("stone")
 		local pitLogParts = pit.Parent.Wood:GetChildren()
+
+		local Variables = Persona.GetPlayerVariableFromPlayer("Variables", Persona.GetPlayerFromCharacter(hit.Parent))
 
 		if pitHasFlint then
 			Variables.hasFlint.Value = false

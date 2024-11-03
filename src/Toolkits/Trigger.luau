@@ -1,3 +1,6 @@
+local Toolkits = game:GetService("ReplicatedStorage").Toolkits
+local Persona = require(Toolkits:WaitForChild("Persona"))
+
 --[=[
   The Trigger class provides event handler abstractions that could be used
   in the game to run a given functionality when a specific event occurs.
@@ -17,10 +20,8 @@ local Trigger = {}
 function Trigger.RunOnTouched(trigger: Part, callback: (player: Player) -> ())
 	script.Parent = trigger
 	trigger.Touched:Connect(function(hit)
-		local char = hit.Parent
-		local hum = char:FindFirstChild("Humanoid")
-		if hum then
-			callback(game.Players:GetPlayerFromCharacter(char))
+		if hit.Parent:FindFirstChild("Humanoid") then
+			callback(Persona.GetPlayerFromCharacter(hit.Parent))
 		end
 	end)
 end

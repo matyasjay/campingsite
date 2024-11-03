@@ -21,6 +21,11 @@ section = "User Interface"
 collapsed = false
 classes = ["StatsGui"]
 
+[[classOrder]]
+section = "Varaiables"
+collapsed = false
+classes = ["PlayerVariables"]
+
 [footer]
 style = "dark"
 copyright = "&nbsp;"

@@ -1,4 +1,6 @@
 local Toolkits = game:GetService("ReplicatedStorage").Toolkits
+local Variables = game:GetService("ReplicatedStorage").Variables
+local PlayerVariables = require(Variables:WaitForChild("PlayerVariables") :: ModuleScript)
 local Persona = require(Toolkits:WaitForChild("Persona"))
 local Workspace = game:GetService("Workspace")
 
@@ -12,7 +14,6 @@ local function resetGame()
 	local pitBase = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
 	local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
 	local sign = camp.Signs:WaitForChild("Feedback"):WaitForChild("Back"):WaitForChild("SignGui")
-	local Variables = Persona.GetPlayerVariableFromPlayer("Variables", player)
 
 	fire.Enabled = false
 	pitBase:SetAttribute("logCount", 0)
@@ -24,9 +25,9 @@ local function resetGame()
 		woodModel[i].Transparency = 1
 	end
 
-	Variables.hasLog.Value = false
-	Variables.hasStone.Value = false
-	Variables.hasFlint.Value = false
+	PlayerVariables.SetVariable("hasLog", false)
+	PlayerVariables.SetVariable("hasStone", false)
+	PlayerVariables.SetVariable("hasFlint", false)
 end
 
 button.MouseButton1Click:Connect(function()

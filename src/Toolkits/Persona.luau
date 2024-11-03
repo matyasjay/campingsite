@@ -8,32 +8,14 @@
 local Persona = {}
 
 --[=[
-  The [Players] that are currently available in the game
+  Get all [Player] objects that are currently in the game.
 
-  @prop players Players
-  @within Persona
-  @private
+  @return {Player} -- The table of online [Player] objects
 ]=]
-Persona.players = game:GetService("Players")
-
---[=[
-  The current [Workspace] object
-
-  @prop workspace Workspace
-  @within Persona
-  @private
-]=]
-Persona.workspace = game:GetService("Workspace")
-
---[=[
-  The current [Player] object
-
-  @client
-  @prop localPlayer Player
-  @within Persona
-  @private
-]=]
-Persona.localPlayer = game:GetService("Players").LocalPlayer
+function Persona.GetPlayers()
+	local players = game:GetService("Players"):GetChildren()
+	return players :: { Player }
+end
 
 --[=[
   Get the current local [Player] object.
@@ -42,8 +24,8 @@ Persona.localPlayer = game:GetService("Players").LocalPlayer
   @return Player -- The current [Player] object
 ]=]
 function Persona.GetCurrentPlayer()
-	Persona.localPlayer = Persona.players.LocalPlayer
-	return Persona.localPlayer
+	local player = game:GetService("Players").LocalPlayer
+	return player
 end
 
 --[=[
@@ -53,8 +35,9 @@ end
   @return Model -- The [Player#Character] model of the current [Player]
 ]=]
 function Persona.GetCurrentCharacter()
-	Persona.GetCurrentPlayer()
-	return Persona.workspace:WaitForChild(Persona.localPlayer.Name)
+	local workspace = game:GetService("Workspace")
+	local player = Persona.GetCurrentPlayer()
+	return workspace:WaitForChild(player.Name)
 end
 
 --[=[
@@ -64,7 +47,8 @@ end
   @return Humanoid -- The [Humanoid] object of the current [Player]
 ]=]
 function Persona.GetCurrentHumanoid()
-	return Persona.GetCurrentCharacter():WaitForChild("Humanoid")
+	local character = Persona.GetCurrentCharacter()
+	return character:WaitForChild("Humanoid")
 end
 
 --[=[
@@ -75,25 +59,41 @@ end
   @return {ValueBase} -- The [ValueBase] table of the current [Player]
 ]=]
 function Persona.GetPlayerVariable(variable: string)
-	Persona.GetCurrentPlayer()
-	return Persona.localPlayer:WaitForChild(variable)
+	local player = Persona.GetCurrentPlayer()
+	return player:WaitForChild(variable)
 end
 
 --[=[
   Get the [Player#Character] object from a [Player] object.
 
-  @server
   @param player Player -- The [Player] to get the [Player#Character] from
   @return Model -- The [Player#Character] model of the given [Player]
 ]=]
 function Persona.GetCharacterFromPlayer(player: Player)
-	return Persona.workspace:WaitForChild(player.Name)
+	local workspace = game:GetService("Workspace")
+	return workspace:WaitForChild(player.Name)
+end
+
+--[=[
+  Get the [Player] object from a [Player#Character] object.
+
+  @param character Model -- The [Player#Character] to get the [Player] from
+  @return Player -- The [Player] object of the given [Player#Character]
+]=]
+function Persona.GetPlayerFromCharacter(character: Model)
+	local currentPlayer
+	local players = Persona.GetPlayers()
+	for _, player in players do
+		if player.Name == character.Name then
+			currentPlayer = player
+		end
+	end
+	return currentPlayer
 end
 
 --[=[
   Get a specific variable of the given [Player] object.
 
-  @server
   @param variable string -- The name of the requested variable
   @param player Player -- The [Player] object to get the variable from
   @return {ValueBase} -- The [ValueBase] table of the current [Player]

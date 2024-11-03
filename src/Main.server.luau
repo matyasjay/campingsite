@@ -1,4 +1,7 @@
 local DataStore: DataStoreService = game:GetService("DataStoreService")
+local Variables = game:GetService("ReplicatedStorage").Variables
+local PlayerVariables = require(Variables:WaitForChild("PlayerVariables"))
+
 local playerData = DataStore:GetDataStore("CampingStats_0.2.1")
 local players = game:GetService("Players")
 
@@ -14,18 +17,20 @@ local function addToDataStore(
 end
 
 local function addVariables(player: Player)
-	local Variables = Instance.new("Folder", player)
-	Variables.Name = "Variables"
+	local variables = Instance.new("Folder", player)
+	variables.Name = "Variables"
 
-	addToDataStore("BoolValue", Variables, "hasLog", false)
-	addToDataStore("BoolValue", Variables, "hasStone", false)
-	addToDataStore("BoolValue", Variables, "hasFlint", false)
-	addToDataStore("BoolValue", Variables, "hasAxe", false)
-	addToDataStore("BoolValue", Variables, "hasPick", false)
-	addToDataStore("BoolValue", Variables, "usingAxe", false)
-	addToDataStore("BoolValue", Variables, "usingPick", false)
+	addToDataStore("BoolValue", variables, "hasLog", false)
+	addToDataStore("BoolValue", variables, "hasStone", false)
+	addToDataStore("BoolValue", variables, "hasFlint", false)
+	addToDataStore("BoolValue", variables, "hasAxe", false)
+	addToDataStore("BoolValue", variables, "hasPick", false)
+	addToDataStore("BoolValue", variables, "usingAxe", false)
+	addToDataStore("BoolValue", variables, "usingPick", false)
 
-	return Variables
+	PlayerVariables.SetVariables(variables:GetChildren())
+
+	return variables
 end
 
 local function addStatistics(player: Player)

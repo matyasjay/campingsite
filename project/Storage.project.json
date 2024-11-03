@@ -12,6 +12,9 @@
       },
       "Toolkits": {
         "$path": "src/Toolkits"
+      },
+      "Variables": {
+        "$path": "src/Player/Variables"
       }
     }
   }
