@@ -1,6 +1,19 @@
+--[=[
+  @type Variable {{Name: string, Value: boolean | string | number}}
+  @within PlayerStatistics
+]=]
+
 local Toolkits = game:GetService("ReplicatedStorage").Toolkits
 local Persona = require(Toolkits:WaitForChild("Persona"))
 
+--[=[
+  This is a collection of player statistic values. The variables stored in this
+  class should not affect the player experience instead provide analytics and 
+  could be used to showcase achievements or other related data.
+
+  @class PlayerStatistics
+  @tag Variable Collection
+]=]
 local PlayerStatistics = {}
 
 PlayerStatistics.variables = {}

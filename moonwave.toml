@@ -19,12 +19,12 @@ classes = ["Animate", "Iterator", "Persona", "Trigger"]
 [[classOrder]]
 section = "User Interface"
 collapsed = false
-classes = ["StatsGui"]
+classes = ["StatsGui", "GameGui"]
 
 [[classOrder]]
-section = "Varaiables"
+section = "Variables"
 collapsed = false
-classes = ["PlayerVariables"]
+classes = ["PlayerVariables", "PlayerStatistics"]
 
 [footer]
 style = "dark"

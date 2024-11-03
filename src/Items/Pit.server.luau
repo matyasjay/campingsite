@@ -35,7 +35,15 @@ local function checkPitNeeds(pitLogCount, logModel, hasFlint, hasStone)
 		fire.Enabled = true
 		task.wait(5)
 		for _, player in pairs(Persona.GetPlayers()) do
-			player.PlayerGui.GameGui.GameFrame.Visible = true
+			--[=[
+        Display an overlay element giving the option to restart the game when
+        finished collecting resources successfully.
+
+        @prop GameFrame Frame
+        @within GameGui
+      ]=]
+			local gameFrame = player.PlayerGui.GameGui.GameFrame
+			gameFrame.Visible = true
 		end
 	end
 end

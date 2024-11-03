@@ -1,16 +1,30 @@
+--[=[
+  @type Variable {{Name: string, Value: boolean | string | number}}
+  @within PlayerVariables
+]=]
+
 local Toolkits = game:GetService("ReplicatedStorage").Toolkits
 local Persona = require(Toolkits:WaitForChild("Persona"))
 
 --[=[
   This class represents the collection of in-game variables of a given player.
   The values of the variables are used to determine events or trigger actions
-  based on the results.
+  based on the results. You can use the getter/setter method on either realm
+  (client or server) to mutate the variables but they need to be handled separately.
 
   @class PlayerVariables
-  @tag Variables
+  @tag Variable Collection
 ]=]
 local PlayerVariables = {}
 
+--[=[
+  The loaded player variables either on client or server side.
+  Note, that the current realm needs to be setup first and is not synced with
+  each other.
+  
+  @prop variables Variable
+  @within PlayerVariables
+]=]
 PlayerVariables.variables = {}
 
 function PlayerVariables.GetVariables()
