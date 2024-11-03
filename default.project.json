@@ -49,6 +49,9 @@
       "Toolkits": {
         "$path": "src/Toolkits"
       },
+      "Guis": {
+        "$path": "src/Guis"
+      },
       "Variables": {
         "$path": "src/Player/Variables"
       }

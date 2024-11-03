@@ -4,11 +4,12 @@ local player = axeTool.Parent.Parent
 local Workspace = game:GetService("Workspace")
 local ServerStorage = game:GetService("ServerStorage")
 local Toolkits = game:GetService("ReplicatedStorage").Toolkits
+local Variables = game:GetService("ReplicatedStorage").Variables
 local Persona = require(Toolkits:WaitForChild("Persona"))
-local Iterator = require(Toolkits:WaitForChild("Iterator"))
 local Character = Persona.GetCharacterFromPlayer(player)
-local Variables = Persona.GetPlayerVariableFromPlayer("Variables", player)
-local Statistics = Persona.GetPlayerVariableFromPlayer("Statistics", player)
+local Iterator = require(Toolkits:WaitForChild("Iterator"))
+local PlayerVariables = require(Variables:WaitForChild("PlayerVariables"))
+local PlayerStatistics = require(Variables:WaitForChild("PlayerStatistics"))
 
 local camp = Workspace:WaitForChild("PlayArea").Camp
 local trees = camp.Trees:GetChildren()
@@ -39,9 +40,10 @@ local function pickupLog(log: Part)
 		local isHumanoid = (basePart.Parent :: Player):FindFirstChild("Humanoid")
 		if isHumanoid and debouncePickup then
 			debouncePickup = false
-			if not Variables.hasLog.Value then
-				Variables.hasLog.Value = true
-				Statistics.totalLogs.Value += 1
+			local hasLog = PlayerVariables.GetVariable("hasLog").Value
+			if not hasLog then
+				PlayerVariables.SetVariable("hasLog", true)
+				PlayerStatistics.SetVariable("totalLogs", PlayerStatistics.GetVariable("totalLogs").Value + 1)
 				log:Destroy()
 			end
 			task.wait(2)
@@ -69,15 +71,15 @@ end
 
 local function onActivate()
 	if debounceAnimation then
-		Statistics.totalAxeSwings.Value += 1
+		PlayerStatistics.SetVariable("totalAxeSwings", PlayerStatistics.GetVariable("totalAxeSwings").Value + 1)
 		Iterator.WalkModels(trees, chopTreeWhenPossible)
-		Variables.usingAxe.Value = true
+		PlayerVariables.SetVariable("usingAxe", true)
 	end
 end
 
 local function onDeactivate()
 	if debounceAnimation then
-		Variables.usingAxe.Value = false
+		PlayerVariables.SetVariable("usingAxe", false)
 		debounceAnimation = false
 		Iterator.WalkModels(trees, spawnLogWhenPossible)
 		task.wait(1)
@@ -86,11 +88,11 @@ local function onDeactivate()
 end
 
 local function onEquip()
-	Variables.hasAxe.Value = true
+	PlayerVariables.SetVariable("hasAxe", true)
 end
 
 local function onUnequip()
-	Variables.hasAxe.Value = false
+	PlayerVariables.SetVariable("hasAxe", false)
 end
 
 axeTool.Equipped:Connect(onEquip)

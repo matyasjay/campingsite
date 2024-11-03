@@ -1,5 +1,5 @@
 --[=[
-  @type Variable {{Name: string, Value: boolean | string | number}}
+  @type Variable {Name: string, Value: boolean | string | number}
   @within PlayerStatistics
 ]=]
 
@@ -16,6 +16,10 @@ local Persona = require(Toolkits:WaitForChild("Persona"))
 ]=]
 local PlayerStatistics = {}
 
+--[=[
+  @prop variables {Variable}
+  @within PlayerStatistics
+]=]
 PlayerStatistics.variables = {}
 
 function PlayerStatistics.GetVariables()
@@ -35,12 +39,14 @@ function PlayerStatistics.SetVariables(variables: SharedTable)
 end
 
 function PlayerStatistics.GetVariable(name: string)
-	local variable = PlayerStatistics.variables[name]
+	local variable = PlayerStatistics.variables[name] or { Name = name, Value = 0 }
 	return variable
 end
 
 function PlayerStatistics.SetVariable(name: string, value: boolean | number | string)
-	PlayerStatistics.variables[name] = {}
+	if not PlayerStatistics.variables[name] then
+		PlayerStatistics.variables[name] = {}
+	end
 	PlayerStatistics.variables[name].Name = name
 	PlayerStatistics.variables[name].Value = value
 	return PlayerStatistics.variables[name]

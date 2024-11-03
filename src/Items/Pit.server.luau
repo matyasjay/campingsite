@@ -1,5 +1,9 @@
+local Variables = game:GetService("ReplicatedStorage").Variables
+local PlayerVariables = require(Variables:WaitForChild("PlayerVariables"))
 local Toolkits = game:GetService("ReplicatedStorage").Toolkits
 local Persona = require(Toolkits:WaitForChild("Persona"))
+local Guis = game:GetService("ReplicatedStorage").Guis
+local GameGui = require(Guis:WaitForChild("GameGui"))
 
 local camp = workspace:WaitForChild("PlayArea").Camp
 local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
@@ -35,15 +39,7 @@ local function checkPitNeeds(pitLogCount, logModel, hasFlint, hasStone)
 		fire.Enabled = true
 		task.wait(5)
 		for _, player in pairs(Persona.GetPlayers()) do
-			--[=[
-        Display an overlay element giving the option to restart the game when
-        finished collecting resources successfully.
-
-        @prop GameFrame Frame
-        @within GameGui
-      ]=]
-			local gameFrame = player.PlayerGui.GameGui.GameFrame
-			gameFrame.Visible = true
+			GameGui.showGameFrame(player)
 		end
 	end
 end
@@ -59,28 +55,30 @@ pit.Touched:Connect(function(hit)
 		local pitHasStone = pit:GetAttribute("stone")
 		local pitLogParts = pit.Parent.Wood:GetChildren()
 
-		local Variables = Persona.GetPlayerVariableFromPlayer("Variables", Persona.GetPlayerFromCharacter(hit.Parent))
+		local hasLog = PlayerVariables.GetVariable("hasLog")
+		local hasStone = PlayerVariables.GetVariable("hasStone")
+		local hasFlint = PlayerVariables.GetVariable("hasFlint")
 
 		if pitHasFlint then
-			Variables.hasFlint.Value = false
+			hasFlint.Value = false
 		else
-			if Variables.hasFlint.Value then
-				Variables.hasFlint.Value = false
+			if hasFlint.Value then
+				hasFlint.Value = false
 				pit:SetAttribute("flint", true)
 			end
 		end
 
 		if pitHasStone then
-			Variables.hasStone.Value = false
+			hasStone.Value = false
 		else
-			if Variables.hasStone.Value then
-				Variables.hasStone.Value = false
+			if hasStone.Value then
+				hasStone.Value = false
 				pit:SetAttribute("stone", true)
 			end
 		end
 
-		if Variables.hasLog.Value and pitLogCount < #pitLogParts then
-			Variables.hasLog.Value = false
+		if hasLog.Value and pitLogCount < #pitLogParts then
+			hasLog.Value = false
 			pitLogCount += 1
 			pit:SetAttribute("logCount", pitLogCount)
 			for i = 1, pitLogCount do

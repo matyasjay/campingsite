@@ -1,13 +1,12 @@
-local Toolkits = game:GetService("ReplicatedStorage").Toolkits
-local Variables = game:GetService("ReplicatedStorage").Variables
-local PlayerVariables = require(Variables:WaitForChild("PlayerVariables") :: ModuleScript)
-local Persona = require(Toolkits:WaitForChild("Persona"))
 local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local PlayerVariables = require(ReplicatedStorage.Variables:WaitForChild("PlayerVariables"))
+local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 
 local camp = Workspace:WaitForChild("PlayArea").Camp
 local player = Persona.GetCurrentPlayer()
 local frame = player:WaitForChild("PlayerGui"):WaitForChild("GameGui"):WaitForChild("GameFrame")
-local button = frame.TextButton :: TextButton
+local button = frame.TextButton
 
 local function resetGame()
 	local woodModel = camp:WaitForChild("FirePit"):WaitForChild("Wood"):GetChildren()
