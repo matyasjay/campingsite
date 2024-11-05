@@ -85,7 +85,7 @@ local function checkPitNeeds(hit)
 			end
 		end
 	end
-	local checkResultMessage = Observer.TryEnableObject({
+	Observer.TryEnableObject({
 		requirements = requirements,
 		object = enableObject,
 		delay = SEC_BEFORE_RESTART,
@@ -94,9 +94,11 @@ local function checkPitNeeds(hit)
 			required = REQUIRED_MESSAGE,
 		},
 		callback = GameGui.showGameFrame,
+		initialize = function(message)
+			sign.TextLabel.Text = message
+			sign.Enabled = true
+		end,
 	})
-	sign.TextLabel.Text = checkResultMessage
-	sign.Enabled = true
 	task.wait(SEC_DEBOUNCE)
 	debounce = true
 end

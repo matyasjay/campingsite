@@ -35,7 +35,7 @@ end
 --- @field message Message
 --- @field object Instance
 --- @field delay? number
---- @field initialize? () -> ()
+--- @field initialize? (message: string) -> ()
 --- @field callback? () -> ()
 --- @within Observer
 
@@ -50,11 +50,11 @@ function Observer.TryEnableObject(props)
 		local requirement = props.requirements[key]
 		hasRequired = hasRequired and requirement.required == requirement.current
 	end
+	if props.initialize and typeof(props.initialize) == "function" then
+		props.initialize(checkResult.message)
+	end
 	if hasRequired then
 		props.object.Enabled = true
-		if props.initialize and typeof(props.initialize) == "function" then
-			props.initialize()
-		end
 		if props.delay then
 			task.wait(props.delay)
 		end

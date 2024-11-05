@@ -1,6 +1,6 @@
 local lu = require("luaunit")
 
-function testNonSenseToTest()
+function TestNonSenseToTest()
 	lu.assertEquals(1, 1)
 end
 
