@@ -1,5 +1,5 @@
-local Toolkits = game:GetService("ReplicatedStorage").Toolkits
-local Persona = require(Toolkits:WaitForChild("Persona"))
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 
 --[=[
   The Trigger class provides event handler abstractions that could be used
@@ -18,7 +18,6 @@ local Trigger = {}
   @param callback (player: Player) -> () -- The functionality to run when the trigger happens
 ]=]
 function Trigger.RunOnTouched(trigger: Part, callback: (player: Player) -> ())
-	script.Parent = trigger
 	trigger.Touched:Connect(function(hit)
 		if hit.Parent:FindFirstChild("Humanoid") then
 			callback(Persona.GetPlayerFromCharacter(hit.Parent))

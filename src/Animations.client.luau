@@ -1,7 +1,9 @@
-local Variables = game:GetService("ReplicatedStorage").Variables
-local Toolkits = game:GetService("ReplicatedStorage").Toolkits
-local Animate = require(Toolkits:WaitForChild("Animate"))
-local PlayerVariables = require(Variables:WaitForChild("PlayerVariables"))
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Animate = require(ReplicatedStorage.Toolkits:WaitForChild("Animate"))
+local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
 
-Animate.LoadAnimationOnChange(PlayerVariables.GetVariable("usingAxe"), Animate.GetAnimationId("AxeSwing"))
-Animate.LoadAnimationOnChange(PlayerVariables.GetVariable("usingPick"), Animate.GetAnimationId("PickSwing"))
+--[=[
+  @class Animations
+]=]
+Animate.LoadAnimationOnChange(Attributes.Get("usingAxe"), Animate.GetAnimationId("AxeSwing"))
+Animate.LoadAnimationOnChange(Attributes.Get("usingPick"), Animate.GetAnimationId("PickSwing"))

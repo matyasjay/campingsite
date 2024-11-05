@@ -1,97 +1,104 @@
-local Variables = game:GetService("ReplicatedStorage").Variables
-local PlayerVariables = require(Variables:WaitForChild("PlayerVariables"))
-local Toolkits = game:GetService("ReplicatedStorage").Toolkits
-local Persona = require(Toolkits:WaitForChild("Persona"))
-local Guis = game:GetService("ReplicatedStorage").Guis
-local GameGui = require(Guis:WaitForChild("GameGui"))
+--[=[
+  @class Fire Pit
+  @tag Environment Item
+  @tag Main Quest
 
-local camp = workspace:WaitForChild("PlayArea").Camp
+  The final goal of the game is to fill the requirements of the Fire Pit.
+
+  Collect the resource in the environment and place them in the Fire Pit to lit the fire!
+
+  After a brief delay the game offers to restart in which case the Fire Pit resets to its
+  original state and the lit fire put out.
+
+  ![src](https://p267.p3.n0.cdn.zight.com/items/mXuQX6b8/d801d221-0334-4901-82a8-7ba047e4dce1.jpg)
+
+  ## Usage
+  ```lua
+  local PlayArea = game:GetService("Workspace"):WaitForChild("PlayArea")
+  print(PlayArea.Camp:WaitForChild("FirePit"))
+  ```
+]=]
+
+local PlayArea = game:GetService("Workspace"):WaitForChild("PlayArea")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Observer = require(ReplicatedStorage.Toolkits:WaitForChild("Observer"))
+local Trigger = require(ReplicatedStorage.Toolkits:WaitForChild("Trigger"))
+local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
+local GameGui = require(ReplicatedStorage.Guis:WaitForChild("GameGui"))
+
+local SEC_DEBOUNCE = 2
+local SEC_BEFORE_RESTART = 5
+local SUCCESS_MESSAGE = "You lit the fire! Let it blaze.."
+local REQUIRED_MESSAGE = "We need "
+
+local camp = PlayArea.Camp
 local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
-local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
+local enableObject = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
 local sign = camp.Signs:WaitForChild("Feedback").Back:WaitForChild("SignGui")
-local message = sign.TextLabel
 
 local pitScript = script
 pitScript.Parent = pit
 
 local debounce = true
 
-local function checkPitNeeds(pitLogCount, logModel, hasFlint, hasStone)
-	local missingItems = {}
-
-	if pitLogCount < #logModel then
-		table.insert(missingItems, "wood")
-	end
-	if not hasFlint then
-		table.insert(missingItems, "flint")
-	end
-	if not hasStone then
-		table.insert(missingItems, "stone")
-	end
-
-	local needs = table.concat(missingItems, " and ")
-	local msg = #missingItems == 0 and "You lit the fire" or `We need {needs}`
-
-	message.Text = msg
-	sign.Enabled = true
-
-	if pitLogCount >= #logModel and hasFlint and hasStone then
-		fire.Enabled = true
-		task.wait(5)
-		for _, player in pairs(Persona.GetPlayers()) do
-			GameGui.showGameFrame(player)
+local function checkPitNeeds(hit)
+	local requirements = {
+		["logs"] = {
+			current = pit:GetAttribute("logs"),
+			required = #pit.Parent.Woods:GetChildren(),
+		},
+		["stone"] = {
+			current = pit:GetAttribute("stone") and 1 or 0,
+			required = 1,
+		},
+		["flint"] = {
+			current = pit:GetAttribute("flint") and 1 or 0,
+			required = 1,
+		},
+	}
+	if debounce then
+		debounce = false
+		if pit:GetAttribute("stone") or not Attributes.Get("hasStone") then
+			Attributes.Put("hasStone", false)
+		elseif Attributes.Get("hasStone").Value then
+			Attributes.Put("hasStone", false)
+			pit:SetAttribute("stone", true)
+		end
+		if pit:GetAttribute("flint") or not Attributes.Get("hasFlint") then
+			Attributes.Put("hasFlint", false)
+		elseif Attributes.Get("hasFlint").Value then
+			Attributes.Put("hasFlint", false)
+			pit:SetAttribute("flint", true)
+		end
+		if pit:GetAttribute("logs") == requirements.logs.required or not Attributes.Get("hasLog") then
+			Attributes.Put("hasLog", false)
+		elseif
+			Attributes.Get("hasLog")
+			and Attributes.Get("hasLog").Value
+			and requirements.logs.current < requirements.logs.required
+		then
+			local logs = requirements.logs.current + 1
+			Attributes.Put("hasLog", false)
+			pit:SetAttribute("logs", logs)
+			for i = 1, logs do
+				pit.Parent.Woods:GetChildren()[i].Transparency = 0
+			end
 		end
 	end
+	local checkResultMessage = Observer.TryEnableObject({
+		requirements = requirements,
+		object = enableObject,
+		delay = SEC_BEFORE_RESTART,
+		message = {
+			done = SUCCESS_MESSAGE,
+			required = REQUIRED_MESSAGE,
+		},
+		callback = GameGui.showGameFrame,
+	})
+	sign.TextLabel.Text = checkResultMessage
+	sign.Enabled = true
+	task.wait(SEC_DEBOUNCE)
+	debounce = true
 end
 
-pit.Touched:Connect(function(hit)
-	local humanoid = hit.Parent:WaitForChild("Humanoid")
-
-	if humanoid and debounce then
-		debounce = false
-
-		local pitLogCount = pit:GetAttribute("logCount")
-		local pitHasFlint = pit:GetAttribute("flint")
-		local pitHasStone = pit:GetAttribute("stone")
-		local pitLogParts = pit.Parent.Wood:GetChildren()
-
-		local hasLog = PlayerVariables.GetVariable("hasLog")
-		local hasStone = PlayerVariables.GetVariable("hasStone")
-		local hasFlint = PlayerVariables.GetVariable("hasFlint")
-
-		if pitHasFlint then
-			hasFlint.Value = false
-		else
-			if hasFlint.Value then
-				hasFlint.Value = false
-				pit:SetAttribute("flint", true)
-			end
-		end
-
-		if pitHasStone then
-			hasStone.Value = false
-		else
-			if hasStone.Value then
-				hasStone.Value = false
-				pit:SetAttribute("stone", true)
-			end
-		end
-
-		if hasLog.Value and pitLogCount < #pitLogParts then
-			hasLog.Value = false
-			pitLogCount += 1
-			pit:SetAttribute("logCount", pitLogCount)
-			for i = 1, pitLogCount do
-				pitLogParts[i].Transparency = 0
-			end
-		end
-
-		pitHasFlint = pit:GetAttribute("flint")
-		pitHasStone = pit:GetAttribute("stone")
-
-		checkPitNeeds(pitLogCount, pitLogParts, pitHasFlint, pitHasStone)
-
-		task.wait(2)
-		debounce = true
-	end
-end)
+Trigger.RunOnTouched(pit, checkPitNeeds)

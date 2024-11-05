@@ -1,21 +1,34 @@
---[=[
-  This class represents the GUI configuration for the in-game feedback elements for the current [Player].
+local Workspace = game:GetService("Workspace"):WaitForChild("PlayArea")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 
+--[=[
   @class GameGui
   @tag User Interface
 ]=]
 local GameGui = {}
 
 --[=[
-  Display an overlay element giving the option to restart the game when
-  finished collecting resources successfully.
+  ![Restart Game Popup](https://p267.p3.n0.cdn.zight.com/items/yAueqNYA/eeeb548b-5898-4f1a-aac9-04ce89dfab01.jpg)
 
-  @function showGameFrame 
   @within GameGui
 ]=]
-function GameGui.showGameFrame(player: Player)
-	local gameFrame = player.PlayerGui.GameGui.GameFrame
-	gameFrame.Visible = true
+function GameGui.showGameFrame()
+	for _, player in pairs(Persona.GetPlayers()) do
+		player.PlayerGui.GameGui.GameFrame.Visible = true
+	end
+end
+
+--[=[
+  ![Welcome Sign](https://p267.p3.n0.cdn.zight.com/items/4guGE1E5/73ab6575-3168-44b8-aa5a-7c7faf5d04c0.jpg)
+
+  @within GameGui
+]=]
+function GameGui.showWelcomeSign()
+	local player = Persona.GetCurrentPlayer()
+	local welcomeSign = Workspace.Camp.Signs:WaitForChild("Welcome"):WaitForChild("Text"):WaitForChild("WelcomeGui")
+	welcomeSign.Enabled = true
+	welcomeSign.TextLabel.Text = `Welcome {player.name}`
 end
 
 return GameGui

@@ -1,9 +1,12 @@
-local DataStore: DataStoreService = game:GetService("DataStoreService")
-local Guis = game:GetService("ReplicatedStorage").Guis
-local StatsGui = require(Guis:WaitForChild("StatGui"))
-local Variables = game:GetService("ReplicatedStorage").Variables
-local PlayerVariables = require(Variables:WaitForChild("PlayerVariables"))
-local PlayerStatistics = require(Variables:WaitForChild("PlayerStatistics"))
+--[=[
+  @class Configuration
+]=]
+local DataStore = game:GetService("DataStoreService")
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
+local Statistics = require(ReplicatedStorage.Variables:WaitForChild("Statistics"))
+local StatsGui = require(ReplicatedStorage.Guis:WaitForChild("StatGui"))
 
 local playerData = DataStore:GetDataStore("CampingStats_0.2.1")
 local players = game:GetService("Players")
@@ -21,7 +24,7 @@ end
 
 local function addVariables(player: Player)
 	local variables = Instance.new("Folder", player)
-	variables.Name = "Variables"
+	variables.Name = "Attributes"
 	addToDataStore("BoolValue", variables, "hasLog", false)
 	addToDataStore("BoolValue", variables, "hasStone", false)
 	addToDataStore("BoolValue", variables, "hasFlint", false)
@@ -29,7 +32,7 @@ local function addVariables(player: Player)
 	addToDataStore("BoolValue", variables, "hasPick", false)
 	addToDataStore("BoolValue", variables, "usingAxe", false)
 	addToDataStore("BoolValue", variables, "usingPick", false)
-	PlayerVariables.SetVariables(variables:GetChildren())
+	Attributes.Set(variables:GetChildren())
 end
 
 local function addStatistics(player: Player)
@@ -41,26 +44,26 @@ local function addStatistics(player: Player)
 	addToDataStore("NumberValue", variables, "totalFlints", 0)
 	addToDataStore("NumberValue", variables, "totalPickSwings", 0)
 	addToDataStore("NumberValue", variables, "totalAxeSwings", 0)
-	PlayerStatistics.SetVariables(variables:GetChildren())
+	Statistics.Set(variables:GetChildren())
 end
 
 players.PlayerAdded:Connect(function(player)
 	player.CharacterAppearanceLoaded:Connect(function(character)
 		addVariables(player)
 		addStatistics(player)
-		local totalVisits = PlayerStatistics.GetVariable("totalVisits")
-		PlayerStatistics.SetVariable("totalVisits", totalVisits.Value + 1)
-		local data = playerData:GetAsync(player.UserId)
-		if data ~= nil then
-			PlayerStatistics.SetVariable("totalVisits", data["totalVisits"] + 1)
-			PlayerStatistics.SetVariable("totalLogs", data["totalLogs"])
-			PlayerStatistics.SetVariable("totalStones", data["totalStones"])
-			PlayerStatistics.SetVariable("totalFlints", data["totalFlints"])
-			PlayerStatistics.SetVariable("totalPickSwings", data["totalPickSwings"])
-			PlayerStatistics.SetVariable("totalAxeSwings", data["totalAxeSwings"])
+		local totalVisits = Statistics.Get("totalVisits")
+		Statistics.Put("totalVisits", totalVisits.Value + 1)
+		local currentPlayerData = playerData:GetAsync(player.UserId)
+		if currentPlayerData ~= nil then
+			Statistics.Put("totalVisits", currentPlayerData["totalVisits"] + 1)
+			Statistics.Put("totalLogs", currentPlayerData["totalLogs"])
+			Statistics.Put("totalStones", currentPlayerData["totalStones"])
+			Statistics.Put("totalFlints", currentPlayerData["totalFlints"])
+			Statistics.Put("totalPickSwings", currentPlayerData["totalPickSwings"])
+			Statistics.Put("totalAxeSwings", currentPlayerData["totalAxeSwings"])
 			StatsGui.showStatsFrame(player)
 		else
-			data = {
+			currentPlayerData = {
 				["totalVisits"] = 1,
 				["totalLogs"] = 0,
 				["totalStones"] = 0,
@@ -69,18 +72,18 @@ players.PlayerAdded:Connect(function(player)
 				["totalAxeSwings"] = 0,
 			}
 			local _success, _error = pcall(function()
-				playerData:SetAsync(player.UserId, data)
+				playerData:SetAsync(player.UserId, currentPlayerData)
 			end)
 		end
 
 		game.OnClose = function()
-			local dataToSave = {}
-			local statistics = PlayerStatistics.GetVariables()
-			for key in data do
-				dataToSave[key] = statistics[key].Value
+			local stored = {}
+			local statistics = Statistics.GetAll()
+			for key in currentPlayerData do
+				stored[key] = statistics[key].Value
 			end
 			local _success, _error = pcall(function()
-				playerData:SetAsync(player.UserId, dataToSave)
+				playerData:SetAsync(player.UserId, stored)
 			end)
 		end
 	end)

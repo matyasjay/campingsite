@@ -8,12 +8,12 @@ local Variables = game:GetService("ReplicatedStorage").Variables
 local Persona = require(Toolkits:WaitForChild("Persona"))
 local Character = Persona.GetCharacterFromPlayer(player)
 local Iterator = require(Toolkits:WaitForChild("Iterator"))
-local PlayerVariables = require(Variables:WaitForChild("PlayerVariables"))
-local PlayerStatistics = require(Variables:WaitForChild("PlayerStatistics"))
+local Attributes = require(Variables:WaitForChild("Attributes"))
+local Statistics = require(Variables:WaitForChild("Statistics"))
 
 local camp = Workspace:WaitForChild("PlayArea").Camp
 local trees = camp.Trees:GetChildren()
-local pitCount = camp.FirePit.PitBase:GetAttribute("logCount")
+local pitCount = camp.FirePit.PitBase:GetAttribute("logs")
 
 local chopCount = {}
 local needWood = true
@@ -40,10 +40,10 @@ local function pickupLog(log: Part)
 		local isHumanoid = (basePart.Parent :: Player):FindFirstChild("Humanoid")
 		if isHumanoid and debouncePickup then
 			debouncePickup = false
-			local hasLog = PlayerVariables.GetVariable("hasLog").Value
+			local hasLog = Attributes.Get("hasLog").Value
 			if not hasLog then
-				PlayerVariables.SetVariable("hasLog", true)
-				PlayerStatistics.SetVariable("totalLogs", PlayerStatistics.GetVariable("totalLogs").Value + 1)
+				Attributes.Put("hasLog", true)
+				Statistics.Put("totalLogs", Statistics.Get("totalLogs").Value + 1)
 				log:Destroy()
 			end
 			task.wait(2)
@@ -58,7 +58,7 @@ local function spawnLogWhenPossible(tree, index)
 	local chopsNeeded = tree.Trunk:GetAttribute("numOfChops")
 	if chopCount[index] == chopsNeeded and needWood then
 		chopCount[index] = 0
-		pitCount = camp.FirePit.PitBase:GetAttribute("logCount")
+		pitCount = camp.FirePit.PitBase:GetAttribute("logs")
 		if pitCount == 2 then
 			needWood = false
 		end
@@ -71,15 +71,15 @@ end
 
 local function onActivate()
 	if debounceAnimation then
-		PlayerStatistics.SetVariable("totalAxeSwings", PlayerStatistics.GetVariable("totalAxeSwings").Value + 1)
+		Statistics.Put("totalAxeSwings", Statistics.Get("totalAxeSwings").Value + 1)
 		Iterator.WalkModels(trees, chopTreeWhenPossible)
-		PlayerVariables.SetVariable("usingAxe", true)
+		Attributes.Put("usingAxe", true)
 	end
 end
 
 local function onDeactivate()
 	if debounceAnimation then
-		PlayerVariables.SetVariable("usingAxe", false)
+		Attributes.Put("usingAxe", false)
 		debounceAnimation = false
 		Iterator.WalkModels(trees, spawnLogWhenPossible)
 		task.wait(1)
@@ -88,11 +88,11 @@ local function onDeactivate()
 end
 
 local function onEquip()
-	PlayerVariables.SetVariable("hasAxe", true)
+	Attributes.Put("hasAxe", true)
 end
 
 local function onUnequip()
-	PlayerVariables.SetVariable("hasAxe", false)
+	Attributes.Put("hasAxe", false)
 end
 
 axeTool.Equipped:Connect(onEquip)
