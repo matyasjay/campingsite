@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[292],{20077:s=>{s.exports=JSON.parse('{"functions":[],"properties":[],"types":[],"name":"Animations","desc":"","source":{"line":8,"path":"src/Animations.client.luau"}}')}}]);
