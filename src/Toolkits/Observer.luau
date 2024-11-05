@@ -1,6 +1,9 @@
 --- @type Requirements { [string]: { current: number, required: number  } }
 --- @within Observer
 
+--- @type Message { done: string, required: string }
+--- @within Observer
+
 --[=[
   Utilities to interact with in-game objects.
 
@@ -11,7 +14,7 @@ local Observer = {}
 
 --[=[
   @param requirements Requirements
-  @param message string
+  @param message Message
   @within Observer
 ]=]
 function Observer.CheckRequirements(requirements, message)
@@ -27,9 +30,9 @@ function Observer.CheckRequirements(requirements, message)
 	}
 end
 
---- @interface TryEnableObjectProps
+--- @interface Props
 --- @field requirements Requirements
---- @field message string
+--- @field message Message
 --- @field object Instance
 --- @field delay? number
 --- @field initialize? () -> ()
@@ -37,7 +40,7 @@ end
 --- @within Observer
 
 --[=[
-  @param props TryEnableObjectProps
+  @param props Props
   @within Observer
 ]=]
 function Observer.TryEnableObject(props)
