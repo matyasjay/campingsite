@@ -41,33 +41,10 @@ function Persona.GetCurrentCharacter()
 end
 
 --[=[
-  Get the [Humanoid] object of the current [Player].
+Get the [Player#Character] object from a [Player] object.
 
-  @client
-  @return Humanoid -- The [Humanoid] object of the current [Player]
-]=]
-function Persona.GetCurrentHumanoid()
-	local character = Persona.GetCurrentCharacter()
-	return character:WaitForChild("Humanoid")
-end
-
---[=[
-  Get a specific variable of the current [Player].
-
-  @client
-  @param variable string -- The name of the current [Player]'s variable
-  @return {ValueBase} -- The [ValueBase] table of the current [Player]
-]=]
-function Persona.GetPlayerVariable(variable: string)
-	local player = Persona.GetCurrentPlayer()
-	return player:WaitForChild(variable)
-end
-
---[=[
-  Get the [Player#Character] object from a [Player] object.
-
-  @param player Player -- The [Player] to get the [Player#Character] from
-  @return Model -- The [Player#Character] model of the given [Player]
+@param player Player -- The [Player] to get the [Player#Character] from
+@return Model -- The [Player#Character] model of the given [Player]
 ]=]
 function Persona.GetCharacterFromPlayer(player: Player)
 	local workspace = game:GetService("Workspace")
@@ -92,14 +69,37 @@ function Persona.GetPlayerFromCharacter(character: Model)
 end
 
 --[=[
-  Get a specific variable of the given [Player] object.
+  Get the [Humanoid] object of the current [Player].
 
-  @param variable string -- The name of the requested variable
-  @param player Player -- The [Player] object to get the variable from
+  @client
+  @return Humanoid -- The [Humanoid] object of the current [Player]
+]=]
+function Persona.GetCurrentHumanoid()
+	local character = Persona.GetCurrentCharacter()
+	return character:WaitForChild("Humanoid")
+end
+
+--[=[
+  Get a specific attribute of the current [Player].
+
+  @client
+  @param attribute string -- The name of the current [Player]'s attribute
   @return {ValueBase} -- The [ValueBase] table of the current [Player]
 ]=]
-function Persona.GetPlayerVariableFromPlayer(variable: string, player: Player)
-	return player:WaitForChild(variable)
+function Persona.GetAttribute(attribute: string)
+	local player = Persona.GetCurrentPlayer()
+	return player:WaitForChild(attribute)
+end
+
+--[=[
+  Get a specific attribute of the given [Player] object.
+
+  @param attribute string -- The name of the requested attribute
+  @param player Player -- The [Player] object to get the attribute from
+  @return {ValueBase} -- The [ValueBase] table of the current [Player]
+]=]
+function Persona.GetPlayerAttribute(attribute: string, player: Player)
+	return player:WaitForChild(attribute)
 end
 
 return Persona

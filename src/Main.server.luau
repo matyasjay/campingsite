@@ -1,6 +1,12 @@
-local DataStore: DataStoreService = game:GetService("DataStoreService")
-local Variables = game:GetService("ReplicatedStorage").Variables
-local PlayerVariables = require(Variables:WaitForChild("PlayerVariables"))
+--[=[
+  @class Configuration
+]=]
+local DataStore = game:GetService("DataStoreService")
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
+local Statistics = require(ReplicatedStorage.Variables:WaitForChild("Statistics"))
+local StatsGui = require(ReplicatedStorage.Guis:WaitForChild("StatGui"))
 
 local playerData = DataStore:GetDataStore("CampingStats_0.2.1")
 local players = game:GetService("Players")
@@ -18,8 +24,7 @@ end
 
 local function addVariables(player: Player)
 	local variables = Instance.new("Folder", player)
-	variables.Name = "Variables"
-
+	variables.Name = "Attributes"
 	addToDataStore("BoolValue", variables, "hasLog", false)
 	addToDataStore("BoolValue", variables, "hasStone", false)
 	addToDataStore("BoolValue", variables, "hasFlint", false)
@@ -27,62 +32,38 @@ local function addVariables(player: Player)
 	addToDataStore("BoolValue", variables, "hasPick", false)
 	addToDataStore("BoolValue", variables, "usingAxe", false)
 	addToDataStore("BoolValue", variables, "usingPick", false)
-
-	PlayerVariables.SetVariables(variables:GetChildren())
-
-	return variables
+	Attributes.Set(variables:GetChildren())
 end
 
 local function addStatistics(player: Player)
-	local Statistics = Instance.new("Folder", player)
-	Statistics.Name = "Statistics"
-
-	addToDataStore("NumberValue", Statistics, "totalVisits", 0)
-	addToDataStore("NumberValue", Statistics, "totalLogs", 0)
-	addToDataStore("NumberValue", Statistics, "totalStones", 0)
-	addToDataStore("NumberValue", Statistics, "totalFlints", 0)
-	addToDataStore("NumberValue", Statistics, "totalPickSwings", 0)
-	addToDataStore("NumberValue", Statistics, "totalAxeSwings", 0)
-
-	return Statistics
+	local variables = Instance.new("Folder", player)
+	variables.Name = "Statistics"
+	addToDataStore("NumberValue", variables, "totalVisits", 0)
+	addToDataStore("NumberValue", variables, "totalLogs", 0)
+	addToDataStore("NumberValue", variables, "totalStones", 0)
+	addToDataStore("NumberValue", variables, "totalFlints", 0)
+	addToDataStore("NumberValue", variables, "totalPickSwings", 0)
+	addToDataStore("NumberValue", variables, "totalAxeSwings", 0)
+	Statistics.Set(variables:GetChildren())
 end
 
 players.PlayerAdded:Connect(function(player)
 	player.CharacterAppearanceLoaded:Connect(function(character)
 		addVariables(player)
-
-		local Statistics = addStatistics(player)
-
-		Statistics.totalVisits.Value += 1
-
-		local data = playerData:GetAsync(player.UserId)
-
-		if data ~= nil then
-			Statistics.totalVisits.Value = 1 + data["totalVisits"]
-			Statistics.totalLogs.Value = data["totalLogs"]
-			Statistics.totalStones.Value = data["totalStones"]
-			Statistics.totalFlints.Value = data["totalFlints"]
-			Statistics.totalPickSwings.Value = data["totalPickSwings"]
-			Statistics.totalAxeSwings.Value = data["totalAxeSwings"]
-
-			local Stats = {
-				["Visits"] = Statistics.totalVisits.Value,
-				["Logs"] = Statistics.totalLogs.Value,
-				["Stones"] = Statistics.totalStones.Value,
-				["Flints"] = Statistics.totalFlints.Value,
-				["Pick Swings"] = Statistics.totalPickSwings.Value,
-				["Axe Swings"] = Statistics.totalAxeSwings.Value,
-			}
-
-			local gui = player:WaitForChild("PlayerGui")
-			local statsFrame = gui:WaitForChild("StatsGui"):WaitForChild("StatsFrame")
-
-			for statLabel in Stats do
-				local label = statsFrame:WaitForChild(statLabel)
-				label.Text = `Total {statLabel}: {tostring(Stats[statLabel])}`
-			end
+		addStatistics(player)
+		local totalVisits = Statistics.Get("totalVisits")
+		Statistics.Put("totalVisits", totalVisits.Value + 1)
+		local currentPlayerData = playerData:GetAsync(player.UserId)
+		if currentPlayerData ~= nil then
+			Statistics.Put("totalVisits", currentPlayerData["totalVisits"] + 1)
+			Statistics.Put("totalLogs", currentPlayerData["totalLogs"])
+			Statistics.Put("totalStones", currentPlayerData["totalStones"])
+			Statistics.Put("totalFlints", currentPlayerData["totalFlints"])
+			Statistics.Put("totalPickSwings", currentPlayerData["totalPickSwings"])
+			Statistics.Put("totalAxeSwings", currentPlayerData["totalAxeSwings"])
+			StatsGui.showStatsFrame(player)
 		else
-			data = {
+			currentPlayerData = {
 				["totalVisits"] = 1,
 				["totalLogs"] = 0,
 				["totalStones"] = 0,
@@ -90,33 +71,20 @@ players.PlayerAdded:Connect(function(player)
 				["totalPickSwings"] = 0,
 				["totalAxeSwings"] = 0,
 			}
-
-			local success, _error = pcall(function()
-				playerData:SetAsync(player.UserId, data)
+			local _success, _error = pcall(function()
+				playerData:SetAsync(player.UserId, currentPlayerData)
 			end)
-
-			if success then
-				print(`Data setup for new player {player.Name} complete!`)
-			else
-				print(`Data setup for new player {player.Name} failed!`)
-			end
 		end
 
 		game.OnClose = function()
-			local dataToSave = {}
-			for key in data do
-				dataToSave[key] = Statistics[key].Value
+			local stored = {}
+			local statistics = Statistics.GetAll()
+			for key in currentPlayerData do
+				stored[key] = statistics[key].Value
 			end
-			local success, error = pcall(function()
-				playerData:SetAsync(player.UserId, dataToSave)
+			local _success, _error = pcall(function()
+				playerData:SetAsync(player.UserId, stored)
 			end)
-			if success then
-				print(`Data save for {player.Name} complete!`)
-			elseif error then
-				print(error)
-			else
-				print(`Data save for {player.Name} failed!`)
-			end
 		end
 	end)
 end)

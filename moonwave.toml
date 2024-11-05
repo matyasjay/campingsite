@@ -12,9 +12,18 @@ url = "https://matyasjay.github.io"
 baseUrl = "/campingsite"
 
 [[classOrder]]
+collapsed = false
+classes = ["Configuration", "Animations"]
+
+[[classOrder]]
+section = "Items"
+collapsed = false
+classes = ["Fire Pit"]
+
+[[classOrder]]
 section = "Toolkits"
 collapsed = false
-classes = ["Animate", "Iterator", "Persona", "Trigger"]
+classes = ["Animate", "Iterator", "Observer", "Persona", "Trigger"]
 
 [[classOrder]]
 section = "User Interface"
@@ -24,7 +33,7 @@ classes = ["StatsGui", "GameGui"]
 [[classOrder]]
 section = "Variables"
 collapsed = false
-classes = ["PlayerVariables", "PlayerStatistics"]
+classes = ["Attributes", "Statistics"]
 
 [footer]
 style = "dark"

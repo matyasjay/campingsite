@@ -1,36 +1,32 @@
-local Toolkits = game:GetService("ReplicatedStorage").Toolkits
-local Variables = game:GetService("ReplicatedStorage").Variables
-local PlayerVariables = require(Variables:WaitForChild("PlayerVariables") :: ModuleScript)
-local Persona = require(Toolkits:WaitForChild("Persona"))
 local Workspace = game:GetService("Workspace")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
+local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 
-local camp = Workspace:WaitForChild("PlayArea").Camp
 local player = Persona.GetCurrentPlayer()
 local frame = player:WaitForChild("PlayerGui"):WaitForChild("GameGui"):WaitForChild("GameFrame")
 local button = frame.TextButton :: TextButton
 
 local function resetGame()
-	local woodModel = camp:WaitForChild("FirePit"):WaitForChild("Wood"):GetChildren()
-	local pitBase = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
+	local camp = Workspace:WaitForChild("PlayArea").Camp
+	local logs = camp:WaitForChild("FirePit"):WaitForChild("Woods"):GetChildren()
+	local base = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
 	local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
 	local sign = camp.Signs:WaitForChild("Feedback"):WaitForChild("Back"):WaitForChild("SignGui")
-
-	fire.Enabled = false
-	pitBase:SetAttribute("logCount", 0)
-	pitBase:SetAttribute("stone", false)
-	pitBase:SetAttribute("flint", false)
-	sign.Enabled = false
-
-	for i = 1, #woodModel do
-		woodModel[i].Transparency = 1
+	base:SetAttribute("logCount", 0)
+	base:SetAttribute("stone", false)
+	base:SetAttribute("flint", false)
+	for i = 1, #logs do
+		logs[i].Transparency = 1
 	end
-
-	PlayerVariables.SetVariable("hasLog", false)
-	PlayerVariables.SetVariable("hasStone", false)
-	PlayerVariables.SetVariable("hasFlint", false)
+	fire.Enabled = false
+	sign.Enabled = false
+	Attributes.Put("hasLog", false)
+	Attributes.Put("hasStone", false)
+	Attributes.Put("hasFlint", false)
 end
 
-button.MouseButton1Click:Connect(function()
+button.Activated:Connect(function()
 	frame.Visible = false
 	resetGame()
 end)

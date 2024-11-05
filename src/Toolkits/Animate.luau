@@ -67,9 +67,9 @@ end
   @param animationName string -- The local name of the requested [Animation]
   @return string -- The Asset ID of the requested [Animation] 
 ]=]
-function Animate.GetAnimationId(animationName: string)
-	local loadedAnimation = ReplicatedStorage.Shared.Animations:WaitForChild(animationName)
-	return loadedAnimation.AnimationId
+function Animate.GetAnimationId(animationName)
+	local loadedAnimation = ReplicatedStorage.Shared.Animations:WaitForChild(animationName) or {}
+	return tostring(loadedAnimation.AnimationId or "")
 end
 
 --[=[

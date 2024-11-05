@@ -1,40 +1,17 @@
-local Camp = game:GetService("Workspace"):WaitForChild("PlayArea").Camp
-local Toolkits = game:GetService("ReplicatedStorage").Toolkits
-local Variables = game:GetService("ReplicatedStorage").Variables
-local PlayerStatistics = require(Variables:WaitForChild("PlayerStatistics"))
-local Persona = require(Toolkits:WaitForChild("Persona"))
-local Player = Persona.GetCurrentPlayer()
-local Statistics = Persona.GetPlayerVariable("Statistics")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
+local StatsGui = require(ReplicatedStorage.Guis:WaitForChild("StatGui"))
+local GameGui = require(ReplicatedStorage.Guis:WaitForChild("GameGui"))
+local Statistics = require(ReplicatedStorage.Variables:WaitForChild("Statistics"))
 
-local statsGui = Player:WaitForChild("PlayerGui"):WaitForChild("StatsGui"):WaitForChild("StatsFrame")
-local welcomeSign = Camp.Signs:WaitForChild("Welcome"):WaitForChild("Text"):WaitForChild("WelcomeGui")
+GameGui.showWelcomeSign()
 
-welcomeSign.Enabled = true
-welcomeSign.TextLabel.Text = `Welcome {Player.name}`
-
---[=[
-  Configuration class for the current [Player]'s displayed statistics.
-
-  @class StatsGui
-  @tag User Interface
-]=]
---[=[
-  List of statistical entries that are displayed on the [ScreenGui] for the current [Player].  
-
-  @prop Stats {[string]: number}
-  @within StatsGui
-]=]
-local Stats = {
-	["Visits"] = Statistics.totalVisits,
-	["Logs"] = Statistics.totalLogs,
-	["Stones"] = Statistics.totalStones,
-	["Flints"] = Statistics.totalFlints,
-	["Axe Swings"] = Statistics.totalAxeSwings,
-	["Pick Swings"] = Statistics.totalPickSwings,
-}
-
-for index, stat in Stats do
-	stat.Changed:Connect(function()
-		statsGui:WaitForChild(index).Text = `Total {index}: {tostring(stat.Value)}`
-	end)
+while true do
+	local stats = Statistics.GetAll()
+	for key, stat in stats do
+		stat.Changed:Connect(function()
+			StatsGui.showStatsFrame(Persona.GetCurrentPlayer())
+		end)
+	end
+	task.wait(0.5)
 end
