@@ -34,7 +34,6 @@ local REQUIRED_MESSAGE = "We need "
 local camp = PlayArea.Camp
 local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
 local enableObject = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
-local sign = camp.Signs:WaitForChild("Feedback").Back:WaitForChild("SignGui")
 
 local pitScript = script
 pitScript.Parent = pit
@@ -94,10 +93,7 @@ local function checkPitNeeds(hit)
 			required = REQUIRED_MESSAGE,
 		},
 		callback = GameGui.showGameFrame,
-		initialize = function(message)
-			sign.TextLabel.Text = message
-			sign.Enabled = true
-		end,
+		initialize = GameGui.showPitNeeds,
 	})
 	task.wait(SEC_DEBOUNCE)
 	debounce = true

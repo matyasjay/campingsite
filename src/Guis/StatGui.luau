@@ -8,7 +8,7 @@ local Statistics = require(ReplicatedStorage.Variables:WaitForChild("Statistics"
 local StatsGui = {}
 
 --[=[
-  ![Statistics HUD](https://p267.p3.n0.cdn.zight.com/items/yAueqmkW/5f822255-5eb0-4565-b86d-45bf029f3e61.jpg)
+  ![Statistics HUD](https://p267.p3.n0.cdn.zight.com/items/L1uEwm28/76585f3b-599d-4151-942d-96cbc57d4944.jpg)
 
   @within StatsGui
   @param player Player

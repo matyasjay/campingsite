@@ -31,4 +31,15 @@ function GameGui.showWelcomeSign()
 	welcomeSign.TextLabel.Text = `Welcome {player.name}`
 end
 
+--[=[
+  ![Welcomet Needs](https://p267.p3.n0.cdn.zight.com/items/wbuqgGq2/e5b210eb-ea8e-4944-8cee-ee2500a9e24a.jpg)
+
+  @within GameGui
+]=]
+function GameGui.showPitNeeds(message: string)
+	local sign = Workspace.Camp.Signs:WaitForChild("Feedback").Back:WaitForChild("SignGui")
+	sign.TextLabel.Text = message
+	sign.Enabled = true
+end
+
 return GameGui
