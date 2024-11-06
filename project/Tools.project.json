@@ -2,17 +2,18 @@
   "tree": {
     "StarterPack": {
       "$className": "StarterPack",
-      "$path": "src/Player/StarterPack",
+      "$path": "src/Models/Player/StarterPack",
+
       "Axe": {
-        "$path": "src/Tools/AxeTool/Model.rbxm",
+        "$path": "src/Models/Tools/AxeTool.rbxm",
         "Script": {
-          "$path": "src/Tools/AxeTool/Script.server.luau"
+          "$path": "src/Scripts/Tools/AxeTool.server.luau"
         }
       },
       "Pick": {
-        "$path": "src/Tools/PickTool/Model.rbxm",
+        "$path": "src/Models/Tools/PickTool.rbxm",
         "Script": {
-          "$path": "src/Tools/PickTool/Script.server.luau"
+          "$path": "src/Scripts/Tools/PickTool.server.luau"
         }
       }
     }

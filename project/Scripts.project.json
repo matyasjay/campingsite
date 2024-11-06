@@ -2,27 +2,27 @@
   "tree": {
     "ServerScriptService": {
       "Main": {
-        "$path": "src/Main.server.luau"
+        "$path": "src/Scripts/Main.server.luau"
       },
       "Items": {
-        "$path": "src/Items"
-      },
-      "Spawns": {
-        "$path": "src/Spawns/Scripts"
+        "$path": "src/Scripts/Items"
       },
       "Lighting": {
-        "$path": "src/Lighting.server.luau"
+        "$path": "src/Scripts/Lighting.server.luau"
       }
     },
     "StarterPlayer": {
       "StarterCharacterScripts": {
         "Animations": {
-          "$path": "src/Animations.client.luau"
+          "$path": "src/Scripts/Animations.client.luau"
         }
       },
       "StarterPlayerScripts": {
-        "Player": {
-          "$path": "src/Player/Scripts"
+        "Initialize": {
+          "$path": "src/Scripts/Initialize.client.luau"
+        },
+        "Restart": {
+          "$path": "src/Scripts/Restart.client.luau"
         }
       }
     }

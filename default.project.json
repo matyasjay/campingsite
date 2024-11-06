@@ -2,32 +2,32 @@
   "name": "campingsite",
   "tree": {
     "Lighting": {
-      "$path": "src/Lighting"
+      "$path": "src/Models/Lighting"
     },
     "$className": "DataModel",
     "ServerScriptService": {
       "Main": {
-        "$path": "src/Main.server.luau"
+        "$path": "src/Scripts/Main.server.luau"
       },
       "Items": {
-        "$path": "src/Items"
-      },
-      "Spawns": {
-        "$path": "src/Spawns/Scripts"
+        "$path": "src/Scripts/Items"
       },
       "Lighting": {
-        "$path": "src/Lighting.server.luau"
+        "$path": "src/Scripts/Lighting.server.luau"
       }
     },
     "StarterPlayer": {
       "StarterCharacterScripts": {
         "Animations": {
-          "$path": "src/Animations.client.luau"
+          "$path": "src/Scripts/Animations.client.luau"
         }
       },
       "StarterPlayerScripts": {
-        "Player": {
-          "$path": "src/Player/Scripts"
+        "Initialize": {
+          "$path": "src/Scripts/Initialize.client.luau"
+        },
+        "Restart": {
+          "$path": "src/Scripts/Restart.client.luau"
         }
       }
     },
@@ -37,53 +37,53 @@
       }
     },
     "ServerStorage": {
-      "$path": "src/Storage/Server",
+      "$path": "src/Models/Storage/Server",
       "Spawns": {
-        "$path": "src/Spawns/Models"
+        "$path": "src/Models/Spawns"
       }
     },
     "ReplicatedStorage": {
-      "Utils": {
-        "$path": "src/Utils.luau"
+      "Animation Models": {
+        "$path": "src/Models/Storage/Replicated/Animations.rbxm"
       },
-      "Animations": {
-        "$path": "src/Storage/Replicated/Animations.rbxm"
-      },
-      "Animator Platform": {
-        "$path": "src/Storage/Replicated/Animators.rbxm"
+      "Animation Platform": {
+        "$path": "src/Models/Storage/Replicated/Animators.rbxm"
       },
       "Toolkits": {
-        "$path": "src/Toolkits"
+        "$path": "src/Scripts/Toolkits"
       },
-      "Guis": {
-        "$path": "src/Guis"
+      "UserInterface": {
+        "$path": "src/Scripts/UserInterface"
       },
       "Variables": {
-        "$path": "src/Player/Variables"
+        "$path": "src/Scripts/Variables"
       },
-      "RemoteConfig": {
-        "$path": "src/Configuration/RemoteConfig.luau"
+      "Remote": {
+        "$path": "src/Scripts/Configuration/Remote.luau"
       },
-      "AttributesConfig": {
-        "$path": "src/Configuration/AttributesConfig.luau"
+      "Attributes": {
+        "$path": "src/Scripts/Configuration/Attributes.luau"
       },
-      "StatisticsConfig": {
-        "$path": "src/Configuration/StatisticsConfig.luau"
+      "Statistics": {
+        "$path": "src/Scripts/Configuration/Statistics.luau"
+      },
+      "Utils": {
+        "$path": "src/Scripts/Utils.luau"
       }
     },
     "StarterPack": {
       "$className": "StarterPack",
-      "$path": "src/Player/StarterPack",
+      "$path": "src/Models/Player/StarterPack",
       "Axe": {
-        "$path": "src/Tools/AxeTool/Model.rbxm",
+        "$path": "src/Models/Tools/AxeTool.rbxm",
         "Script": {
-          "$path": "src/Tools/AxeTool/Script.server.luau"
+          "$path": "src/Scripts/Tools/AxeTool.server.luau"
         }
       },
       "Pick": {
-        "$path": "src/Tools/PickTool/Model.rbxm",
+        "$path": "src/Models/Tools/PickTool.rbxm",
         "Script": {
-          "$path": "src/Tools/PickTool/Script.server.luau"
+          "$path": "src/Scripts/Tools/PickTool.server.luau"
         }
       }
     },
@@ -91,10 +91,10 @@
       "$properties": {
         "FilteringEnabled": true
       },
-      "$path": "src/Workspace"
+      "$path": "src/Models/Workspace"
     },
     "StarterGui": {
-      "$path": "src/Player/StarterGui"
+      "$path": "src/Models/Player/UserInterface"
     }
   }
 }

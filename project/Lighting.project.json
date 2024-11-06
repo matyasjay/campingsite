@@ -1,7 +1,7 @@
 {
   "tree": {
     "Lighting": {
-      "$path": "src/Lighting"
+      "$path": "src/Models/Lighting"
     }
   }
 }

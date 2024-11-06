@@ -4,10 +4,10 @@
       "$properties": {
         "FilteringEnabled": true
       },
-      "$path": "src/Workspace"
+      "$path": "src/Models/Workspace"
     },
     "StarterGui": {
-      "$path": "src/Player/StarterGui"
+      "$path": "src/Models/Player/UserInterface"
     }
   }
 }

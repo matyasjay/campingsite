@@ -1,38 +1,38 @@
 {
   "tree": {
     "ServerStorage": {
-      "$path": "src/Storage/Server",
+      "$path": "src/Models/Storage/Server",
       "Spawns": {
-        "$path": "src/Spawns/Models"
+        "$path": "src/Models/Spawns"
       }
     },
     "ReplicatedStorage": {
-      "Utils": {
-        "$path": "src/Utils.luau"
+      "Animation Models": {
+        "$path": "src/Models/Storage/Replicated/Animations.rbxm"
       },
-      "Animations": {
-        "$path": "src/Storage/Replicated/Animations.rbxm"
-      },
-      "Animator Platform": {
-        "$path": "src/Storage/Replicated/Animators.rbxm"
+      "Animation Platform": {
+        "$path": "src/Models/Storage/Replicated/Animators.rbxm"
       },
       "Toolkits": {
-        "$path": "src/Toolkits"
+        "$path": "src/Scripts/Toolkits"
       },
-      "Guis": {
-        "$path": "src/Guis"
+      "UserInterface": {
+        "$path": "src/Scripts/UserInterface"
       },
       "Variables": {
-        "$path": "src/Player/Variables"
+        "$path": "src/Scripts/Variables"
       },
-      "RemoteConfig": {
-        "$path": "src/Configuration/RemoteConfig.luau"
+      "Remote": {
+        "$path": "src/Scripts/Configuration/Remote.luau"
       },
-      "AttributesConfig": {
-        "$path": "src/Configuration/AttributesConfig.luau"
+      "Attributes": {
+        "$path": "src/Scripts/Configuration/Attributes.luau"
       },
-      "StatisticsConfig": {
-        "$path": "src/Configuration/StatisticsConfig.luau"
+      "Statistics": {
+        "$path": "src/Scripts/Configuration/Statistics.luau"
+      },
+      "Utils": {
+        "$path": "src/Scripts/Utils.luau"
       }
     }
   }
