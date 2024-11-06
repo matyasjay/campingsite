@@ -29,6 +29,7 @@ local SEC_DEBOUNCE = 2
 local SEC_BEFORE_RESTART = 5
 local SUCCESS_MESSAGE = "You lit the fire! Let it blaze.."
 local REQUIRED_MESSAGE = "We need "
+local PIT_FEEDBACK = { done = SUCCESS_MESSAGE, required = REQUIRED_MESSAGE }
 
 local PlayArea = game:GetService("Workspace"):WaitForChild("PlayArea")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -95,12 +96,12 @@ local function checkPitNeeds(hit)
 		end
 	end
 	Observer.TryEnableObject({
-		requirements,
-		object = fire,
-		delay = SEC_BEFORE_RESTART,
-		message = { done = SUCCESS_MESSAGE, required = REQUIRED_MESSAGE },
 		callback = GameGui.showGameFrame,
+		delay = SEC_BEFORE_RESTART,
 		initialize = GameGui.showPitNeeds,
+		message = PIT_FEEDBACK,
+		object = fire,
+		requirements = requirements,
 	})
 	task.wait(SEC_DEBOUNCE)
 	debounce = true
