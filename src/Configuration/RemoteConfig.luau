@@ -7,7 +7,7 @@
 local Remote = {}
 
 --[=[
-  @prop Version 0.2.2
+  @prop Version 0.2.4
   @readonly
   @within Remote
 
@@ -20,11 +20,11 @@ local Remote = {}
   :::
 ]=]
 
-Remote.Version = "0.2.2"
+Remote.Version = "0.2.4"
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataStore = game:GetService("DataStoreService")
-local Store = DataStore:GetDataStore("CampingStats_0.2.2")
+local Store = DataStore:GetDataStore(`CampingStats_{Remote.Version}`)
 local AttributesConfig = require(ReplicatedStorage:WaitForChild("AttributesConfig"))
 local StatisticsConfig = require(ReplicatedStorage:WaitForChild("StatisticsConfig"))
 local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
@@ -63,7 +63,7 @@ Remote.Statistics = StatisticsConfig.Keys
 function Remote.Initialize(player)
 	player.CharacterAppearanceLoaded:Connect(function()
 		local data = Remote.GetRemote(player)
-		Statistics.Put(StatisticsConfig.Keys.TotalVisits, data[StatisticsConfig.Keys.TotalVisits].Value + 1)
+		Statistics.Put(StatisticsConfig.Keys.TotalVisits, data[StatisticsConfig.Keys.TotalVisits] + 1)
 		StatsGui.showStatsFrame(player)
 		Remote.PushRemote(player, data)
 		game.OnClose = Remote.Teardown(player, data)
@@ -94,21 +94,19 @@ function Remote.GetRemote(player)
 end
 
 function Remote.PushRemote(player, data)
+	local stored = {}
 	pcall(function()
-		Store:SetAsync(player.UserId, data)
+		for key in data do
+			stored[key] = data[key].Value
+		end
+		Store:SetAsync(player.UserId, stored)
 	end)
 end
 
 function Remote.Teardown(player, data)
 	return function()
-		local stored = {}
 		local statistics = Statistics.GetAll()
-		for key in data do
-			stored[key] = statistics[key].Value
-		end
-		pcall(function()
-			Store:SetAsync(player.UserId, stored)
-		end)
+		Remote.PushRemote(player, statistics)
 	end
 end
 
