@@ -46,8 +46,11 @@
       "Utils": {
         "$path": "src/Utils.luau"
       },
-      "Shared": {
-        "$path": "src/Storage/Replicated"
+      "Animations": {
+        "$path": "src/Storage/Replicated/Animations.rbxm"
+      },
+      "Animator Platform": {
+        "$path": "src/Storage/Replicated/Animators.rbxm"
       },
       "Toolkits": {
         "$path": "src/Toolkits"
