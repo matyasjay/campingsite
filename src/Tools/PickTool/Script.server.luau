@@ -49,7 +49,10 @@ local function pickupStone(rock, index)
 				debouncePickup = false
 				if not Attributes.Get(AttributesConfig.Keys.HasStone).Value then
 					Attributes.Get(AttributesConfig.Keys.HasStone).Value = true
-					Statistics.Put(StatisticsConfig.Keys.TotalStones, Statistics.Get(Statistics.TotalStones).Value + 1)
+					Statistics.Put(
+						StatisticsConfig.Keys.TotalStones,
+						Statistics.Get(StatisticsConfig.Keys.TotalStones).Value + 1
+					)
 					newStone:Destroy()
 				end
 				task.wait(2)
