@@ -1,10 +1,12 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Statistics = require(ReplicatedStorage.Variables:WaitForChild("Statistics"))
-
 --[=[
   @class StatsGui
   @tag User Interface
 ]=]
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local StatisticsConfig = require(ReplicatedStorage:WaitForChild("StatisticsConfig"))
+local Statistics = require(ReplicatedStorage.Variables:WaitForChild("Statistics"))
+
 local StatsGui = {}
 
 --[=[
@@ -16,17 +18,17 @@ local StatsGui = {}
 function StatsGui.showStatsFrame(player)
 	local variables = Statistics.GetAll()
 	local stats = {
-		["Visits"] = variables.totalVisits.Value,
-		["Logs"] = variables.totalLogs.Value,
-		["Stones"] = variables.totalStones.Value,
-		["Flints"] = variables.totalFlints.Value,
-		["Pick Swings"] = variables.totalPickSwings.Value,
-		["Axe Swings"] = variables.totalAxeSwings.Value,
-	} :: { [string]: number }
+		["Visits"] = variables[StatisticsConfig.Keys.TotalVisits].Value,
+		["Logs"] = variables[StatisticsConfig.Keys.TotalLogs].Value,
+		["Stones"] = variables[StatisticsConfig.Keys.TotalStones].Value,
+		["Flints"] = variables[StatisticsConfig.Keys.TotalFlints].Value,
+		["Pick Swings"] = variables[StatisticsConfig.Keys.TotalPickSwings].Value,
+		["Axe Swings"] = variables[StatisticsConfig.Keys.TotalAxeSwings].Value,
+	}
 	local frame = player:WaitForChild("PlayerGui"):WaitForChild("StatsGui"):WaitForChild("StatsFrame")
-	for key in stats do
-		local label = frame:WaitForChild(key)
-		label.Text = `Total {key}: {tostring(stats[key])}`
+	for label in stats do
+		local text = frame:WaitForChild(label)
+		text.Text = `Total {label}: {tostring(stats[label])}`
 	end
 end
 

@@ -1,7 +1,8 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
-
 --[=[
+  @class Statistics
+  @tag Player Variables
+  @tag Variable Collection
+
   The `Statistics` module securely manages [Player]-specific attributes, providing
   methods to _retrieve_, _set_, and _update_ these attributes through a controlled
   interface. 
@@ -25,13 +26,15 @@ local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 
   print(Statistics.Get())
   ```
-
-  @class Statistics
-  @server
-  @client
-  @tag Variable Collection
 ]=]
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local StatisticsConfig = require(ReplicatedStorage:WaitForChild("StatisticsConfig"))
+local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
+
 local Statistics = {}
+
+Statistics.Name = "Statistics"
 
 --- @type Entry { [string]: NumberValue }
 --- @within Statistics
@@ -42,7 +45,7 @@ local Statistics = {}
   @within Statistics
   @private
 ]=]
-Statistics.attributes = {} :: { [string]: NumberValue }
+Statistics.attributes = StatisticsConfig.Defaults
 
 --[=[
 @within Statistics

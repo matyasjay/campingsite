@@ -1,7 +1,8 @@
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
-
 --[=[
+  @class Attributes
+  @tag Player Variables
+  @tag Variable Collection
+
   The `Attributes` module securely manages [Player]-specific attributes, providing
   methods to _retrieve_, _set_, and _update_ these attributes through a controlled
   interface. 
@@ -25,13 +26,15 @@ local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 
   print(Attributes.Get())
   ```
-
-  @class Attributes
-  @server
-  @client
-  @tag Variable Collection
 ]=]
+
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local AttributesConfig = require(ReplicatedStorage:WaitForChild("AttributesConfig"))
+local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
+
 local Attributes = {}
+
+Attributes.Name = "Attributes"
 
 --- @type Entry { [string]: BoolValue }
 --- @within Attributes
@@ -42,7 +45,7 @@ local Attributes = {}
   @within Attributes
   @private
 ]=]
-Attributes.attributes = {}
+Attributes.attributes = AttributesConfig.Defaults
 
 --[=[
 @within Attributes

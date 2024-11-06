@@ -1,7 +1,8 @@
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
 local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
+local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
+local AttributesConfig = require(ReplicatedStorage:WaitForChild("AttributesConfig"))
 
 local player = Persona.GetCurrentPlayer()
 local frame = player:WaitForChild("PlayerGui"):WaitForChild("GameGui"):WaitForChild("GameFrame")
@@ -21,9 +22,9 @@ local function resetGame()
 	end
 	fire.Enabled = false
 	sign.Enabled = false
-	Attributes.Put("hasLog", false)
-	Attributes.Put("hasStone", false)
-	Attributes.Put("hasFlint", false)
+	Attributes.Put(AttributesConfig.Keys.HasLog, false)
+	Attributes.Put(AttributesConfig.Keys.HasStone, false)
+	Attributes.Put(AttributesConfig.Keys.HasFlint, false)
 end
 
 button.Activated:Connect(function()

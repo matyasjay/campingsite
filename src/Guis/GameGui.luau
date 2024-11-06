@@ -1,11 +1,12 @@
+--[=[
+@class GameGui
+@tag User Interface
+]=]
+
 local Workspace = game:GetService("Workspace"):WaitForChild("PlayArea")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 
---[=[
-  @class GameGui
-  @tag User Interface
-]=]
 local GameGui = {}
 
 --[=[

@@ -7,6 +7,9 @@
       }
     },
     "ReplicatedStorage": {
+      "Utils": {
+        "$path": "src/Utils.luau"
+      },
       "Shared": {
         "$path": "src/Storage/Replicated"
       },
@@ -18,6 +21,15 @@
       },
       "Variables": {
         "$path": "src/Player/Variables"
+      },
+      "RemoteConfig": {
+        "$path": "src/Configuration/RemoteConfig.luau"
+      },
+      "AttributesConfig": {
+        "$path": "src/Configuration/AttributesConfig.luau"
+      },
+      "StatisticsConfig": {
+        "$path": "src/Configuration/StatisticsConfig.luau"
       }
     }
   }

@@ -7,7 +7,9 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 local Iterator = require(ReplicatedStorage.Toolkits:WaitForChild("Iterator"))
 local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
+local AttributesConfig = require(ReplicatedStorage:WaitForChild("AttributesConfig"))
 local Statistics = require(ReplicatedStorage.Variables:WaitForChild("Statistics"))
+local StatisticsConfig = require(ReplicatedStorage:WaitForChild("StatisticsConfig"))
 
 local camp = Workspace:WaitForChild("PlayArea").Camp
 local rocks = camp.Rocks:GetChildren()
@@ -37,7 +39,7 @@ end
 local function pickupStone(rock, index)
 	local stonePicks = rock:GetAttribute("stonePicks")
 	local stonePickup = ServerStorage:WaitForChild("Spawns").Stone
-	if pickCount[index] == stonePicks and not Attributes.Get("hasStone").Value then
+	if pickCount[index] == stonePicks and not Attributes.Get(AttributesConfig.Keys.HasStone).Value then
 		local newStone = stonePickup:Clone()
 		newStone.Position = rock.Position + Vector3.new(5, 0, -5)
 		newStone.Parent = Workspace
@@ -45,9 +47,9 @@ local function pickupStone(rock, index)
 			local humanoid = character:FindFirstChild("Humanoid")
 			if humanoid and debouncePickup then
 				debouncePickup = false
-				if not Attributes.Get("hasStone").Value then
-					Attributes.Get("hasStone").Value = true
-					Statistics.Put("totalStones", Statistics.Get("totalStones").Value + 1)
+				if not Attributes.Get(AttributesConfig.Keys.HasStone).Value then
+					Attributes.Get(AttributesConfig.Keys.HasStone).Value = true
+					Statistics.Put(StatisticsConfig.Keys.TotalStones, Statistics.Get(Statistics.TotalStones).Value + 1)
 					newStone:Destroy()
 				end
 				task.wait(2)
@@ -60,7 +62,7 @@ end
 local function pickupFlint(rock, index)
 	local flintPicks = rock:GetAttribute("flintPicks")
 	local flintPickup = ServerStorage:WaitForChild("Spawns").Flint
-	if pickCount[index] == flintPicks and not Attributes.Get("hasFlint").Value then
+	if pickCount[index] == flintPicks and not Attributes.Get(AttributesConfig.Keys.HasFlint).Value then
 		local newFlint = flintPickup:Clone()
 		newFlint.Position = rock.Position + Vector3.new(-5, 0, 5)
 		newFlint.Parent = Workspace
@@ -68,9 +70,12 @@ local function pickupFlint(rock, index)
 			local humanoid = character:FindFirstChild("Humanoid")
 			if humanoid and debouncePickup then
 				debouncePickup = false
-				if not Attributes.Get("hasFlint").Value then
-					Attributes.Get("hasFlint").Value = true
-					Statistics.Put("totalFlints", Statistics.Get("totalFlints").Value + 1)
+				if not Attributes.Get(AttributesConfig.Keys.HasFlint).Value then
+					Attributes.Get(AttributesConfig.Keys.HasFlint).Value = true
+					Statistics.Put(
+						StatisticsConfig.Keys.TotalFlints,
+						Statistics.Get(StatisticsConfig.Keys.TotalFlints).Value + 1
+					)
 					newFlint:Destroy()
 				end
 				task.wait(2)
@@ -87,16 +92,19 @@ end
 
 local function onActivate()
 	if debounceAnimation then
-		Statistics.Put("totalPickSwings", Statistics.Get("totalPickSwings").Value + 1)
+		Statistics.Put(
+			StatisticsConfig.Keys.TotalPickSwings,
+			Statistics.Get(StatisticsConfig.Keys.TotalPickSwings).Value + 1
+		)
 		Iterator.WalkModels(rocks, pickRockWhenPossible)
-		Attributes.Put("usingPick", true)
+		Attributes.Put(AttributesConfig.Keys.UsingPick, true)
 	end
 end
 
 local function onDeactivate()
 	if debounceAnimation then
 		debounceAnimation = false
-		Attributes.Put("usingPick", false)
+		Attributes.Put(AttributesConfig.Keys.UsingPick, false)
 		Iterator.WalkModels(rocks, pickupSpawns)
 		task.wait(1)
 		debounceAnimation = true
@@ -105,11 +113,11 @@ local function onDeactivate()
 end
 
 local function onEquip()
-	Attributes.Put("hasPick", true)
+	Attributes.Put(AttributesConfig.Keys.HasPick, true)
 end
 
 local function onUnequip()
-	Attributes.Put("hasPick", false)
+	Attributes.Put(AttributesConfig.Keys.HasPick, false)
 end
 
 pickTool.Equipped:Connect(onEquip)

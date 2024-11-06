@@ -1,8 +1,6 @@
 projectName = "Camping"
 tagline = "A Roblox developer sandbox using Rojo v7 fully managed setup"
 gitSourceBranch = "main"
-changelog = true
-classOrder = []
 
 [docusaurus]
 onBrokenLinks = "throw"
@@ -12,28 +10,34 @@ url = "https://matyasjay.github.io"
 baseUrl = "/campingsite"
 
 [[classOrder]]
-collapsed = false
-classes = ["Configuration", "Animations"]
+classes = ["Introduction"]
+
 
 [[classOrder]]
 section = "Items"
-collapsed = false
+collapsed = true
 classes = ["Fire Pit"]
 
 [[classOrder]]
 section = "Toolkits"
-collapsed = false
+collapsed = true
 classes = ["Animate", "Iterator", "Observer", "Persona", "Trigger"]
 
 [[classOrder]]
 section = "User Interface"
-collapsed = false
+collapsed = true
 classes = ["StatsGui", "GameGui"]
 
 [[classOrder]]
+classes = ["Animations"]
+
+[[classOrder]]
 section = "Variables"
-collapsed = false
-classes = ["Attributes", "Statistics"]
+collapsed = true
+classes = ["Attributes", "AttributesConfig","Statistics","StatisticsConfig" ]
+
+[[classOrder]]
+classes = ["Remote"]
 
 [footer]
 style = "dark"
