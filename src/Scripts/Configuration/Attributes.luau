@@ -1,5 +1,5 @@
 --[=[
-  @class AttributesConfig
+  @class Attributes Config
   @tag Player Variables
   @tag Configuration
 
@@ -7,15 +7,15 @@
 
   ```lua
   local ReplicatedStorage = game:GetService("ReplicatedStorage")
-  local AttributesConfig = require(ReplicatedStorage:WaitForChild("AttributesConfig"))
-  local configKeys = AttributesConfig.Keys
+  local AttributesConfig = require(ReplicatedStorage:WaitForChild("Attributes"))
+  local configKeys = Attributes Config.Keys
   ```
 ]=]
 
 --[=[
   @prop DefaultAttributes { string }
   @readonly
-  @within AttributesConfig
+  @within Attributes Config
 ]=]
 local DEFAULT_ATTRIBUTES = {
 	["HasLog"] = false,
@@ -36,13 +36,13 @@ PlayerAttributes.__index = PlayerAttributes
 
 --[=[
   @prop Defaults { [string]: boolean | number  }
-  @within AttributesConfig
+  @within Attributes Config
 ]=]
 PlayerAttributes.Defaults = Utils.GetDefaultsFromStore(DEFAULT_ATTRIBUTES)
 
 --[=[
   @prop Keys {string}
-  @within AttributesConfig
+  @within Attributes Config
 ]=]
 PlayerAttributes.Keys = Utils.GetKeysFromStore(DEFAULT_ATTRIBUTES)
 

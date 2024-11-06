@@ -25,8 +25,6 @@ local PitAttributes = {
 	["Flint"] = "flint",
 }
 
-local SEC_DEBOUNCE = 2
-local SEC_BEFORE_RESTART = 5
 local SUCCESS_MESSAGE = "You lit the fire! Let it blaze.."
 local REQUIRED_MESSAGE = "We need "
 local PIT_FEEDBACK = { done = SUCCESS_MESSAGE, required = REQUIRED_MESSAGE }
@@ -35,6 +33,7 @@ local PlayArea = game:GetService("Workspace"):WaitForChild("PlayArea")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Observer = require(ReplicatedStorage.Toolkits:WaitForChild("Observer"))
 local Trigger = require(ReplicatedStorage.Toolkits:WaitForChild("Trigger"))
+local Utils = require(ReplicatedStorage:WaitForChild("Utils"))
 local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
 local AttributesConfig = require(ReplicatedStorage:WaitForChild("Attributes"))
 local GameGui = require(ReplicatedStorage.UserInterface:WaitForChild("GameGui"))
@@ -96,14 +95,15 @@ local function checkPitNeeds(hit)
 		end
 	end
 	Observer.TryEnableObject({
-		callback = GameGui.showGameFrame,
-		delay = SEC_BEFORE_RESTART,
+		callback = function()
+			Utils.Lighting("night", 3.5, GameGui.showGameFrame)
+		end,
 		initialize = GameGui.showPitNeeds,
 		message = PIT_FEEDBACK,
 		object = fire,
 		requirements = requirements,
 	})
-	task.wait(SEC_DEBOUNCE)
+	task.wait(2)
 	debounce = true
 end
 

@@ -1,6 +1,7 @@
 local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
+local Utils = require(ReplicatedStorage:WaitForChild("Utils"))
 local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
 local AttributesConfig = require(ReplicatedStorage:WaitForChild("Attributes"))
 
@@ -25,6 +26,7 @@ local function resetGame()
 	Attributes.Put(AttributesConfig.Keys.HasLog, false)
 	Attributes.Put(AttributesConfig.Keys.HasStone, false)
 	Attributes.Put(AttributesConfig.Keys.HasFlint, false)
+	Utils.Lighting("day", 3.5)
 end
 
 button.Activated:Connect(function()

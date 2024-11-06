@@ -13,17 +13,34 @@
 
 --[=[
   @class Tools
+  @server
 
   ## Usage
-  ```lua
-  -- src/Scripts/Tools/MyTool.luau
 
+  ### `project/Tools.project.json`
+
+  ```json
+  "StarterPack": {
+    "$className": "StarterPack",
+    "$path": "src/Models/Player/StarterPack",
+
+    "MyTool": {
+      "$path": "src/Models/Tools/MyTool.rbxm",
+      "Script": {
+        "$path": "src/Scripts/Tools/MyTool.server.luau"
+      }
+    }
+  }
+  ```
+
+  ### `src/Scripts/Tools/MyTool.server.luau`
+
+  ```lua
   local ReplicatedStorage = game:GetService("ReplicatedStorage")
   local AttributesConfig = require(ReplicatedStorage:WaitForChild("Attributes"))
   local AttributesVariable = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
 
-  local axeTool = script.Parent
-  local player = axeTool.Parent.Parent
+  local myTool = script.Parent
 
   local function onEquip()
     AttributesVariable.Put(AttributesConfig.Keys.HasAxe, true)
@@ -33,11 +50,11 @@
     AttributesVariable.Put(AttributesConfig.Keys.HasAxe, false)
   end
 
-  axeTool.Equipped:Connect(onEquip)
-  axeTool.Unequipped:Connect(onUnequip)
+  myTool.Equipped:Connect(onEquip)
+  myTool.Unequipped:Connect(onUnequip)
 
-  -- axeTool.Activated:Connect(onActivate)
-  -- axeTool.Deactivated:Connect(onDeactivate)
+  -- myTool.Activated:Connect(onActivate)
+  -- myTool.Deactivated:Connect(onDeactivate)
   ```
 ]=]
 

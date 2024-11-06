@@ -14,13 +14,13 @@ Lighting.Ambient = Color3.fromRGB(0, 0, 0)
   @prop Brightness number
   @within Lighting
 ]=]
-Lighting.Brightness = 8.75
+Lighting.Brightness = 2.75
 
 --[=[
   @prop TimeOfDay string
   @within Lighting
 ]=]
-Lighting.TimeOfDay = "22:00:00"
+Lighting.TimeOfDay = "15:00:00"
 
 --[=[
   @prop GlobalShadows boolean

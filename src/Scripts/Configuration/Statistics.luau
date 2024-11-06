@@ -1,5 +1,5 @@
 --[=[
-  @class StatisticsConfig
+  @class Statistics Config
   @tag Player Variables
   @tag Configuration
 
@@ -7,7 +7,7 @@
 
   ```lua
   local ReplicatedStorage = game:GetService("ReplicatedStorage")
-  local StatisticsConfig = require(ReplicatedStorage:WaitForChild("StatisticsConfig"))
+  local StatisticsConfig = require(ReplicatedStorage:WaitForChild("Statistics"))
   local configKeys = StatisticsConfig.Keys -- normalized variable keys
   ```
 ]=]
@@ -15,7 +15,7 @@
 --[=[
   @prop DefaultStatistics { string }
   @readonly
-  @within StatisticsConfig
+  @within Statistics Config
 ]=]
 local DEFAULT_STATISTICS = {
 	["TotalVisits"] = 0,
@@ -35,13 +35,13 @@ PlayerStatistics.__index = PlayerStatistics
 
 --[=[
   @prop Defaults {boolean}
-  @within StatisticsConfig
+  @within Statistics Config
 ]=]
 PlayerStatistics.Defaults = Utils.GetDefaultsFromStore(DEFAULT_STATISTICS)
 
 --[=[
   @prop Keys {string}
-  @within StatisticsConfig
+  @within Statistics Config
 ]=]
 PlayerStatistics.Keys = Utils.GetKeysFromStore(DEFAULT_STATISTICS)
 

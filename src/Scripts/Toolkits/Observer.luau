@@ -55,9 +55,6 @@ function Observer.TryEnableObject(props)
 	end
 	if hasRequired then
 		props.object.Enabled = true
-		if props.delay then
-			task.wait(props.delay)
-		end
 		if props.callback and typeof(props.callback) == "function" then
 			props.callback()
 		end
