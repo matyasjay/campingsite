@@ -34,7 +34,7 @@ classes = ["Animations"]
 [[classOrder]]
 section = "Variables"
 collapsed = true
-classes = ["Attributes", "AttributesConfig","Statistics","StatisticsConfig" ]
+classes = ["Attributes", "Attributes Config","Statistics","Statistics Config" ]
 
 [[classOrder]]
 classes = ["Remote"]
