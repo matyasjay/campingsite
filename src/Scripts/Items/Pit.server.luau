@@ -33,7 +33,6 @@ local PlayArea = game:GetService("Workspace"):WaitForChild("PlayArea")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Observer = require(ReplicatedStorage.Toolkits:WaitForChild("Observer"))
 local Trigger = require(ReplicatedStorage.Toolkits:WaitForChild("Trigger"))
-local Utils = require(ReplicatedStorage:WaitForChild("Utils"))
 local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"))
 local AttributesConfig = require(ReplicatedStorage:WaitForChild("Attributes"))
 local GameGui = require(ReplicatedStorage.UserInterface:WaitForChild("GameGui"))
@@ -94,10 +93,9 @@ local function checkPitNeeds(hit)
 			end
 		end
 	end
+
 	Observer.TryEnableObject({
-		callback = function()
-			Utils.Lighting("night", 3.5, GameGui.showGameFrame)
-		end,
+		callback = GameGui.showGameFrame,
 		initialize = GameGui.showPitNeeds,
 		message = PIT_FEEDBACK,
 		object = fire,
