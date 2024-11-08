@@ -1,10 +1,3 @@
---[=[
-  @prop AxeTool Model
-  @tag Player Item
-  @tag Main Script
-  @within Tools
-]=]
-
 local axeTool = script.Parent
 local player = axeTool.Parent.Parent
 

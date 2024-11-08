@@ -2,30 +2,42 @@ projectName = "Camping"
 tagline = "A Roblox developer sandbox using Rojo v7 fully managed setup"
 gitSourceBranch = "main"
 
+apiCategories = [
+  "Player Item"
+]
+
 [docusaurus]
 onBrokenLinks = "throw"
 onBrokenMarkdownLinks = "warn"
 favicon = "/favicon.png"
 url = "https://matyasjay.github.io"
 baseUrl = "/campingsite"
+title = "Camping in R(oblox)ojo Land!"
+tagline = "A Roblox developer sandbox using Rojo fully-managed setup"
 
-[[classOrder]]
-classes = ["Introduction"]
+[home]
+enabled = true
 
+[[home.features]]
+title = "Roblox"
+description = "One platform. Millions of ways to engage"
 
-[[classOrder]]
-section = "Items"
-collapsed = true
-classes = ["Fire Pit"]
+[[home.features]]
+title = "Rojo"
+description = "Rojo enables Roblox developers to use professional-grade software engineering tools"
+
+[[home.features]]
+title = "Moonwave"
+description = "Moonwave is a tool for generating documentation from comments in Lua source code"
 
 [[classOrder]]
 section = "Toolkits"
-collapsed = true
+collapsed = false
 classes = ["Animate", "Iterator", "Observer", "Persona", "Trigger"]
 
 [[classOrder]]
 section = "User Interface"
-collapsed = true
+collapsed = false
 classes = ["StatsGui", "GameGui"]
 
 [[classOrder]]
@@ -33,8 +45,8 @@ classes = ["Animations"]
 
 [[classOrder]]
 section = "Variables"
-collapsed = true
-classes = ["Attributes", "Attributes Config","Statistics","Statistics Config" ]
+collapsed = false
+classes = ["Attributes", "AttributesConfig","Statistics","StatisticsConfig" ]
 
 [[classOrder]]
 classes = ["Remote"]
@@ -47,19 +59,13 @@ copyright = "&nbsp;"
 title = "Useful Links"
 
 [[footer.links.items]]
-label = "Roblox Engine"
+label = "Roblox"
 to = "https://create.roblox.com/docs/reference/engine"
 
 [[footer.links.items]]
-label = "Rojo v7"
+label = "Rojo"
 to = "https://rojo.space/docs/v7/"
 
 [[footer.links.items]]
 label = "Moonwave"
 to = "https://eryn.io/moonwave/docs/intro"
-
-[[footer.links.items]]
-label = "Infima"
-to = "https://github.com/facebookincubator/infima/tree/main"
-
-

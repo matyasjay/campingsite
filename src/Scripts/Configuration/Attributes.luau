@@ -1,5 +1,5 @@
 --[=[
-  @class Attributes Config
+  @class AttributesConfig
   @tag Player Variables
   @tag Configuration
 
@@ -15,7 +15,7 @@
 --[=[
   @prop DefaultAttributes { string }
   @readonly
-  @within Attributes Config
+  @within AttributesConfig
 ]=]
 local DEFAULT_ATTRIBUTES = {
 	["HasLog"] = false,
@@ -30,20 +30,20 @@ local DEFAULT_ATTRIBUTES = {
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Utils = require(ReplicatedStorage:WaitForChild("Utils"))
 
-local PlayerAttributes = {}
-PlayerAttributes.ValueType = "BoolValue"
-PlayerAttributes.__index = PlayerAttributes
+local AttributesConfig = {}
+AttributesConfig.ValueType = "BoolValue"
+AttributesConfig.__index = AttributesConfig
 
 --[=[
   @prop Defaults { [string]: boolean | number  }
-  @within Attributes Config
+  @within AttributesConfig
 ]=]
-PlayerAttributes.Defaults = Utils.GetDefaultsFromStore(DEFAULT_ATTRIBUTES)
+AttributesConfig.Defaults = Utils.GetDefaultsFromStore(DEFAULT_ATTRIBUTES)
 
 --[=[
   @prop Keys {string}
-  @within Attributes Config
+  @within AttributesConfig
 ]=]
-PlayerAttributes.Keys = Utils.GetKeysFromStore(DEFAULT_ATTRIBUTES)
+AttributesConfig.Keys = Utils.GetKeysFromStore(DEFAULT_ATTRIBUTES)
 
-return PlayerAttributes
+return AttributesConfig

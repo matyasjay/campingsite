@@ -1,35 +1,10 @@
---[=[
-  @class Fire Pit
-  @tag Environment Item
-  @tag Main Quest
-
-  The final goal of the game is to fill the requirements of the Fire Pit.
-
-  Collect the resource in the environment and place them in the Fire Pit to lit the fire!
-
-  After a brief delay the game offers to restart in which case the Fire Pit resets to its
-  original state and the lit fire put out.
-
-  ![src](https://p267.p3.n0.cdn.zight.com/items/mXuQX6b8/d801d221-0334-4901-82a8-7ba047e4dce1.jpg)
-
-  ## Usage
-  ```lua
-  local PlayArea = game:GetService("Workspace"):WaitForChild("PlayArea")
-  print(PlayArea.Camp:WaitForChild("FirePit"))
-  ```
-]=]
-
-local PitAttributes = {
-	["Logs"] = "logs",
-	["Stone"] = "stone",
-	["Flint"] = "flint",
-}
+local Pit = {}
 
 local SUCCESS_MESSAGE = "You lit the fire! Let it blaze.."
 local REQUIRED_MESSAGE = "We need "
 local PIT_FEEDBACK = { done = SUCCESS_MESSAGE, required = REQUIRED_MESSAGE }
 
-local PlayArea = game:GetService("Workspace"):WaitForChild("PlayArea")
+local Camp = game:GetService("Workspace"):WaitForChild("PlayArea").Camp
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Observer = require(ReplicatedStorage.Toolkits:WaitForChild("Observer"))
 local Trigger = require(ReplicatedStorage.Toolkits:WaitForChild("Trigger"))
@@ -37,72 +12,79 @@ local Attributes = require(ReplicatedStorage.Variables:WaitForChild("Attributes"
 local AttributesConfig = require(ReplicatedStorage:WaitForChild("Attributes"))
 local GameGui = require(ReplicatedStorage.UserInterface:WaitForChild("GameGui"))
 
-local camp = PlayArea.Camp
-local pit = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
-local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
+Pit.Attributes = {
+	["Logs"] = "logs",
+	["Stone"] = "stone",
+	["Flint"] = "flint",
+}
 
-local pitScript = script
-pitScript.Parent = pit
+Pit.Requirements = {}
+Pit.Base = Camp:WaitForChild("FirePit"):WaitForChild("PitBase")
+Pit.Fire = Camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire
+Pit.Script = script
+Pit.Script.Parent = Pit.Base
+Pit.Debounce = true
 
-local debounce = true
-
-local function checkPitNeeds(hit)
-	local requirements = {
-		[PitAttributes.Logs] = {
-			current = pit:GetAttribute(PitAttributes.Logs),
-			required = #pit.Parent.Woods:GetChildren(),
+function Pit.GetRequirements()
+	return {
+		[Pit.Attributes.Logs] = {
+			current = Pit.Base:GetAttribute(Pit.Attributes.Logs),
+			required = #Pit.Base.Parent.Woods:GetChildren(),
 		},
-		[PitAttributes.Stone] = {
-			current = pit:GetAttribute(PitAttributes.Stone) and 1 or 0,
+		[Pit.Attributes.Stone] = {
+			current = Pit.Base:GetAttribute(Pit.Attributes.Stone) and 1 or 0,
 			required = 1,
 		},
-		[PitAttributes.Flint] = {
-			current = pit:GetAttribute(PitAttributes.Flint) and 1 or 0,
+		[Pit.Attributes.Flint] = {
+			current = Pit.Base:GetAttribute(Pit.Attributes.Flint) and 1 or 0,
 			required = 1,
 		},
 	}
-	if debounce then
-		debounce = false
-		if pit:GetAttribute(PitAttributes.Stone) or not Attributes.Get(AttributesConfig.Keys.HasStone) then
+end
+
+function Pit.CheckRequirements(hit)
+	Pit.Requirements = Pit.GetRequirements()
+	if Pit.Debounce then
+		Pit.Debounce = false
+		if Pit.Base:GetAttribute(Pit.Attributes.Stone) or not Attributes.Get(AttributesConfig.Keys.HasStone) then
 			Attributes.Put(AttributesConfig.Keys.HasStone, false)
 		elseif Attributes.Get(AttributesConfig.Keys.HasStone).Value then
 			Attributes.Put(AttributesConfig.Keys.HasStone, false)
-			pit:SetAttribute(PitAttributes.Stone, true)
+			Pit.Base:SetAttribute(Pit.Attributes.Stone, true)
 		end
-		if pit:GetAttribute(PitAttributes.Flint) or not Attributes.Get(AttributesConfig.Keys.HasFlint) then
+		if Pit.Base:GetAttribute(Pit.Attributes.Flint) or not Attributes.Get(AttributesConfig.Keys.HasFlint) then
 			Attributes.Put(AttributesConfig.Keys.HasFlint, false)
 		elseif Attributes.Get(AttributesConfig.Keys.HasFlint).Value then
 			Attributes.Put(AttributesConfig.Keys.HasFlint, false)
-			pit:SetAttribute(PitAttributes.Flint, true)
+			Pit.Base:SetAttribute(Pit.Attributes.Flint, true)
 		end
 		if
-			pit:GetAttribute(PitAttributes.Logs) == requirements.logs.required
+			Pit.Base:GetAttribute(Pit.Attributes.Logs) == Pit.Requirements[Pit.Attributes.Logs].required
 			or not Attributes.Get(AttributesConfig.Keys.HasLog)
 		then
 			Attributes.Put(AttributesConfig.Keys.HasLog, false)
 		elseif
 			Attributes.Get(AttributesConfig.Keys.HasLog)
 			and Attributes.Get(AttributesConfig.Keys.HasLog).Value
-			and requirements.logs.current < requirements.logs.required
+			and Pit.Requirements[Pit.Attributes.Logs].current < Pit.Requirements[Pit.Attributes.Logs].required
 		then
-			local logs = requirements.logs.current + 1
+			Pit.Requirements[Pit.Attributes.Logs].current += 1
 			Attributes.Put(AttributesConfig.Keys.HasLog, false)
-			pit:SetAttribute(PitAttributes.Logs, logs)
-			for i = 1, logs do
-				pit.Parent.Woods:GetChildren()[i].Transparency = 0
+			Pit.Base:SetAttribute(Pit.Attributes.Logs, Pit.Requirements[Pit.Attributes.Logs].current)
+			for i = 1, Pit.Requirements[Pit.Attributes.Logs].current do
+				Pit.Base.Parent.Woods:GetChildren()[i].Transparency = 0
 			end
 		end
 	end
-
 	Observer.TryEnableObject({
 		callback = GameGui.showGameFrame,
 		initialize = GameGui.showPitNeeds,
 		message = PIT_FEEDBACK,
-		object = fire,
-		requirements = requirements,
+		object = Pit.Fire,
+		requirements = Pit.Requirements,
 	})
 	task.wait(2)
-	debounce = true
+	Pit.Debounce = true
 end
 
-Trigger.RunOnTouched(pit, checkPitNeeds)
+Trigger.RunOnTouched(Pit.Base, Pit.CheckRequirements)

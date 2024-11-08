@@ -1,10 +1,3 @@
---[=[
-  @prop PickTool Model
-  @tag Player Item
-  @tag Main Script
-  @within Tools
-]=]
-
 local pickTool = script.Parent
 local player = pickTool.Parent.Parent
 

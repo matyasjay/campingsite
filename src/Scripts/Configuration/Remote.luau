@@ -76,12 +76,14 @@ function Remote.Initialize(player)
 		Remote.SetDefaults(player, Attributes, AttributesConfig.Defaults, "BoolValue")
 		Remote.SetDefaults(player, Statistics, StatisticsConfig.Defaults, "NumberValue")
 		local data = Remote.GetRemote(player)
-		Statistics.Put(StatisticsConfig.Keys.TotalVisits, data[StatisticsConfig.Keys.TotalVisits] + 1)
+		local totalVisits = data[StatisticsConfig.Keys.TotalVisits]
+		local currentVisits = typeof(totalVisits) == "number" and totalVisits or totalVisits.Value
+		Statistics.Put(StatisticsConfig.Keys.TotalVisits, currentVisits + 1)
 		StatsGui.showStatsFrame(player)
 		if Remote.Enabled then
 			Remote.PushRemote(player, data)
+			game.OnClose = Remote.Teardown(player, data)
 		end
-		game.OnClose = Remote.Teardown(player, data)
 	end)
 end
 
@@ -100,9 +102,9 @@ function Remote.GetRemote(player)
 	local data = Statistics.GetAll()
 	if Remote.Enabled then
 		data = Store:GetAsync(player.UserId) or table.pack(data)
-	end
-	for key, value in data do
-		Statistics.Put(key, data[key])
+		for key, value in data do
+			Statistics.Put(key, data[key])
+		end
 	end
 	return data
 end
