@@ -1,8 +1,8 @@
 ---
-sidebar_position: 3
+sidebar_position: 4
 ---
 
-# Player Tools & Equipment
+# Tools & Equipment
 
 Tools are items that can appear in a player's inventory and be equipped to perform
 specific tasks. For example, an "Axe" tool might be placed in the [StarterPack](https://create.roblox.com/docs/reference/engine/classes/StarterPack) so

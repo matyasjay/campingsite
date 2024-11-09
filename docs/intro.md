@@ -83,7 +83,6 @@ Rojo is the core tool for this sandbox, enabling synchronization between the loc
 codebase and a running Roblox Studio instance. Rojo manages all elements, including
 models, scripts, and assets like meshes and images.
 
-
 After checking out the code from source control, open a terminal and run the
 `make serve` command. This will build the main project file (`default.project.json`)
 and start the server, which can then be connected to the Rojo plugin in Roblox Studio.
