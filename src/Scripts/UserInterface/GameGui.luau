@@ -1,3 +1,7 @@
+local TRANSITION_SEC = 5
+
+local Lighting = game:GetService("Lighting")
+
 --[=[
 @class GameGui
 @tag User Interface
@@ -15,7 +19,11 @@ local GameGui = {}
   @within GameGui
 ]=]
 function GameGui.showGameFrame()
-	task.wait(5)
+	local progress = 0
+	while task.wait(1) and progress ~= TRANSITION_SEC do
+		progress += 1
+		Lighting.TimeOfDay = `{16 + progress}:00:00`
+	end
 	for _, player in pairs(Persona.GetPlayers()) do
 		player.PlayerGui.GameGui.GameFrame.Visible = true
 	end
