@@ -1,11 +1,5 @@
 {
   "tree": {
-    "Workspace": {
-      "$properties": {
-        "FilteringEnabled": true
-      },
-      "$path": "src/Models/Workspace"
-    },
     "StarterGui": {
       "$path": "src/Models/Player/UserInterface"
     }

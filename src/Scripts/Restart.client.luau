@@ -9,7 +9,7 @@ local frame = player:WaitForChild("PlayerGui"):WaitForChild("GameGui"):WaitForCh
 local button = frame.TextButton :: TextButton
 
 local function resetGame()
-	local camp = Workspace:WaitForChild("PlayArea").Camp
+	local camp = Workspace.Camp
 	local logs = camp:WaitForChild("FirePit"):WaitForChild("Woods"):GetChildren()
 	local base = camp:WaitForChild("FirePit"):WaitForChild("PitBase")
 	local fire = camp:WaitForChild("FirePit"):WaitForChild("Fire").Fire

@@ -1,9 +1,6 @@
 {
   "name": "campingsite",
   "tree": {
-    "Lighting": {
-      "$path": "src/Models/Lighting"
-    },
     "$className": "DataModel",
     "ServerScriptService": {
       "Main": {
@@ -86,12 +83,6 @@
           "$path": "src/Scripts/Tools/PickTool.server.luau"
         }
       }
-    },
-    "Workspace": {
-      "$properties": {
-        "FilteringEnabled": true
-      },
-      "$path": "src/Models/Workspace"
     },
     "StarterGui": {
       "$path": "src/Models/Player/UserInterface"

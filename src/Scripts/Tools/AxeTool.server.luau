@@ -12,7 +12,7 @@ local StatisticsConfig = require(ReplicatedStorage:WaitForChild("Statistics"))
 local StatisticsVariable = require(ReplicatedStorage.Variables:WaitForChild("Statistics"))
 
 local character = Persona.GetCharacterFromPlayer(player)
-local camp = Workspace:WaitForChild("PlayArea").Camp
+local camp = Workspace.Camp
 local trees = camp.Trees:GetChildren()
 local pitCount = camp.FirePit.PitBase:GetAttribute("logs")
 

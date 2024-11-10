@@ -18,7 +18,7 @@ jobs:
         uses: CompeyDev/rojo-build-action@0.1.5
         with:
           output: build/latest
-          type: rbxm
+          type: rbxl
       - name: Commit and Push
         run: |
           git config --global user.email "bot@gtihub"

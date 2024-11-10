@@ -7,7 +7,7 @@ sidebar_position: 1
 ## Welcome
 
 This project is a sandbox game designed to help users explore and learn Roblox
-development through a fully-managed Rojo setup. The documentation provides an
+development through a partially-managed Rojo setup. The documentation provides an
 overview of the game's main features and a high-level explanation of the implemented ideas.
 
 The documentation is divided into two main parts:
@@ -80,8 +80,8 @@ you meet the following requirements listed below.
 ### Rojo Server
 
 Rojo is the core tool for this sandbox, enabling synchronization between the local
-codebase and a running Roblox Studio instance. Rojo manages all elements, including
-models, scripts, and assets like meshes and images.
+codebase and a running Roblox Studio instance. Rojo manages scripts and replicated
+elements.
 
 After checking out the code from source control, open a terminal and run the
 `make serve` command. This will build the main project file (`default.project.json`)
@@ -95,11 +95,7 @@ use the Rojo services.
 
 ### Sync Changes
 
-As you work on scripts, the service will automatically sync local changes. However,
-changes to the Workspace need to be exported each time they’re made. To minimize
-this overhead, it’s best to plan and execute changes in models and export them only
-when they’re finalized. The export format is standard `.rbxm`, and the main player area
-is contained within a single model called `PlayArea`.
+As you work on scripts, the service will automatically sync local changes.
 
 If any project files change, you’ll need to rebuild the project by stopping the
 current server and running `make serve` again. The process will fail if there are

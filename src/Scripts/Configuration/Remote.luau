@@ -27,7 +27,7 @@ Remote.Enabled = true
   existing data before the push!__
   :::
 ]=]
-Remote.Version = "0.2.4"
+Remote.Version = "0.2.5"
 
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local DataStore = game:GetService("DataStoreService")
@@ -76,7 +76,7 @@ function Remote.Initialize(player)
 		Remote.SetDefaults(player, Attributes, AttributesConfig.Defaults, "BoolValue")
 		Remote.SetDefaults(player, Statistics, StatisticsConfig.Defaults, "NumberValue")
 		local data = Remote.GetRemote(player)
-		local totalVisits = data[StatisticsConfig.Keys.TotalVisits]
+		local totalVisits = data[StatisticsConfig.Keys.TotalVisits] or 0
 		local currentVisits = typeof(totalVisits) == "number" and totalVisits or totalVisits.Value
 		Statistics.Put(StatisticsConfig.Keys.TotalVisits, currentVisits + 1)
 		StatsGui.showStatsFrame(player)
@@ -101,9 +101,9 @@ end
 function Remote.GetRemote(player)
 	local data = Statistics.GetAll()
 	if Remote.Enabled then
-		data = Store:GetAsync(player.UserId) or table.pack(data)
+		data = Store:GetAsync(player.UserId) or data
 		for key, value in data do
-			Statistics.Put(key, data[key])
+			Statistics.Put(key, typeof(data[key]) == "Instance" and data[key].Value or data[key])
 		end
 	end
 	return data
@@ -114,7 +114,7 @@ function Remote.PushRemote(player, data)
 		local stored = {}
 		pcall(function()
 			for key in data do
-				stored[key] = data[key].Value
+				stored[key] = typeof(data[key]) == "Instance" and data[key].Value or data[key]
 			end
 			Store:SetAsync(player.UserId, stored)
 		end)

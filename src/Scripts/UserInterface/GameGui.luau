@@ -3,7 +3,7 @@
 @tag User Interface
 ]=]
 
-local Workspace = game:GetService("Workspace"):WaitForChild("PlayArea")
+local Workspace = game:GetService("Workspace")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Persona = require(ReplicatedStorage.Toolkits:WaitForChild("Persona"))
 
@@ -15,6 +15,7 @@ local GameGui = {}
   @within GameGui
 ]=]
 function GameGui.showGameFrame()
+	task.wait(5)
 	for _, player in pairs(Persona.GetPlayers()) do
 		player.PlayerGui.GameGui.GameFrame.Visible = true
 	end

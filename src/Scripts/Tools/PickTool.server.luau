@@ -11,7 +11,7 @@ local AttributesConfig = require(ReplicatedStorage:WaitForChild("Attributes"))
 local Statistics = require(ReplicatedStorage.Variables:WaitForChild("Statistics"))
 local StatisticsConfig = require(ReplicatedStorage:WaitForChild("Statistics"))
 
-local camp = Workspace:WaitForChild("PlayArea").Camp
+local camp = Workspace.Camp
 local rocks = camp.Rocks:GetChildren()
 local character = Persona.GetCharacterFromPlayer(player)
 

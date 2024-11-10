@@ -9,10 +9,12 @@
 ![Static Badge](https://img.shields.io/badge/Luau-Roblox-blue)
 ![Static Badge](https://img.shields.io/badge/Rojo-v7-orange)
 
-**Play this game online at [Roblox.com](https://www.roblox.com/games/117153514135869/Camping)!**
+**Play this game online at [Roblox.com](https://www.roblox.com/games/122206182149242/Campingsite)!**
 
-This repository is a fully managed setup for Roblox Studio using [Rojo](https://github.com/rojo-rbx/rojo).
-It includes all assets, scripts, models, and tools that make up the game environment.
+This repository is a partially managed setup for Roblox Studio using [Rojo](https://github.com/rojo-rbx/rojo).
+It includes all scripts, tools and some GUI elements that make up the game environment. You can start by importing
+the `build/working.rbxl` or `build/latest.rbxl` files into the Studio and start working on the codebase
+shipped by this repository.
 
 > [!NOTE]
 > The _campingsite_ project is a personal learning sandbox and includes

@@ -4,7 +4,7 @@ local SUCCESS_MESSAGE = "You lit the fire! Let it blaze.."
 local REQUIRED_MESSAGE = "We need "
 local PIT_FEEDBACK = { done = SUCCESS_MESSAGE, required = REQUIRED_MESSAGE }
 
-local Camp = game:GetService("Workspace"):WaitForChild("PlayArea").Camp
+local Camp = game:GetService("Workspace").Camp
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Observer = require(ReplicatedStorage.Toolkits:WaitForChild("Observer"))
 local Trigger = require(ReplicatedStorage.Toolkits:WaitForChild("Trigger"))
